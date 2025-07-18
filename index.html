@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4">
+  <div class="max-w-3xl mx-auto">
+    <header class="mb-6">
+      <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Logo" class="h-10">
+    </header>
+
+    <form id="contentForm" class="space-y-8">
+      <!-- Eingabefelder -->
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-4">Eingabe</h2>
+
+        <div class="grid gap-4">
+          <div>
+            <label class="block mb-1">Thema</label>
+            <input type="text" name="thema" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block mb-1">Link</label>
+            <input type="url" name="link" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block mb-1">Image URL</label>
+            <input type="url" name="imageUrl" class="w-full border rounded px-3 py-2" />
+          </div>
+          <p class="text-sm text-gray-500">Bitte mindestens ein Feld ausfüllen.</p>
+        </div>
+
+        <div class="mt-4">
+          <label class="block mb-1">Aktion wählen</label>
+          <select id="createDropdown" class="w-full border rounded px-3 py-2">
+            <option value="">-- Bitte wählen --</option>
+            <option value="create">Create & Post</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Status -->
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <label class="block mb-2 font-semibold">Progress</label>
+        <div id="progressStatus" class="text-sm text-gray-700">Noch nicht gestartet</div>
+      </section>
+
+      <!-- Generierte Inhalte -->
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-4">Generierte Inhalte (bearbeitbar)</h2>
+        <div class="grid gap-4">
+          <textarea name="facebook" placeholder="Facebook Post" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea name="linkedin" placeholder="LinkedIn Post" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea name="instagram" placeholder="Instagram Post" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea name="imageOut" placeholder="Image URL" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea name="podcast" placeholder="Podcast-Skript" class="w-full border rounded px-3 py-2"></textarea>
+          <textarea name="blog" placeholder="Website-Blog" class="w-full border rounded px-3 py-2"></textarea>
+        </div>
+      </section>
+
+      <!-- Publish -->
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <label class="block mb-1">Aktion wählen</label>
+        <select id="publishDropdown" class="w-full border rounded px-3 py-2">
+          <option value="">-- Bitte wählen --</option>
+          <option value="publish">Publish</option>
+        </select>
+      </section>
+
+      <!-- Ergebnis-Links -->
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-4">Veröffentlichte Inhalte</h2>
+        <div class="space-y-1 text-blue-600 underline text-sm">
+          <div id="linkFacebook">Facebook-Link</div>
+          <div id="linkLinkedIn">LinkedIn-Link</div>
+          <div id="linkInstagram">Instagram-Link</div>
+          <div id="linkPodcast">Podcast-Link</div>
+          <div id="linkBlog">Website-Blog-Link</div>
+        </div>
+      </section>
+    </form>
+  </div>
+
+  <script>
+    const webhookUrl = 'https://hook.eu2.make.com/5kh3d7j8w88v2oyc32rv3nkbnapkaw4t';
+
+    function sendWebhook(action) {
+      const form = document.getElementById('contentForm');
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      if (!data.thema && !data.link && !data.imageUrl) {
+        alert('Bitte mindestens ein Eingabefeld ausfüllen.');
+        return;
+      }
+
+      document.getElementById('progressStatus').textContent = 'In Bearbeitung 🔄';
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, action })
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById('progressStatus').textContent = 'Completed ✅';
+        // Simuliere Rückgabe mit Dummy-Links (hier anpassen!)
+        document.getElementById('linkFacebook').textContent = response.facebook || 'Facebook-Link';
+        document.getElementById('linkLinkedIn').textContent = response.linkedin || 'LinkedIn-Link';
+        document.getElementById('linkInstagram').textContent = response.instagram || 'Instagram-Link';
+        document.getElementById('linkPodcast').textContent = response.podcast || 'Podcast-Link';
+        document.getElementById('linkBlog').textContent = response.blog || 'Website-Blog-Link';
+      });
+    }
+
+    document.getElementById('createDropdown').addEventListener('change', function () {
+      if (this.value === 'create') sendWebhook('create');
+    });
+
+    document.getElementById('publishDropdown').addEventListener('change', function () {
+      if (this.value === 'publish') sendWebhook('publish');
+    });
+  </script>
+</body>
+</html>
