@@ -37,7 +37,7 @@
           <label class="block mb-1">Aktion wählen</label>
           <select id="createDropdown" class="w-full border rounded px-3 py-2">
             <option value="">-- Bitte wählen --</option>
-            <option value="create">Create & Post</option>
+            <option value="Create & Post">Create & Post</option>
           </select>
         </div>
       </section>
@@ -116,7 +116,7 @@
     }
 
     document.getElementById('createDropdown').addEventListener('change', function () {
-      if (this.value === 'create') sendWebhook('create');
+      if (this.value === 'Create & Post') sendWebhook('Create & Post');
     });
 
     document.getElementById('publishDropdown').addEventListener('change', function () {
