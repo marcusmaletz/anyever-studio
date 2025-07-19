@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Eingabe & Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6 mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="h-12" />
+      </div>
+      <h1 class="text-2xl font-bold mb-4">Content-Eingabe</h1>
+
+      <input type="text" id="thema" class="border p-2 mb-4 w-full" placeholder="Thema" />
+      <input type="text" id="subline" class="border p-2 mb-4 w-full" placeholder="Subline" />
+      <input type="url" id="url" class="border p-2 mb-4 w-full" placeholder="Ziel-URL" />
+      <input type="url" id="grafik_url" class="border p-2 mb-4 w-full" placeholder="Grafik-URL" />
+
+      <button onclick="submitInput()" class="bg-green-600 text-white px-4 py-2 rounded-xl shadow hover:bg-green-700">
+        Inhalt übermitteln
+      </button>
+    </div>
+
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
+      <h1 class="text-2xl font-bold mb-4">Content Review & Freigabe</h1>
+
+      <input type="text" id="input_id" class="border p-2 mb-4 w-full bg-gray-100" placeholder="input_id" readonly />
+
+      <div class="mb-4">
+        <label class="font-semibold">LinkedIn Text:</label>
+        <textarea id="linkedin_text" class="border w-full p-2 mt-1"></textarea>
+        <select id="linkedin_status" class="mt-1 p-2 border w-full">
+          <option value="pending">Auswahl treffen</option>
+          <option value="yes">Freigeben</option>
+          <option value="no">Ablehnen</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="font-semibold">Instagram Text:</label>
+        <textarea id="insta_text" class="border w-full p-2 mt-1"></textarea>
+        <select id="insta_status" class="mt-1 p-2 border w-full">
+          <option value="pending">Auswahl treffen</option>
+          <option value="yes">Freigeben</option>
+          <option value="no">Ablehnen</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="font-semibold">Facebook Text:</label>
+        <textarea id="facebook_text" class="border w-full p-2 mt-1"></textarea>
+        <select id="facebook_status" class="mt-1 p-2 border w-full">
+          <option value="pending">Auswahl treffen</option>
+          <option value="yes">Freigeben</option>
+          <option value="no">Ablehnen</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="font-semibold">Blogtext:</label>
+        <textarea id="blog_text" class="border w-full p-2 mt-1"></textarea>
+        <select id="blog_status" class="mt-1 p-2 border w-full">
+          <option value="pending">Auswahl treffen</option>
+          <option value="yes">Freigeben</option>
+          <option value="no">Ablehnen</option>
+        </select>
+      </div>
+
+      <button onclick="submitReview()" class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700">
+        Freigaben speichern
+      </button>
+    </div>
+
+    <script>
+      async function submitInput() {
+        const payload = {
+          thema: document.getElementById("thema").value,
+          subline: document.getElementById("subline").value,
+          url: document.getElementById("url").value,
+          grafik_url: document.getElementById("grafik_url").value,
+        };
+
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            alert("Inhalt erfolgreich übertragen ✅");
+          } else {
+            alert("Fehler beim Übertragen ⚠️");
+          }
+        } catch (error) {
+          alert("Netzwerkfehler ❌");
+        }
+      }
+
+      async function submitReview() {
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save",
+          linkedin_text: document.getElementById("linkedin_text").value,
+          linkedin_status: document.getElementById("linkedin_status").value,
+          insta_text: document.getElementById("insta_text").value,
+          insta_status: document.getElementById("insta_status").value,
+          facebook_text: document.getElementById("facebook_text").value,
+          facebook_status: document.getElementById("facebook_status").value,
+          blog_text: document.getElementById("blog_text").value,
+          blog_status: document.getElementById("blog_status").value,
+        };
+
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            alert("Freigaben erfolgreich übertragen ✅");
+          } else {
+            alert("Fehler beim Übertragen ⚠️");
+          }
+        } catch (error) {
+          alert("Netzwerkfehler ❌");
+        }
+      }
+    </script>
+  </body>
+</html>
