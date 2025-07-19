@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Automation Interface</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4">
+  <div class="max-w-3xl mx-auto">
+    <header class="mb-6">
+      <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Logo" class="h-10">
+    </header>
+
+    <form id="input-form" class="space-y-8">
+      <section class="p-4 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-semibold mb-4">1. Eingabe</h2>
+        <div class="grid gap-4">
+          <div>
+            <label class="block mb-1">Thema</label>
+            <input type="text" name="thema" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block mb-1">Subline</label>
+            <input type="text" name="subline" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block mb-1">URL</label>
+            <input type="url" name="url" class="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label class="block mb-1">Grafik-URL</label>
+            <input type="url" name="grafik" class="w-full border rounded px-3 py-2" />
+          </div>
+          <p class="text-sm text-gray-500">Bitte mindestens ein Feld ausfüllen.</p>
+        </div>
+        <div class="mt-4">
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Inhalte generieren</button>
+        </div>
+      </section>
+
+      <section id="review-section" class="p-4 bg-white rounded-2xl shadow hidden">
+        <h2 class="text-xl font-semibold mb-4">2. Review & Freigabe</h2>
+
+        <div class="grid gap-6">
+          <div>
+            <h3 class="font-semibold">LinkedIn</h3>
+            <textarea id="linkedin-text" class="w-full border rounded px-3 py-2"></textarea>
+            <img class="image-preview mt-2" id="linkedin-img" src="" alt="LinkedIn Bild">
+            <label class="block mt-2">Freigeben
+              <select id="linkedin-approve" class="w-full border rounded px-3 py-2 mt-1">
+                <option value="pending">Auswählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <h3 class="font-semibold">Instagram Feed</h3>
+            <textarea id="insta-text" class="w-full border rounded px-3 py-2"></textarea>
+            <img class="image-preview mt-2" id="insta-img" src="" alt="Instagram Bild">
+            <label class="block mt-2">Freigeben
+              <select id="insta-approve" class="w-full border rounded px-3 py-2 mt-1">
+                <option value="pending">Auswählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <h3 class="font-semibold">Facebook</h3>
+            <textarea id="facebook-text" class="w-full border rounded px-3 py-2"></textarea>
+            <img class="image-preview mt-2" id="facebook-img" src="" alt="Facebook Bild">
+            <label class="block mt-2">Freigeben
+              <select id="facebook-approve" class="w-full border rounded px-3 py-2 mt-1">
+                <option value="pending">Auswählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <h3 class="font-semibold">Blog</h3>
+            <textarea id="blog-text" class="w-full border rounded px-3 py-2"></textarea>
+            <label class="block mt-2">Freigeben
+              <select id="blog-approve" class="w-full border rounded px-3 py-2 mt-1">
+                <option value="pending">Auswählen</option>
+                <option value="yes">Ja</option>
+                <option value="no">Nein</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="button" onclick="submitReview()" class="px-4 py-2 bg-green-600 text-white rounded">Freigaben speichern</button>
+        </div>
+      </section>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('input-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Inhalte werden generiert...');
+      document.getElementById('review-section').classList.remove('hidden');
+    });
+
+    function submitReview() {
+      alert('Freigaben gespeichert.');
+    }
+  </script>
+</body>
+</html>
