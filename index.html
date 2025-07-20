@@ -289,118 +289,127 @@
         await loadReview();
       }
 
-      // Enhanced Load Review Function - MIT KORREKTEM SCHEMA MAPPING!
-      async function loadReview() {
-        const inputIdValue = document.getElementById("input_id").value;
-        if (!inputIdValue) {
-          showErrorMessage("Keine Input-ID vorhanden.");
-          return;
-        }
+      // Enhanced Load Review Function - MIT KORREKTEM SCHEMA MAPPING UND CONTENT-DEKODIERUNG!
+async function loadReview() {
+  const inputIdValue = document.getElementById("input_id").value;
+  if (!inputIdValue) {
+    showErrorMessage("Keine Input-ID vorhanden.");
+    return;
+  }
 
-        isPolling = true;
-        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+  isPolling = true;
+  const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
 
-        try {
-          showProgressMessage("Lade Content...");
-          
-          const response = await fetch(webhookUrl);
-          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  try {
+    showProgressMessage("Lade Content...");
+    
+    const response = await fetch(webhookUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 
-          const responseText = await response.text();
-          console.log("🔍 RAW RESPONSE:", responseText);
+    const responseText = await response.text();
+    console.log("🔍 RAW RESPONSE:", responseText);
+    
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error("❌ JSON Parse Fehler:", parseError);
+      
+      // BENUTZERFREUNDLICHE FEHLERANZEIGE
+      const errorPos = parseError.message.match(/position (\d+)/);
+      const pos = errorPos ? parseInt(errorPos[1]) : 100;
+      
+      const problemText = responseText.substring(Math.max(0, pos-20), pos+30);
+      
+      showErrorMessage(`
+        JSON-Fehler erkannt! 
+        Problem bei Position ${pos}:
+        "${problemText}"
+        
+        → Das liegt an unescapten Anführungszeichen im generierten Content.
+        → Make-Szenario 2 muss gefixt werden.
+      `);
+      
+      // Debug-Box mit Raw-Response füllen
+      document.getElementById("debug-content").textContent = `FEHLER-ANALYSE:\n\nPosition: ${pos}\nProblematischer Bereich: "${problemText}"\n\nVollständige Response:\n${responseText}`;
+      document.getElementById("debug-info").style.display = "block";
+      
+      return;
+    }
+    
+    // DEBUG: Zeige was wir vom Backend bekommen
+    console.log("🔍 VOLLSTÄNDIGE BACKEND-RESPONSE:", data);
+    document.getElementById("debug-content").textContent = JSON.stringify(data, null, 2);
+    document.getElementById("debug-info").style.display = "block";
+    
+    let hasGeneratedContent = false;
+    
+    Object.keys(CONTENT_TYPES).forEach(type => {
+      const config = CONTENT_TYPES[type];
+      
+      // KRITISCHES SCHEMA-MAPPING:
+      let backendText = data[config.backendTextKey];
+      const backendStatus = data[config.backendStatusKey];
+      
+      // ✅ CONTENT DEKODIERUNG - Escape-Sequenzen in echte Formatierung umwandeln
+      if (backendText) {
+        backendText = backendText
+          .replace(/\\n/g, '\n')      // Zeilenumbrüche
+          .replace(/\\"/g, '"')       // Anführungszeichen  
+          .replace(/\\'/g, "'")       // Apostrophe
+          .replace(/\\t/g, '\t');     // Tabs
+      }
+      
+      console.log(`📝 ${config.label}:`, {
+        frontendField: config.textField,
+        backendKey: config.backendTextKey,
+        backendText: backendText ? backendText.substring(0, 50) + "..." : "LEER",
+        backendStatus: backendStatus
+      });
+      
+      const hasContent = backendText && backendText.trim() !== '';
+      const sectionElement = document.getElementById(`${type}-section`);
+      
+      if (sectionElement) {
+        if (hasContent) {
+          hasGeneratedContent = true;
+          sectionElement.style.display = 'block';
           
-          let data;
-          try {
-            data = JSON.parse(responseText);
-          } catch (parseError) {
-            console.error("❌ JSON Parse Fehler:", parseError);
-            
-            // BENUTZERFREUNDLICHE FEHLERANZEIGE
-            const errorPos = parseError.message.match(/position (\d+)/);
-            const pos = errorPos ? parseInt(errorPos[1]) : 100;
-            
-            const problemText = responseText.substring(Math.max(0, pos-20), pos+30);
-            
-            showErrorMessage(`
-              JSON-Fehler erkannt! 
-              Problem bei Position ${pos}:
-              "${problemText}"
-              
-              → Das liegt an unescapten Anführungszeichen im generierten Content.
-              → Make-Szenario 2 muss gefixt werden.
-            `);
-            
-            // Debug-Box mit Raw-Response füllen
-            document.getElementById("debug-content").textContent = `FEHLER-ANALYSE:\n\nPosition: ${pos}\nProblematischer Bereich: "${problemText}"\n\nVollständige Response:\n${responseText}`;
-            document.getElementById("debug-info").style.display = "block";
-            
-            return;
-          }
+          // Felder füllen mit korrektem Mapping UND dekodiertem Content
+          const textField = document.getElementById(config.textField);
+          const statusField = document.getElementById(config.statusField);
           
-          // DEBUG: Zeige was wir vom Backend bekommen
-          console.log("🔍 VOLLSTÄNDIGE BACKEND-RESPONSE:", data);
-          document.getElementById("debug-content").textContent = JSON.stringify(data, null, 2);
-          document.getElementById("debug-info").style.display = "block";
+          if (textField) textField.value = backendText || "";
+          if (statusField) statusField.value = backendStatus || "pending";
           
-          let hasGeneratedContent = false;
+          // Status-Badge aktualisieren
+          updateSectionStatus(sectionElement, backendStatus);
           
-          Object.keys(CONTENT_TYPES).forEach(type => {
-            const config = CONTENT_TYPES[type];
-            
-            // KRITISCHES SCHEMA-MAPPING:
-            const backendText = data[config.backendTextKey];
-            const backendStatus = data[config.backendStatusKey];
-            
-            console.log(`📝 ${config.label}:`, {
-              frontendField: config.textField,
-              backendKey: config.backendTextKey,
-              backendText: backendText ? backendText.substring(0, 50) + "..." : "LEER",
-              backendStatus: backendStatus
-            });
-            
-            const hasContent = backendText && backendText.trim() !== '';
-            const sectionElement = document.getElementById(`${type}-section`);
-            
-            if (sectionElement) {
-              if (hasContent) {
-                hasGeneratedContent = true;
-                sectionElement.style.display = 'block';
-                
-                // Felder füllen mit korrektem Mapping
-                const textField = document.getElementById(config.textField);
-                const statusField = document.getElementById(config.statusField);
-                
-                if (textField) textField.value = backendText || "";
-                if (statusField) statusField.value = backendStatus || "pending";
-                
-                // Status-Badge aktualisieren
-                updateSectionStatus(sectionElement, backendStatus);
-                
-                console.log(`✅ ${config.label} Content geladen erfolgreich`);
-              } else {
-                console.log(`❌ ${config.label} Content NICHT vorhanden`);
-                sectionElement.style.display = 'none';
-              }
-            }
-          });
-          
-          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
-          
-          if (hasGeneratedContent) {
-            showSuccessMessage("✅ Content erfolgreich geladen!");
-          } else {
-            showWarningMessage("⚠️ Noch kein Content verfügbar. Bitte warten oder erneut versuchen.");
-            console.log("💡 BACKEND-KEYS gefunden:", Object.keys(data));
-            console.log("💡 ERWARTETE KEYS:", Object.values(CONTENT_TYPES).map(c => c.backendTextKey));
-          }
-          
-        } catch (error) {
-          console.error("❌ Fehler beim Laden der Review-Daten", error);
-          showErrorMessage(`Fehler beim Laden: ${error.message}`);
-        } finally {
-          isPolling = false;
+          console.log(`✅ ${config.label} Content geladen erfolgreich`);
+        } else {
+          console.log(`❌ ${config.label} Content NICHT vorhanden`);
+          sectionElement.style.display = 'none';
         }
       }
+    });
+    
+    document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+    
+    if (hasGeneratedContent) {
+      showSuccessMessage("✅ Content erfolgreich geladen!");
+    } else {
+      showWarningMessage("⚠️ Noch kein Content verfügbar. Bitte warten oder erneut versuchen.");
+      console.log("💡 BACKEND-KEYS gefunden:", Object.keys(data));
+      console.log("💡 ERWARTETE KEYS:", Object.values(CONTENT_TYPES).map(c => c.backendTextKey));
+    }
+    
+  } catch (error) {
+    console.error("❌ Fehler beim Laden der Review-Daten", error);
+    showErrorMessage(`Fehler beim Laden: ${error.message}`);
+  } finally {
+    isPolling = false;
+  }
+}
 
       function updateSectionStatus(sectionDiv, status) {
         const statusBadge = sectionDiv.querySelector('.status-badge');
