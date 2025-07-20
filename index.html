@@ -146,29 +146,35 @@
         }
       }
 
-      async function loadReview() {
-        const inputId = document.getElementById("input_id").value;
-        if (!inputId) return;
+    async function loadReview() {
+  const inputId = document.getElementById("input_id").value;
+  if (!inputId) return;
 
-        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=" + inputId;
+  const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=" + inputId;
 
-        try {
-          const response = await fetch(webhookUrl);
-          if (!response.ok) throw new Error("Antwort fehlgeschlagen");
+  try {
+    const response = await fetch(webhookUrl);
+    if (!response.ok) throw new Error("Antwort fehlgeschlagen");
 
-          const data = await response.json();
-          document.getElementById("linkedin_text").value = data.linkedin_text || "";
-          document.getElementById("linkedin_status").value = data.linkedin_status || "pending";
-          document.getElementById("insta_text").value = data.insta_feed_text || "";
-          document.getElementById("insta_status").value = data.insta_fee_status || "pending";
-          document.getElementById("facebook_text").value = data.facebook_text || "";
-          document.getElementById("facebook_status").value = data.facebook_status || "pending";
-          document.getElementById("blog_text").value = data.blog_text || "";
-          document.getElementById("blog_status").value = data.blog_status || "pending";
-        } catch (error) {
-          console.error("Fehler beim Laden der Review-Daten", error);
-        }
-      }
+    const data = await response.json();
+    
+    // KORRIGIERTE MAPPINGS - Schema-konform
+    document.getElementById("linkedin_text").value = data.linkedin_text || "";
+    document.getElementById("linkedin_status").value = data.linkedin_status || "pending";
+    
+    document.getElementById("insta_text").value = data.insta_feed_text || "";
+    document.getElementById("insta_status").value = data.insta_feed_status || "pending"; // TYPO BEHOBEN
+    
+    document.getElementById("facebook_text").value = data.facebook_text || "";
+    document.getElementById("facebook_status").value = data.facebook_status || "pending";
+    
+    document.getElementById("blog_text").value = data.blog_text || "";
+    document.getElementById("blog_status").value = data.blog_status || "pending";
+    
+  } catch (error) {
+    console.error("Fehler beim Laden der Review-Daten", error);
+  }
+}
     </script>
   </body>
 </html>
