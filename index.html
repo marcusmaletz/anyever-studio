@@ -253,7 +253,7 @@
           if (response.ok) {
             showSuccessMessage("Erfolgreich gestartet! ✅");
             createContentSections(payload.selected_channels);
-            showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...");
+            showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
             
             // ✅ AUTOMATISCHES LADEN nach 3 Minuten
             setTimeout(async () => {
