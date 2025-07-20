@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Eingabe & Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .status-message {
+        transition: opacity 0.3s ease;
+      }
+      .loading-spinner {
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #3498db;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .content-section {
+        transition: all 0.3s ease;
+      }
+      .status-badge {
+        transition: all 0.2s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 p-6">
+    <!-- Status Message Container -->
+    <div id="status-container" class="max-w-3xl mx-auto mb-4"></div>
+
+    <!-- Content Input Section -->
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6 mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="h-12" />
+      </div>
+      <h1 class="text-2xl font-bold mb-4">Content-Eingabe</h1>
+
+      <input type="text" id="thema" class="border p-2 mb-4 w-full rounded" placeholder="Thema (Pflichtfeld)" required />
+      <input type="text" id="subline" class="border p-2 mb-4 w-full rounded" placeholder="Subline (optional)" />
+      <input type="url" id="url" class="border p-2 mb-4 w-full rounded" placeholder="Ziel-URL (optional)" />
+      <input type="url" id="grafik_url" class="border p-2 mb-4 w-full rounded" placeholder="Grafik-URL (optional)" />
+
+      <!-- Content Type Selection -->
+      <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+        <h3 class="font-semibold mb-3">Content-Kanäle auswählen (mindestens einen):</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="enable_linkedin" class="content-checkbox" checked />
+            <span>LinkedIn</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="enable_instagram" class="content-checkbox" checked />
+            <span>Instagram</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="enable_facebook" class="content-checkbox" checked />
+            <span>Facebook</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="enable_blog" class="content-checkbox" checked />
+            <span>Blog</span>
+          </label>
+        </div>
+      </div>
+
+      <button id="submit-btn" onclick="submitInputWithValidation()" class="bg-green-600 text-white px-4 py-2 rounded-xl shadow hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed">
+        Inhalt übermitteln
+      </button>
+    </div>
+
+    <!-- Content Review Section -->
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
+      <h1 class="text-2xl font-bold mb-4">Content Review & Freigabe</h1>
+
+      <input type="text" id="input_id" class="border p-2 mb-4 w-full bg-gray-100 rounded" placeholder="input_id" readonly oninput="loadReview()" />
+
+      <!-- Dynamic Content Sections Container -->
+      <div id="content-sections-container"></div>
+
+      <button id="review-submit-btn" onclick="submitReview()" class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700" style="display: none;">
+        Freigaben speichern
+      </button>
+    </div>
+
+    <script>
+      // Global Variables
+      const inputId = Date.now().toString();
+      let pollInterval = null;
+      let pollCount = 0;
+      const maxPolls = 18; // 3 Minuten bei 10s Intervall
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("input_id").value = inputId;
+        loadReview();
+      });
+
+      // Content Type Configuration
+      const CONTENT_TYPES = {
+        linkedin: { 
+          id: 'linkedin', 
+          label: 'LinkedIn', 
+          textField: 'linkedin_text', 
+          statusField: 'linkedin_status',
+          enableField: 'enable_linkedin'
+        },
+        instagram: { 
+          id: 'instagram', 
+          label: 'Instagram', 
+          textField: 'insta_text', 
+          statusField: 'insta_status',
+          enableField: 'enable_instagram'
+        },
+        facebook: { 
+          id: 'facebook', 
+          label: 'Facebook', 
+          textField: 'facebook_text', 
+          statusField: 'facebook_status',
+          enableField: 'enable_facebook'
+        },
+        blog: { 
+          id: 'blog', 
+          label: 'Blog', 
+          textField: 'blog_text', 
+          statusField: 'blog_status',
+          enableField: 'enable_blog'
+        }
+      };
+
+      // Enhanced Validation & Submission
+      async function submitInputWithValidation() {
+        // Basis-Validierung
+        const thema = document.getElementById("thema").value.trim();
+        if (!thema) {
+          showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
+          return;
+        }
+
+        // Content-Kanäle Validierung
+        const selectedChannels = getSelectedChannels();
+        if (selectedChannels.length === 0) {
+          showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
+          return;
+        }
+
+        // Bestätigung anzeigen
+        const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
+        if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
+
+        const payload = {
+          input_id: inputId,
+          thema: thema,
+          subline: document.getElementById("subline").value,
+          url: document.getElementById("url").value,
+          grafik_url: document.getElementById("grafik_url").value,
+          selected_channels: selectedChannels
+        };
+
+        await executeSubmission(payload);
+      }
+
+      function getSelectedChannels() {
+        return Object.keys(CONTENT_TYPES).filter(type => 
+          document.getElementById(CONTENT_TYPES[type].enableField).checked
+        );
+      }
+
+      async function executeSubmission(payload) {
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+
+        try {
+          showLoadingState(true);
+          showProgressMessage("Content wird generiert...");
+          
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccessMessage("Erfolgreich gestartet! ✅");
+            createContentSections(payload.selected_channels);
+            startSmartContentPolling(payload.selected_channels);
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Submission error:", error);
+          showErrorMessage(`Fehler beim Übertragen: ${error.message}`);
+        } finally {
+          showLoadingState(false);
+        }
+      }
+
+      // Smart Content Polling
+      function startSmartContentPolling(selectedChannels) {
+        pollCount = 0;
+        
+        if (pollInterval) clearInterval(pollInterval);
+        
+        pollInterval = setInterval(async () => {
+          pollCount++;
+          
+          try {
+            await loadReview();
+            
+            const selectedContentReady = selectedChannels.every(channel => {
+              const textElement = document.getElementById(CONTENT_TYPES[channel].textField);
+              return textElement && textElement.value.trim() !== '';
+            });
+            
+            if (selectedContentReady) {
+              clearInterval(pollInterval);
+              showSuccessMessage("🎉 Content ist bereit zur Review!");
+              highlightGeneratedContent(selectedChannels);
+              document.getElementById("review-submit-btn").style.display = "block";
+            } else if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              showWarningMessage("⏱️ Generation dauert länger als erwartet. Bitte manuell aktualisieren.");
+            } else {
+              showProgressMessage(`Generierung läuft... (${pollCount}/${maxPolls})`);
+            }
+            
+          } catch (error) {
+            console.error("Polling error:", error);
+            if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              showErrorMessage("Fehler beim Laden des Status. Bitte Seite neu laden.");
+            }
+          }
+        }, 10000);
+      }
+
+      // Enhanced Load Review Function
+      async function loadReview() {
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) return;
+
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=" + inputIdValue;
+
+        try {
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error("Antwort fehlgeschlagen");
+
+          const data = await response.json();
+          
+          let hasGeneratedContent = false;
+          
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const config = CONTENT_TYPES[type];
+            const hasContent = data[config.textField] && data[config.textField].trim() !== '';
+            
+            if (hasContent) {
+              hasGeneratedContent = true;
+              const section = document.getElementById(`${type}-section`);
+              if (section) {
+                section.style.display = 'block';
+                document.getElementById(config.textField).value = data[config.textField] || "";
+                document.getElementById(config.statusField).value = data[config.statusField] || "pending";
+                updateSectionStatus(section, data[config.statusField]);
+              }
+            }
+          });
+          
+          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+          
+          if (!hasGeneratedContent && !pollInterval) {
+            showInfoMessage("Noch kein Content generiert. Bitte zunächst über 'Content-Eingabe' starten.");
+          }
+          
+        } catch (error) {
+          console.error("Fehler beim Laden der Review-Daten", error);
+          showErrorMessage("Fehler beim Laden der Daten. Bitte versuchen Sie es erneut.");
+        }
+      }
+
+      // Dynamic Content Sections
+      function createContentSections(selectedChannels) {
+        const container = document.getElementById("content-sections-container");
+        container.innerHTML = ""; // Clear existing sections
+        
+        selectedChannels.forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const sectionDiv = document.createElement('div');
+          sectionDiv.id = `${channel}-section`;
+          sectionDiv.className = 'content-section mb-4 p-4 border border-gray-200 rounded-lg';
+          
+          sectionDiv.innerHTML = `
+            <div class="flex items-center justify-between mb-2">
+              <label class="font-semibold text-lg">${config.label} Text:</label>
+              <span class="status-badge px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">Wird generiert...</span>
+            </div>
+            <textarea id="${config.textField}" class="border w-full p-2 mt-1 min-h-[100px] rounded" 
+                      placeholder="${config.label} Content wird generiert..."></textarea>
+            <select id="${config.statusField}" class="mt-2 p-2 border w-full rounded">
+              <option value="pending">Auswahl treffen</option>
+              <option value="yes">Freigeben</option>
+              <option value="no">Ablehnen</option>
+            </select>
+          `;
+          
+          container.appendChild(sectionDiv);
+        });
+      }
+
+      function updateSectionStatus(sectionDiv, status) {
+        const statusBadge = sectionDiv.querySelector('.status-badge');
+        if (statusBadge) {
+          const statusConfig = {
+            'pending': { text: 'Pending', class: 'bg-yellow-100 text-yellow-800' },
+            'yes': { text: 'Freigegeben', class: 'bg-green-100 text-green-800' },
+            'no': { text: 'Abgelehnt', class: 'bg-red-100 text-red-800' }
+          };
+          
+          const config = statusConfig[status] || statusConfig['pending'];
+          statusBadge.textContent = config.text;
+          statusBadge.className = `status-badge px-3 py-1 rounded-full text-sm font-medium ${config.class}`;
+        }
+      }
+
+      function highlightGeneratedContent(selectedChannels) {
+        selectedChannels.forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const textarea = document.getElementById(config.textField);
+          const section = document.getElementById(`${channel}-section`);
+          
+          if (textarea && textarea.value.trim() && section) {
+            // Update status badge
+            const statusBadge = section.querySelector('.status-badge');
+            if (statusBadge) {
+              statusBadge.textContent = 'Bereit';
+              statusBadge.className = 'status-badge px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800';
+            }
+            
+            // Highlight animation
+            textarea.style.borderColor = '#10b981';
+            textarea.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+            textarea.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+              textarea.style.borderColor = '';
+              textarea.style.boxShadow = '';
+            }, 3000);
+          }
+        });
+      }
+
+      // Submit Review Function
+      async function submitReview() {
+        const activeFields = {};
+        let hasChanges = false;
+        
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const config = CONTENT_TYPES[type];
+          const textElement = document.getElementById(config.textField);
+          const statusElement = document.getElementById(config.statusField);
+          
+          if (textElement && textElement.value.trim() !== '') {
+            activeFields[config.textField] = textElement.value;
+            activeFields[config.statusField] = statusElement.value;
+            if (statusElement.value !== 'pending') hasChanges = true;
+          }
+        });
+
+        if (!hasChanges) {
+          showWarningMessage("Bitte treffen Sie mindestens eine Freigabe-Entscheidung.");
+          return;
+        }
+
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save",
+          ...activeFields
+        };
+
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+
+        try {
+          showLoadingState(true, "review-submit-btn");
+          
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+            await loadReview(); // Refresh to show updated statuses
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Review submission error:", error);
+          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+        } finally {
+          showLoadingState(false, "review-submit-btn");
+        }
+      }
+
+      // UI Helper Functions
+      function showLoadingState(isLoading, buttonId = "submit-btn") {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
+          } else {
+            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
+          }
+        }
+      }
+
+      function showStatusMessage(message, type) {
+        const container = document.getElementById("status-container");
+        
+        // Remove existing message
+        const existing = container.querySelector('.status-message');
+        if (existing) existing.remove();
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'status-message p-4 rounded-lg font-medium text-center';
+        
+        const styles = {
+          info: 'bg-blue-50 text-blue-800 border border-blue-200',
+          success: 'bg-green-50 text-green-800 border border-green-200',
+          error: 'bg-red-50 text-red-800 border border-red-200',
+          warning: 'bg-yellow-50 text-yellow-800 border border-yellow-200'
+        };
+        
+        messageDiv.className += ` ${styles[type] || styles.info}`;
+        messageDiv.textContent = message;
+        
+        container.appendChild(messageDiv);
+        
+        // Auto-hide success/info messages
+        if (type === 'success' || type === 'info') {
+          setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+          }, 5000);
+        }
+      }
+
+      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
+      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
+      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
+      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
+      function showInfoMessage(message) { showStatusMessage(message, 'info'); }
+
+      // Legacy functions for backward compatibility
+      function submitInput() {
+        submitInputWithValidation();
+      }
+    </script>
+  </body>
+</html>
