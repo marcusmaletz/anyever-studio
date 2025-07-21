@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Eingabe & Review | ANY EVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #374151;
+        background: #f3f4f6;
+        padding: 24px;
+        font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-radius: 16px;
+        margin-bottom: 30px;
+      }
+      
+      .header {
+        background: white;
+        padding: 40px 40px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px 16px 0 0;
+        border-bottom: 2px solid #DAA520;
+      }
+      
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
+        background-size: cover;
+        z-index: 1;
+      }
+      
+      .header-content {
+        position: relative;
+        z-index: 2;
+      }
+      
+      .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      
+      .logo-anyever {
+        width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+        opacity: 0.95;
+      }
+      
+      .enjoy-audio {
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        color: #000000;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+      
+      .header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #1f2937;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      .request-counter {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 14px;
+        color: #6b7280;
+        background: #f9fafb;
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid #e5e7eb;
+        z-index: 10;
+      }
+      
+      .form-content {
+        padding: 40px;
+        background: white;
+      }
+      
+      .section-title {
+        font-size: 24px;
+        color: #1f2937;
+        margin-bottom: 25px;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      label {
+        display: block;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      input[type="text"], 
+      input[type="url"], 
+      textarea {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 16px;
+        background: white;
+        color: #374151;
+        transition: all 0.3s ease;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 400;
+      }
+      
+      input[type="text"]:focus, 
+      input[type="url"]:focus, 
+      textarea:focus {
+        outline: none;
+        border-color: #DAA520;
+        background: #fefefe;
+        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      
+      .auto-resize {
+        resize: vertical;
+        overflow: hidden;
+        min-height: 100px;
+      }
+      
+      .status-message {
+        transition: opacity 0.3s ease;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        text-align: center;
+      }
+      
+      .loading-spinner {
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #DAA520;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .rate-limit-timer {
+        background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .content-type-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .content-type-card {
+        background: #f9fafb;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 15px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .content-type-card:hover {
+        background: #fef3c7;
+        border-color: #fbbf24;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      
+      .content-type-card.selected {
+        border-color: #DAA520;
+        background: #fef3c7;
+        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+      }
+      
+      .content-type-card input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+        accent-color: #DAA520;
+        cursor: pointer;
+      }
+      
+      .content-type-card label {
+        margin: 0;
+        color: #374151;
+        font-size: 14px;
+        text-transform: none;
+        letter-spacing: normal;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+      }
+      
+      .format-badge {
+        display: inline-block;
+        background: #e5e7eb;
+        color: #6b7280;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        margin-top: 8px;
+        font-weight: 500;
+      }
+      
+      .submit-btn, .review-btn, .manual-btn {
+        background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+        color: #ffffff;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px -5px rgba(218, 165, 32, 0.4);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      .submit-btn:hover, .review-btn:hover, .manual-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px -5px rgba(218, 165, 32, 0.5);
+        background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%);
+      }
+      
+      .submit-btn:disabled, .review-btn:disabled, .manual-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .manual-btn {
+        background: #6b7280;
+        margin-right: 15px;
+      }
+      
+      .manual-btn:hover {
+        background: #4b5563;
+      }
+      
+      .content-section {
+        margin-bottom: 30px;
+        padding: 25px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: #f9fafb;
+        transition: all 0.3s ease;
+      }
+      
+      .content-section:hover {
+        border-color: #DAA520;
+        background: white;
+      }
+      
+      .content-section textarea {
+        margin-top: 10px;
+      }
+      
+      .content-section select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        color: #374151;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      .content-section select:focus {
+        outline: none;
+        border-color: #DAA520;
+        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+      }
+      
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .post-action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+      
+      .action-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      
+      .action-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      .btn-post { 
+        background: #10b981; 
+        color: white; 
+      }
+      .btn-post:hover:not(:disabled) { 
+        background: #059669; 
+        transform: translateY(-1px);
+      }
+      
+      .btn-schedule { 
+        background: #3b82f6; 
+        color: white; 
+      }
+      .btn-schedule:hover:not(:disabled) { 
+        background: #2563eb; 
+        transform: translateY(-1px);
+      }
+      
+      .btn-draft { 
+        background: #6b7280; 
+        color: white; 
+      }
+      .btn-draft:hover:not(:disabled) { 
+        background: #4b5563; 
+        transform: translateY(-1px);
+      }
+      
+      .submit-section {
+        text-align: right;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e5e7eb;
+      }
+      
+      .anyever-footer {
+        background: #1f2937;
+        padding: 25px 40px;
+        text-align: center;
+        border-top: 2px solid #DAA520;
+        border-radius: 0 0 16px 16px;
+      }
+      
+      .anyever-footer .logo-footer {
+        width: 100px;
+        height: auto;
+        margin-bottom: 8px;
+      }
+      
+      .anyever-footer .tagline {
+        color: #d1d5db;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      @media (max-width: 768px) {
+        body {
+          padding: 12px;
+        }
+        
+        .container {
+          margin-bottom: 20px;
+        }
+        
+        .header {
+          padding: 30px 20px 20px;
+        }
+        
+        .logo-anyever {
+          width: 160px;
+        }
+        
+        .header h1 {
+          font-size: 24px;
+        }
+        
+        .form-content, .review-section {
+          padding: 30px 20px;
+        }
+        
+        .request-counter {
+          position: static;
+          text-align: center;
+          margin-bottom: 15px;
+          display: block;
+        }
+        
+        .content-type-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        
+        .post-action-buttons {
+          flex-direction: column;
+        }
+        
+        .submit-section {
+          text-align: center;
+        }
+        
+        .submit-btn, .review-btn, .manual-btn {
+          width: 100%;
+          margin: 5px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Status Message Container -->
+    <div id="status-container"></div>
+
+    <!-- Rate Limit Display -->
+    <div id="rate-limit-container" style="display: none;">
+      <div class="rate-limit-timer">
+        <span id="rate-limit-text"></span>
+      </div>
+    </div>
+
+    <!-- Content Input Section -->
+    <div class="container">
+      <div class="header">
+        <div class="request-counter">
+          Requests heute: <span id="daily-request-count">0</span>/20
+        </div>
+        <div class="header-content">
+          <div class="logo-container">
+            <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="logo-anyever" />
+            <div class="enjoy-audio">ENJOY.AUDIO</div>
+          </div>
+          <h1>Content Hub</h1>
+        </div>
+      </div>
+
+      <div class="form-content">
+        <div class="form-group">
+          <label for="thema">Thema (Pflichtfeld)</label>
+          <textarea id="thema" class="auto-resize" placeholder="Beschreiben Sie Ihr Thema" required rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="subline">Subline (optional)</label>
+          <textarea id="subline" class="auto-resize" placeholder="Zusätzliche Informationen oder Untertitel" rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="url">Ziel-URL (optional)</label>
+          <input type="url" id="url" placeholder="https://www.beispiel.de" />
+        </div>
+
+        <div class="form-group">
+          <label for="grafik_url">Grafik-URL (optional)</label>
+          <input type="url" id="grafik_url" placeholder="https://www.beispiel.de/bild.jpg" />
+        </div>
+
+        <!-- Enhanced Content Type Selection -->
+        <div class="form-group">
+          <label>Content-Kanäle auswählen (mindestens einen)</label>
+          
+          <!-- Erste Reihe: LinkedIn, Facebook, Blog -->
+          <div class="content-type-grid">
+            <!-- LinkedIn -->
+            <div class="content-type-card" id="card-linkedin">
+              <label>
+                <input type="checkbox" id="enable_linkedin" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">LinkedIn Post</div>
+                  <div style="font-size: 12px; color: #6b7280;">Business Content</div>
+                  <span class="format-badge">1:1</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Facebook -->
+            <div class="content-type-card" id="card-facebook">
+              <label>
+                <input type="checkbox" id="enable_facebook" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Facebook Post</div>
+                  <div style="font-size: 12px; color: #6b7280;">Social Media</div>
+                  <span class="format-badge">1080x1080</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Blog -->
+            <div class="content-type-card" id="card-blog">
+              <label>
+                <input type="checkbox" id="enable_blog" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Blog Artikel</div>
+                  <div style="font-size: 12px; color: #6b7280;">Langform Content</div>
+                  <span class="format-badge">16:9</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Instagram Feed -->
+            <div class="content-type-card" id="card-instagram_feed">
+              <label>
+                <input type="checkbox" id="enable_instagram_feed" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Instagram Feed</div>
+                  <div style="font-size: 12px; color: #6b7280;">Quadratisch</div>
+                  <span class="format-badge">1:1</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Instagram Story -->
+            <div class="content-type-card" id="card-instagram_story">
+              <label>
+                <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Instagram Story</div>
+                  <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
+                  <span class="format-badge">9:16</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Instagram Reel -->
+            <div class="content-type-card" id="card-instagram_reel">
+              <label>
+                <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Instagram Reel</div>
+                  <div style="font-size: 12px; color: #6b7280;">Video Content</div>
+                  <span class="format-badge">9:16 Video</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Podcast -->
+            <div class="content-type-card" id="card-podcast">
+              <label>
+                <input type="checkbox" id="enable_podcast" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Podcast Skript</div>
+                  <div style="font-size: 12px; color: #6b7280;">Audio Content</div>
+                  <span class="format-badge">Text-to-Speech</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Avatar -->
+            <div class="content-type-card" id="card-avatar">
+              <label>
+                <input type="checkbox" id="enable_avatar" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Avatar Skript</div>
+                  <div style="font-size: 12px; color: #6b7280;">AI Video</div>
+                  <span class="format-badge">Video Avatar</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="content-type-card" id="card-newsletter">
+              <label>
+                <input type="checkbox" id="enable_newsletter" class="content-checkbox" />
+                <div>
+                  <div style="font-weight: 600;">Newsletter</div>
+                  <div style="font-size: 12px; color: #6b7280;">E-Mail Marketing</div>
+                  <span class="format-badge">Email</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-section">
+          <button id="submit-btn" onclick="submitInputWithValidation()" class="submit-btn">
+            Inhalt übermitteln
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Review & Posting Section -->
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
+        </div>
+      </div>
+
+      <div class="review-section">
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+
+        <div id="content-sections-container"></div>
+
+        <div class="submit-section">
+          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+            🔄 Content aktualisieren
+          </button>
+          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
+            Freigaben speichern
+          </button>
+        </div>
+      </div>
+      
+      <div class="anyever-footer">
+        <img 
+          src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+          alt="ANY EVER Logo" 
+          class="logo-footer"
+        >
+        <div class="tagline">ENJOY.AUDIO</div>
+      </div>
+    </div>
+
+    <script>
+      // Global Variables & Rate Limiting
+      const inputId = Date.now().toString();
+      let isPolling = false;
+      let rateLimitTimer = null;
+      
+      const RATE_LIMITS = {
+        DAILY_MAX: 20,
+        COOLDOWN_MINUTES: 5,
+        STORAGE_KEY: 'content_generation_rate_limit'
+      };
+
+      // Updated Content Type Configuration
+      const CONTENT_TYPES = {
+        linkedin: { 
+          id: 'linkedin', 
+          label: 'LinkedIn Post', 
+          textField: 'linkedin_text', 
+          statusField: 'linkedin_status',
+          enableField: 'enable_linkedin',
+          backendTextKey: 'linkedin_text',      
+          backendStatusKey: 'linkedin_status',
+          postingEnabled: true,
+          imageFormat: '1200x630'
+        },
+        facebook: { 
+          id: 'facebook', 
+          label: 'Facebook Post', 
+          textField: 'facebook_text', 
+          statusField: 'facebook_status',
+          enableField: 'enable_facebook',
+          backendTextKey: 'facebook_text',      
+          backendStatusKey: 'facebook_status',
+          postingEnabled: true,
+          imageFormat: '1200x630'
+        },
+        instagram_feed: { 
+          id: 'instagram_feed', 
+          label: 'Instagram Feed', 
+          textField: 'instagram_feed_text', 
+          statusField: 'instagram_feed_status',
+          enableField: 'enable_instagram_feed',
+          backendTextKey: 'insta_feed_text',    
+          backendStatusKey: 'insta_feed_status',
+          postingEnabled: false,
+          imageFormat: '1080x1080'
+        },
+        instagram_reel: { 
+          id: 'instagram_reel', 
+          label: 'Instagram Reel', 
+          textField: 'instagram_reel_text', 
+          statusField: 'instagram_reel_status',
+          enableField: 'enable_instagram_reel',
+          backendTextKey: 'insta_reel_text',    
+          backendStatusKey: 'insta_reel_status',
+          postingEnabled: false,
+          imageFormat: '9:16 Video'
+        },
+        instagram_story: { 
+          id: 'instagram_story', 
+          label: 'Instagram Story', 
+          textField: 'instagram_story_text', 
+          statusField: 'instagram_story_status',
+          enableField: 'enable_instagram_story',
+          backendTextKey: 'insta_story_text',    
+          backendStatusKey: 'insta_story_status',
+          postingEnabled: false,
+          imageFormat: '1080x1920'
+        },
+        blog: { 
+          id: 'blog', 
+          label: 'Blog Artikel', 
+          textField: 'blog_text', 
+          statusField: 'blog_status',
+          enableField: 'enable_blog',
+          backendTextKey: 'blog_text',          
+          backendStatusKey: 'blog_status',
+          postingEnabled: false,
+          imageFormat: '1200x675'
+        },
+        podcast: {
+          id: 'podcast',
+          label: 'Podcast Skript',
+          textField: 'podcast_text',
+          statusField: 'podcast_status', 
+          enableField: 'enable_podcast',
+          backendTextKey: 'podcast_text',       
+          backendStatusKey: 'podcast_status',
+          postingEnabled: true,
+          imageFormat: 'Audio'
+        },
+        avatar: {
+          id: 'avatar',
+          label: 'Avatar Skript',
+          textField: 'avatar_text',
+          statusField: 'avatar_status',
+          enableField: 'enable_avatar', 
+          backendTextKey: 'avatar_text',        
+          backendStatusKey: 'avatar_status',
+          postingEnabled: false,
+          imageFormat: 'Video'
+        },
+        newsletter: {
+          id: 'newsletter',
+          label: 'Newsletter',
+          textField: 'newsletter_text',
+          statusField: 'newsletter_status',
+          enableField: 'enable_newsletter', 
+          backendTextKey: 'newsletter_text',        
+          backendStatusKey: 'newsletter_status',
+          postingEnabled: true,
+          imageFormat: 'Email'
+        }
+      };
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("input_id").value = inputId;
+        
+        // Add click handlers for content type cards
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
+          const card = document.getElementById(`card-${type}`);
+          
+          if (checkbox && card) {
+            checkbox.addEventListener('change', () => updateCardSelection(type));
+            updateCardSelection(type); // Initial state
+          }
+        });
+        
+        // Load daily counter
+        const today = new Date().toDateString();
+        const rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        if (rateLimitData.date === today) {
+          document.getElementById('daily-request-count').textContent = rateLimitData.count || 0;
+        }
+      });
+
+      function updateCardSelection(type) {
+        const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
+        const card = document.getElementById(`card-${type}`);
+        
+        if (checkbox && card) {
+          if (checkbox.checked) {
+            card.classList.add('selected');
+          } else {
+            card.classList.remove('selected');
+          }
+        }
+      }
+
+      // Rate Limiting Functions
+      function checkRateLimit() {
+        const now = Date.now();
+        const today = new Date().toDateString();
+        
+        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        
+        if (rateLimitData.date !== today) {
+          rateLimitData = { date: today, count: 0, lastRequest: 0 };
+        }
+        
+        if (rateLimitData.count >= RATE_LIMITS.DAILY_MAX) {
+          showErrorMessage(`Tageslimit erreicht (${RATE_LIMITS.DAILY_MAX} Requests). Versuchen Sie es morgen wieder.`);
+          return false;
+        }
+        
+        const timeSinceLastRequest = now - rateLimitData.lastRequest;
+        const cooldownMs = RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000;
+        
+        if (timeSinceLastRequest < cooldownMs) {
+          const remainingTime = Math.ceil((cooldownMs - timeSinceLastRequest) / 1000);
+          startCooldownTimer(remainingTime);
+          return false;
+        }
+        
+        return true;
+      }
+      
+      function updateRateLimit() {
+        const today = new Date().toDateString();
+        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        
+        if (rateLimitData.date !== today) {
+          rateLimitData = { date: today, count: 0, lastRequest: 0 };
+        }
+        
+        rateLimitData.count++;
+        rateLimitData.lastRequest = Date.now();
+        
+        localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(rateLimitData));
+        document.getElementById('daily-request-count').textContent = rateLimitData.count;
+      }
+      
+      function startCooldownTimer(seconds) {
+        const container = document.getElementById('rate-limit-container');
+        const text = document.getElementById('rate-limit-text');
+        
+        container.style.display = 'block';
+        document.getElementById('submit-btn').disabled = true;
+        
+        const updateTimer = () => {
+          if (seconds <= 0) {
+            container.style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+            return;
+          }
+          
+          const minutes = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          text.textContent = `Cooldown aktiv: ${minutes}:${secs.toString().padStart(2, '0')} verbleibend`;
+          
+          seconds--;
+          setTimeout(updateTimer, 1000);
+        };
+        
+        updateTimer();
+      }
+
+      // Base64 Functions
+      function encodeBase64Text(text) {
+        try {
+          if (!text || text.trim() === '') return '';
+          const utf8Bytes = new TextEncoder().encode(text);
+          const binaryString = String.fromCharCode(...utf8Bytes);
+          return btoa(binaryString);
+        } catch (error) {
+          console.error("❌ Base64 Encode Fehler:", error);
+          return text;
+        }
+      }
+
+      function decodeBase64Text(base64String) {
+        try {
+          if (!base64String || base64String.trim() === '') return '';
+          const binaryString = atob(base64String);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          return new TextDecoder('utf-8').decode(bytes);
+        } catch (error) {
+          console.error("❌ Base64 Decode Fehler:", error);
+          try {
+            return atob(base64String);
+          } catch (fallbackError) {
+            return base64String;
+          }
+        }
+      }
+
+      function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.max(100, textarea.scrollHeight) + 'px';
+      }
+
+      // Enhanced Validation & Submission
+      async function submitInputWithValidation() {
+        if (!checkRateLimit()) {
+          return;
+        }
+        
+        const thema = document.getElementById("thema").value.trim();
+        if (!thema) {
+          showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
+          return;
+        }
+
+        const selectedChannels = getSelectedChannels();
+        if (selectedChannels.length === 0) {
+          showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
+          return;
+        }
+
+        const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
+        if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
+
+        const payload = {
+          input_id: inputId,
+          thema: thema,
+          subline: document.getElementById("subline").value,
+          url: document.getElementById("url").value,
+          grafik_url: document.getElementById("grafik_url").value,
+          selected_channels: selectedChannels
+        };
+
+        await executeSubmission(payload);
+      }
+
+      function getSelectedChannels() {
+        return Object.keys(CONTENT_TYPES).filter(type => 
+          document.getElementById(CONTENT_TYPES[type].enableField).checked
+        );
+      }
+
+      async function executeSubmission(payload) {
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+
+        try {
+          showLoadingState(true);
+          showProgressMessage("Content wird generiert...");
+          
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            updateRateLimit();
+            showSuccessMessage("Erfolgreich gestartet! ✅");
+            createContentSections(payload.selected_channels);
+            showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
+            
+            setTimeout(async () => {
+              await startIntelligentPolling();
+            }, 30000);
+            
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Submission error:", error);
+          showErrorMessage(`Fehler beim Übertragen: ${error.message}`);
+        } finally {
+          showLoadingState(false);
+        }
+      }
+
+      // Dynamic Content Sections with Posting Actions
+      function createContentSections(selectedChannels) {
+        const container = document.getElementById("content-sections-container");
+        container.innerHTML = "";
+        
+        selectedChannels.forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const sectionDiv = document.createElement('div');
+          sectionDiv.id = `${channel}-section`;
+          sectionDiv.className = 'content-section';
+          
+          const postingButtons = config.postingEnabled ? `
+            <div class="post-action-buttons">
+              <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
+                🚀 Sofort posten
+              </button>
+              <button class="action-btn btn-schedule" onclick="scheduleContent('${channel}')" disabled>
+                📅 Planen
+              </button>
+              <button class="action-btn btn-draft" onclick="saveDraft('${channel}')" disabled>
+                📝 Als Entwurf
+              </button>
+            </div>
+          ` : `
+            <div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
+              Automatisches Posting für diesen Kanal noch nicht verfügbar
+            </div>
+          `;
+          
+          sectionDiv.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: between; margin-bottom: 15px;">
+              <label style="font-size: 18px; font-weight: 600; color: #1f2937; margin: 0;">${config.label}:</label>
+              <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                <span style="font-size: 12px; color: #6b7280;">${config.imageFormat}</span>
+                <span class="status-badge" style="background: #dbeafe; color: #1e40af;">Wird generiert...</span>
+              </div>
+            </div>
+            <textarea id="${config.textField}" class="auto-resize" 
+                      placeholder="${config.label} Content wird generiert..."
+                      oninput="autoResize(this); updatePostingButtons('${channel}')"></textarea>
+            <select id="${config.statusField}" onchange="updatePostingButtons('${channel}')">
+              <option value="pending">Auswahl treffen</option>
+              <option value="yes">Freigeben</option>
+              <option value="no">Ablehnen</option>
+            </select>
+            ${postingButtons}
+          `;
+          
+          container.appendChild(sectionDiv);
+        });
+      }
+
+      function updatePostingButtons(channel) {
+        const config = CONTENT_TYPES[channel];
+        const statusField = document.getElementById(config.statusField);
+        const textField = document.getElementById(config.textField);
+        const section = document.getElementById(`${channel}-section`);
+        
+        if (!section || !config.postingEnabled) return;
+        
+        const buttons = section.querySelectorAll('.action-btn');
+        const isApproved = statusField.value === 'yes';
+        const hasContent = textField.value.trim() !== '';
+        
+        buttons.forEach(btn => {
+          btn.disabled = !(isApproved && hasContent);
+        });
+      }
+
+      // Posting Functions
+      async function postContent(channel) {
+        const config = CONTENT_TYPES[channel];
+        const content = document.getElementById(config.textField).value;
+        const inputIdValue = document.getElementById("input_id").value;
+        
+        if (!confirm(`${config.label} sofort veröffentlichen?`)) return;
+        
+        try {
+          showProgressMessage(`Veröffentliche ${config.label}...`);
+          
+          const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              mode: "post",
+              channel: channel,
+              content: escapeJsonString(content),
+              action: "immediate"
+            }),
+          });
+          
+          if (response.ok) {
+            showSuccessMessage(`✅ ${config.label} erfolgreich veröffentlicht!`);
+            updateSectionStatus(document.getElementById(`${channel}-section`), 'posted');
+          } else {
+            throw new Error(`HTTP ${response.status}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler beim Veröffentlichen: ${error.message}`);
+        }
+      }
+
+      async function scheduleContent(channel) {
+        const config = CONTENT_TYPES[channel];
+        const scheduleTime = prompt("Wann soll gepostet werden? (Format: YYYY-MM-DD HH:MM)");
+        
+        if (!scheduleTime) return;
+        
+        showInfoMessage(`⏰ ${config.label} für ${scheduleTime} geplant (Feature in Entwicklung)`);
+      }
+
+      async function saveDraft(channel) {
+        const config = CONTENT_TYPES[channel];
+        showInfoMessage(`📝 ${config.label} als Entwurf gespeichert (Feature in Entwicklung)`);
+      }
+
+      // ✅ DEBUGGING VERSION - POLLING SYSTEM  
+      async function startIntelligentPolling() {
+        let attempts = 0;
+        const maxAttempts = 24;
+        
+        console.log("🚀 === POLLING GESTARTET ===");
+        console.log(`Ziel: ${maxAttempts} Versuche über ${maxAttempts * 15 / 60} Minuten`);
+        
+        const poll = async () => {
+          attempts++;
+          console.log(`\n🔄 === POLLING VERSUCH ${attempts}/${maxAttempts} ===`);
+          console.log(`⏰ Zeitstempel: ${new Date().toLocaleTimeString()}`);
+          
+          showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
+          
+          try {
+            console.log("📞 Rufe loadReview(true) auf...");
+            const success = await loadReview(true);
+            console.log(`📊 loadReview Ergebnis: ${success ? 'ERFOLG' : 'KEIN CONTENT'}`);
+            
+            if (success) {
+              console.log("✅ === POLLING ERFOLGREICH BEENDET ===");
+              clearPersistentMessage();
+              showSuccessMessage("✅ Content ist da! Automatisch geladen.");
+              return; // WICHTIG: Polling stoppen
+            }
+            
+            console.log(`⏳ Versuch ${attempts}: Noch kein Content verfügbar`);
+            
+            if (attempts < maxAttempts) {
+              console.log(`⏰ Plane nächsten Poll in 15 Sekunden (Versuch ${attempts + 1}/${maxAttempts})`);
+              setTimeout(() => {
+                console.log(`🔄 Starte geplanten Poll ${attempts + 1}...`);
+                poll();
+              }, 15000);
+            } else {
+              console.log("🛑 === POLLING LIMIT ERREICHT ===");
+              clearPersistentMessage();
+              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
+              
+              const manualBtn = document.getElementById("manual-load-btn");
+              if (manualBtn) {
+                manualBtn.style.display = "inline-block";
+                console.log("✅ Manueller Button jetzt sichtbar");
+              } else {
+                console.error("❌ Manual-Load-Button nicht gefunden!");
+              }
+            }
+          } catch (error) {
+            console.error(`❌ === POLLING FEHLER BEI VERSUCH ${attempts} ===`);
+            console.error("Fehler-Details:", error);
+            console.error("Fehler-Stack:", error.stack);
+            
+            if (attempts < maxAttempts) {
+              console.log("🔄 Versuche trotz Fehler weiter...");
+              setTimeout(() => poll(), 15000);
+            } else {
+              console.log("🛑 Polling wegen zu vielen Fehlern beendet");
+              clearPersistentMessage();
+              showErrorMessage("❌ Fehler beim automatischen Laden. Verwenden Sie den 'Content aktualisieren' Button.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            }
+          }
+        };
+        
+        console.log("🏁 Starte ersten Poll...");
+        poll(); // Starte das Polling
+      }
+
+      async function loadReview(silentMode = false) {
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) {
+          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+          return false;
+        }
+
+        isPolling = true;
+        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+
+        try {
+          if (!silentMode) showProgressMessage("Lade Content...");
+          
+          console.log(`🔍 Lade Content für input_id: ${inputIdValue}`);
+          
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+          const responseText = await response.text();
+          console.log("🔍 RAW RESPONSE:", responseText.substring(0, 200) + "...");
+          
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error("❌ JSON Parse Fehler:", parseError);
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents. Fehler: ${parseError.message}`);
+            return false;
+          }
+          
+          console.log("🔍 VOLLSTÄNDIGE BACKEND-RESPONSE:", data);
+          
+          let hasGeneratedContent = false;
+          let contentStats = {};
+          let sectionsWithContent = 0;
+          let totalSections = 0;
+          
+          // ✅ NUR BESTEHENDE SECTIONS PRÜFEN!
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const config = CONTENT_TYPES[type];
+            const sectionElement = document.getElementById(`${type}-section`);
+            
+            // Nur prüfen wenn Section tatsächlich existiert (= Kanal war ausgewählt)
+            if (sectionElement) {
+              totalSections++;
+              
+              let backendText = data[config.backendTextKey];
+              const backendStatus = data[config.backendStatusKey];
+              
+              if (backendText) {
+                console.log(`🔍 ${config.label} - Original Base64 (erste 50 Zeichen):`, backendText.substring(0, 50));
+                backendText = decodeBase64Text(backendText);
+                console.log(`✅ ${config.label} - Dekodiert (erste 100 Zeichen):`, backendText.substring(0, 100));
+              }
+              
+              const hasContent = backendText && backendText.trim() !== '';
+              contentStats[type] = {
+                hasContent: hasContent,
+                contentLength: backendText ? backendText.length : 0,
+                status: backendStatus,
+                backendKey: config.backendTextKey,
+                sectionExists: true
+              };
+              
+              console.log(`📝 ${config.label}:`, contentStats[type]);
+              
+              if (hasContent) {
+                sectionsWithContent++;
+                hasGeneratedContent = true;
+                sectionElement.style.display = 'block';
+                
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                
+                if (textField) {
+                  textField.value = backendText || "";
+                  autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+              } else {
+                console.log(`❌ ${config.label} Section vorhanden, aber kein Content`);
+              }
+            } else {
+              console.log(`⏭️ ${config.label} Section nicht vorhanden (Kanal nicht ausgewählt)`);
+              contentStats[type] = {
+                hasContent: false,
+                sectionExists: false,
+                skipped: true
+              };
+            }
+          });
+          
+          console.log("📊 CONTENT STATISTIK:", contentStats);
+          console.log(`🎯 Sections mit Content: ${sectionsWithContent}/${totalSections}`);
+          console.log(`🎯 Alle Sections befüllt: ${sectionsWithContent === totalSections ? 'JA' : 'NEIN'}`);
+          
+          // ✅ NUR ERFOLGREICH WENN ALLE EXISTIERENDEN SECTIONS CONTENT HABEN
+          const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+          
+          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+          
+          if (allSectionsFilled) {
+            clearPersistentMessage();
+            if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
+            console.log("✅ === ALLE SECTIONS KOMPLETT - POLLING BEENDET ===");
+            return true;
+          } else {
+            if (!silentMode) {
+              showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
+              console.log(`⏳ Noch nicht alle Sections befüllt: ${sectionsWithContent}/${totalSections}`);
+            }
+            return false;
+          }
+          
+        } catch (error) {
+          console.error("❌ Fehler beim Laden der Review-Daten", error);
+          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+          return false;
+        } finally {
+          isPolling = false;
+        }
+      }
+
+      function updateSectionStatus(sectionDiv, status) {
+        const statusBadge = sectionDiv.querySelector('.status-badge');
+        if (statusBadge) {
+          const statusConfig = {
+            'pending': { text: 'Pending', class: 'background: #fef3c7; color: #92400e;' },
+            'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
+            'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
+            'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
+          };
+          
+          const config = statusConfig[status] || statusConfig['pending'];
+          statusBadge.textContent = config.text;
+          statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
+        }
+      }
+
+      function escapeJsonString(str) {
+        if (!str) return '';
+        return str
+          .replace(/\\/g, '\\\\')
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r')
+          .replace(/\t/g, '\\t');
+      }
+
+      async function submitReview() {
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save"
+        };
+
+        // Updated: Alle verfügbaren Content-Typen senden (inkl. Newsletter)
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const config = CONTENT_TYPES[type];
+          const textElement = document.getElementById(config.textField);
+          const statusElement = document.getElementById(config.statusField);
+          
+          if (textElement && textElement.value.trim() !== '') {
+            payload[config.textField] = escapeJsonString(textElement.value);
+            payload[config.statusField] = statusElement.value;
+          }
+        });
+
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+
+        try {
+          showLoadingState(true, "review-submit-btn");
+          console.log("💾 Speichere Content-Felder:", payload);
+          
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Review submission error:", error);
+          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+        } finally {
+          showLoadingState(false, "review-submit-btn");
+        }
+      }
+
+      // UI Helper Functions
+      function showLoadingState(isLoading, buttonId = "submit-btn") {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
+          } else {
+            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
+          }
+        }
+      }
+
+      function clearPersistentMessage() {
+        const container = document.getElementById("status-container");
+        const existing = container.querySelector('.status-message.persistent');
+        if (existing) existing.remove();
+      }
+
+      function showStatusMessage(message, type, persistent = false) {
+        const container = document.getElementById("status-container");
+        
+        if (!persistent) {
+          const existing = container.querySelector('.status-message:not(.persistent)');
+          if (existing) existing.remove();
+        } else {
+          const existing = container.querySelector('.status-message');
+          if (existing) existing.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
+        
+        const styles = {
+          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
+          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
+          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
+          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
+        };
+        
+        messageDiv.setAttribute('style', styles[type] || styles.info);
+        messageDiv.textContent = message;
+        
+        container.appendChild(messageDiv);
+        
+        if ((type === 'success' || type === 'info') && !persistent) {
+          setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+          }, 8000);
+        }
+      }
+
+      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
+      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
+      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
+      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
+      function showInfoMessage(message, persistent = false) { showStatusMessage(message, 'info', persistent); }
+
+      function submitInput() {
+        submitInputWithValidation();
+      }
+    </script>
+  </body>
+</html>
