@@ -942,7 +942,8 @@
             // E-Mail öffnen
             const subject = encodeURIComponent(`Creative Briefing | ${formData.get('kunde') || 'Neuer Kunde'}`);
             const body = encodeURIComponent(emailBody);
-            const mailtoLink = `mailto:mail@anyever.de%2Clillot@anyever.de?subject=${subject}&body=${body}`;
+            const mailtoLink = `mailto:mail@anyever.de?subject=${subject}&body=${body}`;
+
             
             // E-Mail-Programm öffnen
             window.location.href = mailtoLink;
