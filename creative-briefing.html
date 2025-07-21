@@ -46,6 +46,32 @@
             border-bottom: 2px solid #DAA520;
         }
         
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+        }
+        
+        .logo-container a {
+            text-decoration: none;
+        }
+        
         .header::before {
             content: '';
             position: absolute;
@@ -465,13 +491,16 @@
     
     <div class="container">
         <div class="header">
+            <a href="index.html" class="back-button">← Projekte</a>
             <div class="header-content">
                 <div class="logo-container">
-                    <img 
-                        src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
-                        alt="ANY EVER Logo" 
-                        class="logo-anyever"
-                    >
+                    <a href="index.html">
+                        <img 
+                            src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+                            alt="ANY EVER Logo" 
+                            class="logo-anyever"
+                        >
+                    </a>
                     <div class="enjoy-audio">ENJOY.AUDIO</div>
                 </div>
                 <h1>Creative Briefing</h1>
