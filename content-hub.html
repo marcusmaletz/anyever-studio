@@ -95,18 +95,31 @@
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
       
-      .request-counter {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 14px;
-        color: #6b7280;
-        background: #f9fafb;
-        padding: 8px 16px;
-        border-radius: 20px;
-        border: 1px solid #e5e7eb;
-        z-index: 10;
-      }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+        }
+        
+        .logo-container a {
+            text-decoration: none;
+        }
       
       .form-content {
         padding: 40px;
@@ -226,16 +239,16 @@
       }
       
       .content-type-card:hover {
-        background: #fef3c7;
-        border-color: #fbbf24;
+        background: #f3f4f6;
+        border-color: #d1d5db;
         transform: translateY(-2px);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       }
       
       .content-type-card.selected {
-        border-color: #DAA520;
-        background: #fef3c7;
-        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        border-color: #d1d5db;
+        background: #f3f4f6;
+        box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
       }
       
       .content-type-card input[type="checkbox"] {
@@ -499,9 +512,12 @@
         <div class="request-counter">
           Requests heute: <span id="daily-request-count">0</span>/20
         </div>
+        <a href="index.html" class="back-button">← Projekte</a>
         <div class="header-content">
           <div class="logo-container">
-            <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="logo-anyever" />
+            <a href="index.html">
+              <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="logo-anyever" />
+            </a>
             <div class="enjoy-audio">ENJOY.AUDIO</div>
           </div>
           <h1>Content Hub</h1>
