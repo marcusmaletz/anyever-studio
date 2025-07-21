@@ -491,7 +491,7 @@
     
     <div class="container">
         <div class="header">
-            <a href="index.html" class="back-button">← Projekte</a>
+            <a href="advertising.html" class="back-button">← Advertising</a>
             <div class="header-content">
                 <div class="logo-container">
                     <a href="index.html">
@@ -503,7 +503,7 @@
                     </a>
                     <div class="enjoy-audio">ENJOY.AUDIO</div>
                 </div>
-                <h1>Creative Briefing</h1>
+                <h1>Creative Briefing<br>Audio Spots</h1>
                 <p class="subtitle">Für die perfekte Kampagne brauchen wir alle Details.<br>
                 <strong>Gemeinsam entwickeln wir Ihre kreative Lösung.</strong></p>
             </div>
@@ -942,7 +942,7 @@
             // E-Mail öffnen
             const subject = encodeURIComponent(`Creative Briefing | ${formData.get('kunde') || 'Neuer Kunde'}`);
             const body = encodeURIComponent(emailBody);
-            const mailtoLink = `mailto:mail@anyever.de%2Clillot@anyever.de?subject=${subject}&body=${body}`;
+            const mailtoLink = `mailto:mail@anyever.de?subject=${subject}&body=${body}`;
             
             // E-Mail-Programm öffnen
             window.location.href = mailtoLink;
