@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Briefing | ANY EVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background: #f3f4f6;
+            padding: 24px;
+            overflow-x: hidden;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            background: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 2px solid #DAA520;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            transform: translateY(-1px);
+        }
+        
+        .logo-container a {
+            text-decoration: none;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
+            background-size: cover;
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-anyever {
+            width: 280px;
+            height: auto;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        .enjoy-audio {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #000000;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1f2937;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            color: #6b7280;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .form-content {
+            padding: 60px 40px;
+            background: white;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(218, 165, 32, 0.3) 50%, transparent 100%);
+        }
+        
+        .section:last-child::after {
+            display: none;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: #1f2937;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .form-triple {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .label-normal {
+            text-transform: none;
+            letter-spacing: normal;
+            font-size: 14px;
+        }
+        
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"], 
+        input[type="url"],
+        textarea, 
+        select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            color: #374151;
+            transition: all 0.3s ease;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 400;
+        }
+        
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="date"]:focus, 
+        input[type="url"]:focus,
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: #DAA520;
+            background: #fefefe;
+            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .textarea-large {
+            min-height: 140px;
+        }
+        
+        .textarea-small {
+            min-height: 80px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover {
+            background: #fef3c7;
+            border-color: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: #DAA520;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            color: #374151;
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            font-weight: 400;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .radio-item:hover {
+            background: #fef3c7;
+            border-color: #fbbf24;
+        }
+        
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: #DAA520;
+            cursor: pointer;
+        }
+        
+        .radio-item label {
+            margin: 0;
+            color: #374151;
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            font-weight: 400;
+        }
+        
+        .submit-section {
+            background: #f8fafc;
+            padding: 50px 40px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            color: #ffffff;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(218, 165, 32, 0.4);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -5px rgba(218, 165, 32, 0.5);
+            background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%);
+        }
+        
+        .submit-text {
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 16px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-saved-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+        }
+        
+        .form-saved-indicator.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anyever-footer {
+            background: #1f2937;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 2px solid #DAA520;
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .anyever-footer .logo-footer {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .anyever-footer .tagline {
+            color: #d1d5db;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .example-text {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .logo-anyever {
+                width: 220px;
+                margin-bottom: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .form-content {
+                padding: 40px 20px;
+            }
+            
+            .form-row, .form-triple {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .submit-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-saved-indicator" id="savedIndicator">Automatisch gespeichert ✓</div>
+    
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-button">← Projekte</a>
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="index.html">
+                        <img 
+                            src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+                            alt="ANY EVER Logo" 
+                            class="logo-anyever"
+                        >
+                    </a>
+                    <div class="enjoy-audio">ENJOY.AUDIO</div>
+                </div>
+                <h1>Creative Briefing</h1>
+                <p class="subtitle">Für die perfekte Kampagne brauchen wir alle Details.<br>
+                <strong>Gemeinsam entwickeln wir Ihre kreative Lösung.</strong></p>
+            </div>
+        </div>
+        
+        <form id="kreationForm" class="form-content">
+            <!-- Abschnitt 1: Projektdaten -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">01</span>
+                    Projektdaten
+                </h2>
+                
+                <div class="form-triple">
+                    <div class="form-group">
+                        <label for="kunde">Kunde *</label>
+                        <input type="text" id="kunde" name="kunde" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projekt">Projekt *</label>
+                        <input type="text" id="projekt" name="projekt" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kampagne">Kampagne</label>
+                        <input type="text" id="kampagne" name="kampagne">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschnitt 2: Die Aufgabe -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">02</span>
+                    Die Aufgabe
+                </h2>
+                
+                <div class="form-group">
+                    <label for="aufgabe">Beschreiben Sie Ihre Aufgabe *</label>
+                    <textarea id="aufgabe" name="aufgabe" class="textarea-large" placeholder="z.B. Für das Speditionsunternehmen XY soll eine Recruiting-Kampagne für LKW-Fahrer erstellt werden. Der Einsatz erfolgt in UKW-Funk." required></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 3: Kommunikationsziel -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">03</span>
+                    Kommunikationsziel
+                </h2>
+                
+                <div class="form-group">
+                    <label for="kommunikationsziel">Das Kommunikationsziel *</label>
+                    <textarea id="kommunikationsziel" name="kommunikationsziel" placeholder="z.B. Store-Traffic erhöhen, Markenbekanntheit steigern, Leads generieren" required></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 4: Zielgruppe -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">04</span>
+                    Zielgruppe
+                </h2>
+                
+                <div class="form-group">
+                    <label for="zielgruppe">Die Zielgruppe *</label>
+                    <div class="example-text">Bitte nicht nur soziodemografisch, auch qualitativ beschreiben</div>
+                    <textarea id="zielgruppe" name="zielgruppe" class="textarea-large" placeholder="z.B. Soziodemografisch: Frauen ab 30 mit Kindern im Haushalt / Qualitativ: Mütter, die Wert auf ein gemeinsames Essen am Tag und auf eine gesunde Ernährung legen" required></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 5: Wahrnehmung -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">05</span>
+                    Wahrnehmung
+                </h2>
+                
+                <div class="form-group">
+                    <label for="aktuell-denkt">Das denkt die Zielgruppe aktuell über uns</label>
+                    <textarea id="aktuell-denkt" name="aktuell-denkt" placeholder="z.B. Mit einer Tragetasche der Marke XY lasse ich mich ungern in der Stadt sehen."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="soll-denken">Das soll die Zielgruppe nach der Kampagne über uns denken *</label>
+                    <textarea id="soll-denken" name="soll-denken" placeholder="z.B. Wer bei XY kauft, der ist schlau." required></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 6: Wettbewerb -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">06</span>
+                    Wettbewerb
+                </h2>
+                
+                <div class="form-group">
+                    <label for="direkte-konkurrenz">Direkte Konkurrenz</label>
+                    <textarea id="direkte-konkurrenz" name="direkte-konkurrenz" placeholder="Nennen Sie Ihre direkten Wettbewerber"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="indirekte-konkurrenz">Indirekte Konkurrenz</label>
+                    <textarea id="indirekte-konkurrenz" name="indirekte-konkurrenz" placeholder="Nennen Sie indirekte Wettbewerber oder alternative Lösungen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 7: Tonalität -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">07</span>
+                    Tonalität
+                </h2>
+                
+                <div class="form-group">
+                    <label for="tonalitaet">Die Tonalität des Spots</label>
+                    <div class="example-text">Bitte auch die nicht gewünschte Tonalität angeben</div>
+                    <textarea id="tonalitaet" name="tonalitaet" class="textarea-large" placeholder="z.B. intelligent humorvoll, nicht platt klischiert / eher Harald Schmidt, nicht Mario Barth / zeitlos, nicht modisch / selbstbewusst, nicht unnahbar / traditionsbewusst, nicht konservativ"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 8: Wichtige Informationen -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">08</span>
+                    Wichtige Informationen
+                </h2>
+                
+                <div class="form-group">
+                    <label for="wichtig-zu-wissen">Wichtig zu wissen</label>
+                    <textarea id="wichtig-zu-wissen" name="wichtig-zu-wissen" class="textarea-large" placeholder="z.B. Testimonial XY steht zur Verfügung / der Skandal der Textilindustrie hängt uns immer noch nach"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 9: Pflichtbestandteile -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">09</span>
+                    Pflichtbestandteile
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="claim">Claim</label>
+                        <input type="text" id="claim" name="claim" placeholder="Ihr Werbespruch/Slogan">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">URL</label>
+                        <input type="url" id="url" name="url" placeholder="https://www.beispiel.de">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="soundlogo">Soundlogo</label>
+                        <input type="text" id="soundlogo" name="soundlogo" placeholder="Link zum Soundlogo oder Beschreibung">
+                    </div>
+                    <div class="form-group">
+                        <label for="brand-voice">Brand Voice</label>
+                        <input type="text" id="brand-voice" name="brand-voice" placeholder="Stimme/Sprecher-Vorgaben">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="musik">Musik</label>
+                    <textarea id="musik" name="musik" class="textarea-small" placeholder="Musikwünsche oder Link zu Referenzen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 10: No-Go's -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">10</span>
+                    No-Go's
+                </h2>
+                
+                <div class="form-group">
+                    <label for="no-gos">No-Go's</label>
+                    <textarea id="no-gos" name="no-gos" placeholder="z.B. Schweden-Witz, bestimmte Begriffe, Themen oder Darstellungen die vermieden werden sollen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 11: Kernbotschaft -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">11</span>
+                    Kernbotschaft
+                </h2>
+                
+                <div class="form-group">
+                    <label for="kernbotschaft">Unsere wichtigste zu vermittelnde Kernbotschaft in 7 Wörtern *</label>
+                    <input type="text" id="kernbotschaft" name="kernbotschaft" placeholder="z.B. Jetzt neu – der größte IKEA NRW's" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="glaubhaft-weil">Das können wir dem Konsumenten/Kunden glaubhaft kommunizieren, weil... *</label>
+                    <textarea id="glaubhaft-weil" name="glaubhaft-weil" placeholder="z.B. ... die Verkaufsfläche bei keinem IKEA in NRW größer ist." required></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 12: Werbemaßnahmen -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">12</span>
+                    Werbemaßnahmen
+                </h2>
+                
+                <div class="form-group">
+                    <label for="parallele-werbemassnahmen">Relevante Werbemaßnahmen, die parallel geschaltet werden</label>
+                    <div class="example-text">Bitte übermitteln Sie als Anlage alle Werbemittel, die zur Verfügung stehen - gerne auch im Layout-/Scribble-Status</div>
+                    <textarea id="parallele-werbemassnahmen" name="parallele-werbemassnahmen" class="textarea-large" placeholder="Beschreiben Sie andere laufende oder geplante Werbemaßnahmen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 13: Medienplanung -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">13</span>
+                    Medienplanung
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ausstrahlungsgebiet">Ausstrahlungsgebiet</label>
+                        <input type="text" id="ausstrahlungsgebiet" name="ausstrahlungsgebiet" placeholder="z.B. NRW, deutschlandweit, regional">
+                    </div>
+                    <div class="form-group">
+                        <label for="kampagnenzeitraum">Kampagnenzeitraum</label>
+                        <input type="text" id="kampagnenzeitraum" name="kampagnenzeitraum" placeholder="z.B. März - Mai 2024">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mediaplanung">Mediaplanung</label>
+                    <div class="example-text">falls vorhanden</div>
+                    <textarea id="mediaplanung" name="mediaplanung" placeholder="Details zur geplanten Medienschaltung"></textarea>
+                </div>
+                
+                <div class="form-triple">
+                    <div class="form-group">
+                        <label for="anzahl-spots" class="label-normal">Anzahl der zu produzierenden Spots</label>
+                        <input type="text" id="anzahl-spots" name="anzahl-spots" placeholder="z.B. 3">
+                    </div>
+                    <div class="form-group">
+                        <label for="maximale-spotlaenge" class="label-normal">Maximale Spotlänge</label>
+                        <input type="text" id="maximale-spotlaenge" name="maximale-spotlaenge" placeholder="z.B. 30 Sekunden">
+                    </div>
+                    <div class="form-group">
+                        <label for="gewuenschte-sender" class="label-normal">Gewünschte(r) Sender</label>
+                        <input type="text" id="gewuenschte-sender" name="gewuenschte-sender" placeholder="z.B. WDR 4, RTL">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschnitt 14: Sonstiges -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">14</span>
+                    Sonstiges
+                </h2>
+                
+                <div class="form-group">
+                    <label for="sonstiges">Sonstiges</label>
+                    <textarea id="sonstiges" name="sonstiges" class="textarea-large" placeholder="Weitere wichtige Informationen, Wünsche oder Anmerkungen"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="kontakt-name">Ihr Name *</label>
+                        <input type="text" id="kontakt-name" name="kontakt-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kontakt-email">E-Mail *</label>
+                        <input type="email" id="kontakt-email" name="kontakt-email" required>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div class="submit-section">
+            <button type="button" onclick="submitForm()" class="submit-btn">Briefing absenden</button>
+            <p class="submit-text">
+                Vielen Dank für Ihre detaillierten Angaben.<br>
+                <strong>Wir entwickeln Ihre kreative Lösung.</strong>
+            </p>
+        </div>
+        
+        <div class="anyever-footer">
+            <img 
+                src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+                alt="ANY EVER Logo" 
+                class="logo-footer"
+            >
+            <div class="tagline">ENJOY.AUDIO</div>
+        </div>
+    </div>
+    
+    <script>
+        // Automatisches Speichern der Formulardaten
+        function saveFormData() {
+            const formData = new FormData(document.getElementById('kreationForm'));
+            const data = {};
+            
+            // Alle Felder speichern
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            localStorage.setItem('kreationBriefingForm', JSON.stringify(data));
+            
+            // Speicher-Indikator anzeigen
+            const indicator = document.getElementById('savedIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Formulardaten laden
+        function loadFormData() {
+            const savedData = localStorage.getItem('kreationBriefingForm');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Felder wiederherstellen
+                for (let [key, value] of Object.entries(data)) {
+                    const field = document.querySelector(`[name="${key}"]`);
+                    if (field) {
+                        field.value = value;
+                    }
+                }
+            }
+        }
+        
+        // Formular absenden per E-Mail
+        function submitForm() {
+            const form = document.getElementById('kreationForm');
+            const formData = new FormData(form);
+            
+            let emailBody = "CREATIVE BRIEFING | ANY EVER\n";
+            emailBody += "=".repeat(50) + "\n\n";
+            
+            // 1. Projektdaten
+            emailBody += "01 | PROJEKTDATEN\n";
+            emailBody += "-".repeat(17) + "\n";
+            emailBody += `Kunde: ${formData.get('kunde') || 'Nicht angegeben'}\n`;
+            emailBody += `Projekt: ${formData.get('projekt') || 'Nicht angegeben'}\n`;
+            emailBody += `Kampagne: ${formData.get('kampagne') || 'Nicht angegeben'}\n\n`;
+            
+            // 2. Die Aufgabe
+            emailBody += "02 | DIE AUFGABE\n";
+            emailBody += "-".repeat(16) + "\n";
+            emailBody += `${formData.get('aufgabe') || 'Nicht angegeben'}\n\n`;
+            
+            // 3. Kommunikationsziel
+            emailBody += "03 | KOMMUNIKATIONSZIEL\n";
+            emailBody += "-".repeat(24) + "\n";
+            emailBody += `${formData.get('kommunikationsziel') || 'Nicht angegeben'}\n\n`;
+            
+            // 4. Zielgruppe
+            emailBody += "04 | ZIELGRUPPE\n";
+            emailBody += "-".repeat(16) + "\n";
+            emailBody += `${formData.get('zielgruppe') || 'Nicht angegeben'}\n\n`;
+            
+            // 5. Wahrnehmung
+            emailBody += "05 | WAHRNEHMUNG\n";
+            emailBody += "-".repeat(17) + "\n";
+            emailBody += `Aktuell denkt die Zielgruppe: ${formData.get('aktuell-denkt') || 'Nicht angegeben'}\n`;
+            emailBody += `Soll denken: ${formData.get('soll-denken') || 'Nicht angegeben'}\n\n`;
+            
+            // 6. Wettbewerb
+            emailBody += "06 | WETTBEWERB\n";
+            emailBody += "-".repeat(15) + "\n";
+            emailBody += `Direkte Konkurrenz: ${formData.get('direkte-konkurrenz') || 'Nicht angegeben'}\n`;
+            emailBody += `Indirekte Konkurrenz: ${formData.get('indirekte-konkurrenz') || 'Nicht angegeben'}\n\n`;
+            
+            // 7. Tonalität
+            emailBody += "07 | TONALITÄT\n";
+            emailBody += "-".repeat(14) + "\n";
+            emailBody += `${formData.get('tonalitaet') || 'Nicht angegeben'}\n\n`;
+            
+            // 8. Wichtige Informationen
+            emailBody += "08 | WICHTIGE INFORMATIONEN\n";
+            emailBody += "-".repeat(28) + "\n";
+            emailBody += `${formData.get('wichtig-zu-wissen') || 'Nicht angegeben'}\n\n`;
+            
+            // 9. Pflichtbestandteile
+            emailBody += "09 | PFLICHTBESTANDTEILE\n";
+            emailBody += "-".repeat(23) + "\n";
+            emailBody += `Claim: ${formData.get('claim') || 'Nicht angegeben'}\n`;
+            emailBody += `URL: ${formData.get('url') || 'Nicht angegeben'}\n`;
+            emailBody += `Soundlogo: ${formData.get('soundlogo') || 'Nicht angegeben'}\n`;
+            emailBody += `Brand Voice: ${formData.get('brand-voice') || 'Nicht angegeben'}\n`;
+            emailBody += `Musik: ${formData.get('musik') || 'Nicht angegeben'}\n\n`;
+            
+            // 10. No-Go's
+            emailBody += "10 | NO-GO'S\n";
+            emailBody += "-".repeat(12) + "\n";
+            emailBody += `${formData.get('no-gos') || 'Nicht angegeben'}\n\n`;
+            
+            // 11. Kernbotschaft
+            emailBody += "11 | KERNBOTSCHAFT\n";
+            emailBody += "-".repeat(17) + "\n";
+            emailBody += `Kernbotschaft (7 Wörter): ${formData.get('kernbotschaft') || 'Nicht angegeben'}\n`;
+            emailBody += `Glaubhaft weil: ${formData.get('glaubhaft-weil') || 'Nicht angegeben'}\n\n`;
+            
+            // 12. Werbemaßnahmen
+            emailBody += "12 | WERBEMASSNAHMEN\n";
+            emailBody += "-".repeat(19) + "\n";
+            emailBody += `${formData.get('parallele-werbemassnahmen') || 'Nicht angegeben'}\n\n`;
+            
+            // 13. Medienplanung
+            emailBody += "13 | MEDIENPLANUNG\n";
+            emailBody += "-".repeat(18) + "\n";
+            emailBody += `Ausstrahlungsgebiet: ${formData.get('ausstrahlungsgebiet') || 'Nicht angegeben'}\n`;
+            emailBody += `Kampagnenzeitraum: ${formData.get('kampagnenzeitraum') || 'Nicht angegeben'}\n`;
+            emailBody += `Mediaplanung: ${formData.get('mediaplanung') || 'Nicht angegeben'}\n`;
+            emailBody += `Anzahl Spots: ${formData.get('anzahl-spots') || 'Nicht angegeben'}\n`;
+            emailBody += `Maximale Spotlänge: ${formData.get('maximale-spotlaenge') || 'Nicht angegeben'}\n`;
+            emailBody += `Gewünschte Sender: ${formData.get('gewuenschte-sender') || 'Nicht angegeben'}\n\n`;
+            
+            // 14. Sonstiges
+            emailBody += "14 | SONSTIGES\n";
+            emailBody += "-".repeat(13) + "\n";
+            emailBody += `${formData.get('sonstiges') || 'Nicht angegeben'}\n\n`;
+            
+            // Kontaktdaten
+            emailBody += "KONTAKTDATEN\n";
+            emailBody += "-".repeat(12) + "\n";
+            emailBody += `Name: ${formData.get('kontakt-name') || 'Nicht angegeben'}\n`;
+            emailBody += `E-Mail: ${formData.get('kontakt-email') || 'Nicht angegeben'}\n\n`;
+            
+            emailBody += "---\n";
+            emailBody += "Gesendet über das ANY EVER Creative Briefing\n";
+            emailBody += "\n";
+            emailBody += "ENJOY.AUDIO\n";
+            
+            // E-Mail öffnen
+            const subject = encodeURIComponent(`Creative Briefing | ${formData.get('kunde') || 'Neuer Kunde'}`);
+            const body = encodeURIComponent(emailBody);
+            const mailtoLink = `mailto:mail@anyever.de%2Clillot@anyever.de?subject=${subject}&body=${body}`;
+            
+            // E-Mail-Programm öffnen
+            window.location.href = mailtoLink;
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gespeicherte Daten laden
+            loadFormData();
+            
+            // Auto-Save bei Eingaben
+            const form = document.getElementById('kreationForm');
+            let saveTimeout;
+            
+            form.addEventListener('input', function() {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(saveFormData, 1000); // Nach 1 Sekunde speichern
+            });
+            
+            form.addEventListener('change', function() {
+                clearTimeout(saveTimeout);
+                saveFormData(); // Sofort bei Änderungen speichern
+            });
+        });
+        
+        // Warnung beim Verlassen der Seite (falls nicht gespeichert)
+        window.addEventListener('beforeunload', function(e) {
+            const form = document.getElementById('kreationForm');
+            const formData = new FormData(form);
+            let hasData = false;
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() !== '') {
+                    hasData = true;
+                    break;
+                }
+            }
+            
+            if (hasData) {
+                saveFormData();
+            }
+        });
+    </script>
+</body>
+</html>
+        
