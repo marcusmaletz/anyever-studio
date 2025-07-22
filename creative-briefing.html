@@ -652,15 +652,15 @@
                 </div>
             </div>
 
-            <!-- Abschnitt 10: No-Go's -->
+            <!-- Abschnitt 10: No-Gos -->
             <div class="section">
                 <h2 class="section-title">
                     <span class="section-number">10</span>
-                    No-Go's
+                    No-Gos
                 </h2>
                 
                 <div class="form-group">
-                    <label for="no-gos">No-Go's</label>
+                    <label for="no-gos">No-Gos</label>
                     <textarea id="no-gos" name="no-gos" placeholder="z.B. Schweden-Witz, bestimmte Begriffe, Themen oder Darstellungen die vermieden werden sollen"></textarea>
                 </div>
             </div>
@@ -917,8 +917,8 @@
             emailBody += `Brand Voice: ${formData.get('brand-voice') || 'Nicht angegeben'}\n`;
             emailBody += `Musik: ${formData.get('musik') || 'Nicht angegeben'}\n\n`;
             
-            // 10. No-Go's
-            emailBody += "10 | NO-GO'S\n";
+            // 10. No-Gos
+            emailBody += "10 | NO-GOS\n";
             emailBody += "-".repeat(12) + "\n";
             emailBody += `${formData.get('no-gos') || 'Nicht angegeben'}\n\n`;
             
