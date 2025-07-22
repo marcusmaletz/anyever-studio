@@ -1,42 +1,30 @@
-/* ANY EVER Brandbook 2024 - Zentrale Farbdefinitionen basierend auf ChatGPT Eleganz */
-
-:root {
-  /* ANY EVER Primärfarben */
-  --any-ever-gold: #c0ae66;
-  --any-ever-black: #000000;
-  --any-ever-dark-grey: #434343;
-  --any-ever-light-grey: #999999;
-  --any-ever-stone-grey: #c0c0c0;
-  --any-ever-bright-grey: #eeeeee;
-  --any-ever-white: #ffffff;
-  
-  /* Schriftarten */
-  --font-primary: 'Montserrat', system-ui, -apple-system, sans-serif;
-  --font-secondary: 'Montserrat', system-ui, -apple-system, sans-serif;
-  
-  /* ChatGPT-style ultra-elegante Schriftgewichte */
-  --font-weight-bold: 200;     /* Ultra dünn für alle Headlines */
-  --font-weight-medium: 300;   /* Dünn für Subheadlines */
-  --font-weight-normal: 200;   /* Ultra dünn für Fließtext */
-  --font-weight-light: 100;    /* Extremer dünn für besondere Akzente */
-  
-  /* ChatGPT-style extremer Letter-spacing */
-  --letter-spacing-ultra: 12px;   /* Für "CREATIVE BRIEFING" Headlines */
-  --letter-spacing-wide: 8px;     /* Für Section-Titles */
-  --letter-spacing-medium: 4px;   /* Für Labels */
-  --letter-spacing-normal: 2px;   /* Für Button-Text */
-  
-  /* ChatGPT-style Layout-Farben */
-  --background-main: #eeeeee;      /* Heller Haupthintergrund */
-  --background-content: #ffffff;   /* Weißer Content-Bereich */
-  --border-light: #c0c0c0;        /* Subtile Borders */
-  --border-medium: #999999;       /* Standard Borders */
-  
-  /* Häufig verwendete Kombinationen */
+  /* Häufig verwendete Kombinationen & Brandbook-Erweiterungen */
   --gradient-gold: linear-gradient(135deg, var(--any-ever-gold) 0%, #a58f4a 100%);
+  --gradient-gold-subtle: linear-gradient(135deg, var(--any-ever-gold) 0%, #d4c285 100%);
   --shadow-gold: 0 10px 25px -5px rgba(192, 174, 102, 0.4);
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
   --focus-gold: 0 0 0 3px rgba(192, 174, 102, 0.1);
-}
-
-/* Montserrat Font Import mit allen Gewichten (100-700) */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
+  
+  /* Brandbook Icon & UI Colors */
+  --icon-primary: var(--any-ever-black);
+  --icon-secondary: var(--any-ever-light-grey);
+  --icon-gold: var(--any-ever-gold);
+  
+  /* Brandbook Button & Interactive States */
+  --button-background: var(--any-ever-gold);
+  --button-background-hover: #a58f4a;
+  --button-text: var(--any-ever-white);
+  --button-border-radius: 6px;
+  
+  /* Brandbook Spacing & Layout (basierend auf Präsentationslook) */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+  
+  /* Brandbook Content Width & Layout Grid */
+  --content-max-width: 1200px;
+  --header-height: 80px;
+  --footer-height: 60px;
