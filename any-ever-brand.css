@@ -1,0 +1,29 @@
+/* ANY EVER Brandbook 2024 - Zentrale Farbdefinitionen */
+
+:root {
+  /* ANY EVER Primärfarben */
+  --any-ever-gold: #c0ae66;
+  --any-ever-black: #000000;
+  --any-ever-dark-grey: #434343;
+  --any-ever-light-grey: #999999;
+  --any-ever-stone-grey: #c0c0c0;
+  --any-ever-bright-grey: #eeeeee;
+  --any-ever-white: #ffffff;
+  
+  /* Schriftarten */
+  --font-primary: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-secondary: 'Montserrat', system-ui, -apple-system, sans-serif;
+  
+  /* Schriftgewichte */
+  --font-weight-bold: 700;     /* Headlines */
+  --font-weight-medium: 600;   /* Fließtext ab 20pt */
+  --font-weight-normal: 400;   /* Fließtext ab 50pt */
+  
+  /* Häufig verwendete Kombinationen */
+  --gradient-gold: linear-gradient(135deg, var(--any-ever-gold) 0%, #b8a05a 100%);
+  --shadow-gold: 0 10px 25px -5px rgba(192, 174, 102, 0.4);
+  --focus-gold: 0 0 0 3px rgba(192, 174, 102, 0.1);
+}
+
+/* Montserrat Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
