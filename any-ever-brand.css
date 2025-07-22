@@ -14,10 +14,16 @@
   --font-primary: 'Montserrat', system-ui, -apple-system, sans-serif;
   --font-secondary: 'Montserrat', system-ui, -apple-system, sans-serif;
   
-  /* Schriftgewichte */
-  --font-weight-bold: 700;     /* Headlines */
-  --font-weight-medium: 600;   /* Fließtext ab 20pt */
-  --font-weight-normal: 400;   /* Fließtext ab 50pt */
+  /* Elegante, dünne Schriftgewichte */
+  --font-weight-bold: 300;     /* Dünn für Headlines */
+  --font-weight-medium: 400;   /* Normal für Subheadlines */
+  --font-weight-normal: 300;   /* Sehr dünn für Fließtext */
+  --font-weight-light: 200;    /* Extra dünn für besondere Akzente */
+  
+  /* Letter-spacing für elegante Typografie */
+  --letter-spacing-wide: 6px;     /* Für große Headlines */
+  --letter-spacing-medium: 3px;   /* Für Subheadlines */
+  --letter-spacing-normal: 1px;   /* Für normalen Text */
   
   /* Häufig verwendete Kombinationen */
   --gradient-gold: linear-gradient(135deg, var(--any-ever-gold) 0%, #b8a05a 100%);
@@ -25,5 +31,5 @@
   --focus-gold: 0 0 0 3px rgba(192, 174, 102, 0.1);
 }
 
-/* Montserrat Font Import */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+/* Montserrat Font Import mit allen Gewichten für Eleganz */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
