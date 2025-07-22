@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creative Briefing für Audio Spots | ANY EVER</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -17,9 +17,9 @@
         }
         
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--font-primary);
             line-height: 1.6;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             background: #f3f4f6;
             padding: 24px;
             overflow-x: hidden;
@@ -29,7 +29,7 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: var(--any-ever-white);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-radius: 16px;
             position: relative;
@@ -37,13 +37,13 @@
         }
         
         .header {
-            background: white;
+            background: var(--any-ever-white);
             padding: 60px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
             border-radius: 16px 16px 0 0;
-            border-bottom: 2px solid #DAA520;
+            border-bottom: 2px solid var(--any-ever-gold);
         }
         
         .back-button {
@@ -116,26 +116,26 @@
         .header h1 {
             font-size: 42px;
             margin-bottom: 20px;
-            font-weight: 300;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #1f2937;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: var(--letter-spacing-wide);
+            color: var(--any-ever-black);
+            font-family: var(--font-primary);
         }
         
         .header .subtitle {
             font-size: 18px;
             opacity: 0.9;
-            color: #6b7280;
-            font-weight: 300;
+            color: var(--any-ever-light-grey);
+            font-weight: var(--font-weight-normal);
             max-width: 600px;
             margin: 0 auto;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .form-content {
             padding: 60px 40px;
-            background: white;
+            background: var(--any-ever-white);
         }
         
         .section {
@@ -154,7 +154,7 @@
             left: 0;
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(218, 165, 32, 0.3) 50%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(192, 174, 102, 0.3) 50%, transparent 100%);
         }
         
         .section:last-child::after {
@@ -165,12 +165,12 @@
             display: inline-block;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: #ffffff;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
             border-radius: 50%;
             text-align: center;
             line-height: 40px;
-            font-weight: 700;
+            font-weight: var(--font-weight-medium);
             font-size: 18px;
             margin-right: 20px;
             margin-bottom: 20px;
@@ -178,14 +178,14 @@
         
         .section-title {
             font-size: 28px;
-            color: #1f2937;
+            color: var(--any-ever-black);
             margin-bottom: 30px;
-            font-weight: 300;
+            font-weight: var(--font-weight-normal);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: var(--letter-spacing-medium);
             display: flex;
             align-items: center;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .form-group {
@@ -208,13 +208,13 @@
         
         label {
             display: block;
-            font-weight: 500;
-            color: #374151;
+            font-weight: var(--font-weight-medium);
+            color: var(--any-ever-dark-grey);
             margin-bottom: 10px;
             font-size: 15px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: var(--letter-spacing-normal);
+            font-family: var(--font-primary);
         }
         
         .label-normal {
@@ -234,11 +234,11 @@
             border: 2px solid #d1d5db;
             border-radius: 8px;
             font-size: 16px;
-            background: white;
-            color: #374151;
+            background: var(--any-ever-white);
+            color: var(--any-ever-dark-grey);
             transition: all 0.3s ease;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-weight: 400;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
         }
         
         input[type="text"]:focus, 
@@ -248,9 +248,9 @@
         textarea:focus, 
         select:focus {
             outline: none;
-            border-color: #DAA520;
+            border-color: var(--any-ever-gold);
             background: #fefefe;
-            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+            box-shadow: var(--focus-gold);
             transform: translateY(-2px);
         }
         
@@ -303,18 +303,18 @@
             width: 20px;
             height: 20px;
             margin-right: 12px;
-            accent-color: #DAA520;
+            accent-color: var(--any-ever-gold);
             cursor: pointer;
         }
         
         .checkbox-item label {
             margin: 0;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             font-size: 14px;
             text-transform: none;
             letter-spacing: normal;
             cursor: pointer;
-            font-weight: 400;
+            font-weight: var(--font-weight-normal);
         }
         
         .radio-group {
@@ -344,18 +344,18 @@
             width: 18px;
             height: 18px;
             margin-right: 10px;
-            accent-color: #DAA520;
+            accent-color: var(--any-ever-gold);
             cursor: pointer;
         }
         
         .radio-item label {
             margin: 0;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             font-size: 14px;
             text-transform: none;
             letter-spacing: normal;
             cursor: pointer;
-            font-weight: 400;
+            font-weight: var(--font-weight-normal);
         }
         
         .submit-section {
@@ -367,29 +367,29 @@
         }
         
         .submit-btn {
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: #ffffff;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
             padding: 18px 50px;
             border: none;
             border-radius: 8px;
             font-size: 18px;
-            font-weight: 700;
+            font-weight: var(--font-weight-medium);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: var(--letter-spacing-normal);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px -5px rgba(218, 165, 32, 0.4);
+            box-shadow: var(--shadow-gold);
         }
         
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px -5px rgba(218, 165, 32, 0.5);
-            background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%);
+            box-shadow: 0 15px 35px -5px rgba(192, 174, 102, 0.5);
+            background: linear-gradient(135deg, #b8a05a 0%, var(--any-ever-gold) 100%);
         }
         
         .submit-text {
             margin-top: 20px;
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 16px;
             max-width: 500px;
             margin-left: auto;
