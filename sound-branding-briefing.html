@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sound Branding Briefing | ANY EVER</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
@@ -17,10 +15,10 @@
         }
         
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--font-primary);
             line-height: 1.6;
-            color: #374151;
-            background: #f3f4f6;
+            color: var(--any-ever-dark-grey);
+            background: var(--background-main);
             padding: 24px;
             overflow-x: hidden;
             font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -29,7 +27,7 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: var(--background-content);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-radius: 16px;
             position: relative;
@@ -37,22 +35,22 @@
         }
         
         .header {
-            background: white;
+            background: var(--background-content);
             padding: 60px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
             border-radius: 16px 16px 0 0;
-            border-bottom: 2px solid #DAA520;
+            border-bottom: 2px solid var(--any-ever-gold);
         }
         
         .back-button {
             position: absolute;
             top: 20px;
             right: 30px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            color: #374151;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
+            color: var(--any-ever-dark-grey);
             padding: 8px 16px;
             border-radius: 20px;
             text-decoration: none;
@@ -63,8 +61,8 @@
         }
         
         .back-button:hover {
-            background: #f3f4f6;
-            border-color: #d1d5db;
+            background: var(--background-main);
+            border-color: var(--border-medium);
             transform: translateY(-1px);
         }
         
@@ -104,47 +102,38 @@
             opacity: 0.95;
         }
         
-        .logo-text {
-            font-size: 18px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: #DAA520;
+        .enjoy-audio {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--any-ever-black);
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
         
         .header h1 {
             font-size: 42px;
             margin-bottom: 20px;
-            font-weight: 300;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #1f2937;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: var(--letter-spacing-ultra);
+            color: var(--any-ever-black);
+            font-family: var(--font-primary);
         }
         
         .header .subtitle {
             font-size: 18px;
             opacity: 0.9;
-            color: #6b7280;
-            font-weight: 300;
+            color: var(--any-ever-light-grey);
+            font-weight: var(--font-weight-normal);
             max-width: 600px;
             margin: 0 auto;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-        
-        .enjoy-audio {
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            color: #000000;
-            text-transform: uppercase;
-            margin-top: 10px;
+            font-family: var(--font-primary);
         }
         
         .form-content {
             padding: 60px 40px;
-            background: white;
+            background: var(--background-content);
         }
         
         .section {
@@ -163,7 +152,7 @@
             left: 0;
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(218, 165, 32, 0.3) 50%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(192, 174, 102, 0.3) 50%, transparent 100%);
         }
         
         .section:last-child::after {
@@ -174,12 +163,12 @@
             display: inline-block;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: #ffffff;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
             border-radius: 50%;
             text-align: center;
             line-height: 40px;
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             font-size: 18px;
             margin-right: 20px;
             margin-bottom: 20px;
@@ -187,14 +176,14 @@
         
         .section-title {
             font-size: 28px;
-            color: #1f2937;
+            color: var(--any-ever-black);
             margin-bottom: 30px;
-            font-weight: 300;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: var(--letter-spacing-wide);
             display: flex;
             align-items: center;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .form-group {
@@ -210,13 +199,13 @@
         
         label {
             display: block;
-            font-weight: 500;
-            color: #374151;
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-dark-grey);
             margin-bottom: 10px;
             font-size: 15px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: var(--letter-spacing-medium);
+            font-family: var(--font-primary);
         }
         
         input[type="text"], 
@@ -226,14 +215,14 @@
         select {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid #d1d5db;
+            border: 2px solid var(--border-medium);
             border-radius: 8px;
             font-size: 16px;
-            background: white;
-            color: #374151;
+            background: var(--background-content);
+            color: var(--any-ever-dark-grey);
             transition: all 0.3s ease;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-weight: 400;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
         }
         
         input[type="text"]:focus, 
@@ -242,9 +231,9 @@
         textarea:focus, 
         select:focus {
             outline: none;
-            border-color: #DAA520;
+            border-color: var(--any-ever-gold);
             background: #fefefe;
-            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+            box-shadow: var(--focus-gold);
             transform: translateY(-2px);
         }
         
@@ -275,16 +264,16 @@
             display: flex;
             align-items: center;
             padding: 15px 20px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
             border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
         }
         
         .checkbox-item:hover {
-            background: #fef3c7;
-            border-color: #fbbf24;
+            background: var(--any-ever-bright-grey);
+            border-color: var(--any-ever-gold);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
@@ -293,18 +282,18 @@
             width: 20px;
             height: 20px;
             margin-right: 12px;
-            accent-color: #DAA520;
+            accent-color: var(--any-ever-gold);
             cursor: pointer;
         }
         
         .checkbox-item label {
             margin: 0;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             font-size: 14px;
             text-transform: none;
             letter-spacing: normal;
             cursor: pointer;
-            font-weight: 400;
+            font-weight: var(--font-weight-normal);
         }
         
         .radio-group {
@@ -318,77 +307,68 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
             border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
         }
         
         .radio-item:hover {
-            background: #fef3c7;
-            border-color: #fbbf24;
+            background: var(--any-ever-bright-grey);
+            border-color: var(--any-ever-gold);
         }
         
         .radio-item input[type="radio"] {
             width: 18px;
             height: 18px;
             margin-right: 10px;
-            accent-color: #DAA520;
+            accent-color: var(--any-ever-gold);
             cursor: pointer;
         }
         
         .radio-item label {
             margin: 0;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             font-size: 14px;
             text-transform: none;
             letter-spacing: normal;
             cursor: pointer;
-            font-weight: 400;
-        }
-        
-        .budget-hint {
-            font-size: 13px;
-            color: #b45309;
-            font-style: italic;
-            margin-top: 8px;
-            text-transform: none;
-            letter-spacing: normal;
+            font-weight: var(--font-weight-normal);
         }
         
         .submit-section {
-            background: #f8fafc;
+            background: var(--any-ever-bright-grey);
             padding: 50px 40px;
             text-align: center;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--border-light);
             border-radius: 0 0 16px 16px;
         }
         
         .submit-btn {
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: #ffffff;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
             padding: 18px 50px;
             border: none;
             border-radius: 8px;
             font-size: 18px;
-            font-weight: 700;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: var(--letter-spacing-medium);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px -5px rgba(218, 165, 32, 0.4);
+            box-shadow: var(--shadow-gold);
         }
         
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px -5px rgba(218, 165, 32, 0.5);
-            background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%);
+            box-shadow: 0 15px 35px -5px rgba(192, 174, 102, 0.5);
+            background: linear-gradient(135deg, #a58f4a 0%, var(--any-ever-gold) 100%);
         }
         
         .submit-text {
             margin-top: 20px;
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 16px;
             max-width: 500px;
             margin-left: auto;
@@ -396,31 +376,14 @@
         }
         
         .form-saved-indicator {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: #ffffff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
-        }
-        
-        .form-saved-indicator.show {
-            opacity: 1;
-            transform: translateX(0);
+            display: none;
         }
         
         .anyever-footer {
-            background: #1f2937;
+            background: var(--any-ever-black);
             padding: 30px 40px;
             text-align: center;
-            border-top: 2px solid #DAA520;
+            border-top: 2px solid var(--any-ever-gold);
             border-radius: 0 0 16px 16px;
         }
         
@@ -431,50 +394,10 @@
         }
         
         .anyever-footer .tagline {
-            color: #d1d5db;
+            color: var(--any-ever-light-grey);
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-        
-        @media print {
-            body {
-                background: white;
-                color: black;
-            }
-            
-            .container {
-                box-shadow: none;
-                border: 1px solid #000;
-                background: white;
-            }
-            
-            .submit-section,
-            .form-saved-indicator {
-                display: none;
-            }
-            
-            .header {
-                background: #f5f5f5 !important;
-                color: black !important;
-                -webkit-print-color-adjust: exact;
-            }
-            
-            .header h1,
-            .logo-text,
-            .enjoy-audio {
-                color: #000 !important;
-            }
-            
-            .form-content {
-                background: white;
-                color: black;
-            }
-            
-            label,
-            .section-title {
-                color: black !important;
-            }
         }
         
         @media (max-width: 768px) {
@@ -510,11 +433,6 @@
             .radio-group {
                 flex-direction: column;
                 gap: 15px;
-            }
-            
-            .enjoy-audio {
-                position: static;
-                margin-bottom: 20px;
             }
             
             .submit-section {
@@ -803,7 +721,7 @@
                 </div>
             </div>
 
-            <!-- Abschnitt 7: Zeitplan & Budget -->
+            <!-- Abschnitt 7: Zeitplan -->
             <div class="section">
                 <h2 class="section-title">
                     <span class="section-number">07</span>
@@ -907,13 +825,6 @@
             });
             
             localStorage.setItem('audioBriefingForm', JSON.stringify(data));
-            
-            // Speicher-Indikator anzeigen
-            const indicator = document.getElementById('savedIndicator');
-            indicator.classList.add('show');
-            setTimeout(() => {
-                indicator.classList.remove('show');
-            }, 2000);
         }
         
         // Formulardaten laden
