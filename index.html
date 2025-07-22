@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANY EVER | Creative Tools</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -17,9 +17,9 @@
         }
         
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: var(--font-primary);
             line-height: 1.6;
-            color: #374151;
+            color: var(--any-ever-dark-grey);
             background: #f3f4f6;
             padding: 24px;
             font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -29,7 +29,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--any-ever-white);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-radius: 16px;
             position: relative;
@@ -37,13 +37,13 @@
         }
         
         .header {
-            background: white;
+            background: var(--any-ever-white);
             padding: 60px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
             border-radius: 16px 16px 0 0;
-            border-bottom: 2px solid #DAA520;
+            border-bottom: 2px solid var(--any-ever-gold);
         }
         
         .header::before {
@@ -90,26 +90,26 @@
         .header h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            font-weight: 300;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
             letter-spacing: 4px;
-            color: #1f2937;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: var(--any-ever-black);
+            font-family: var(--font-primary);
         }
         
         .header .subtitle {
             font-size: 20px;
             opacity: 0.9;
-            color: #6b7280;
-            font-weight: 300;
+            color: var(--any-ever-light-grey);
+            font-weight: var(--font-weight-normal);
             max-width: 700px;
             margin: 0 auto;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .main-content {
             padding: 60px 40px;
-            background: white;
+            background: var(--any-ever-white);
         }
         
         .tools-section {
@@ -172,7 +172,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            background: var(--gradient-gold);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease;
@@ -198,18 +198,18 @@
             justify-content: center;
             border-radius: 20px;
             font-size: 36px;
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: white;
-            font-weight: 300;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
+            font-weight: var(--font-weight-normal);
         }
         
         .tool-card h3 {
             font-size: 32px;
-            color: #1f2937;
+            color: var(--any-ever-black);
             margin-bottom: 15px;
-            font-weight: 600;
+            font-weight: var(--font-weight-bold);
             text-align: center;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -217,7 +217,7 @@
         }
         
         .tool-card p {
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 16px;
             text-align: center;
             line-height: 1.6;
@@ -237,7 +237,7 @@
         }
         
         .tool-features li {
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 14px;
             padding: 6px 0;
             position: relative;
@@ -246,20 +246,20 @@
         
         .tool-features li::before {
             content: '✓';
-            color: #DAA520;
+            color: var(--any-ever-gold);
             font-weight: 600;
             position: absolute;
             left: 0;
         }
         
         .cta-button {
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: white;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: var(--font-weight-medium);
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
@@ -269,12 +269,12 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px -5px rgba(218, 165, 32, 0.4);
+            box-shadow: var(--shadow-gold);
         }
         
         .info-section {
@@ -287,16 +287,16 @@
         
         .info-section h2 {
             font-size: 28px;
-            color: #1f2937;
+            color: var(--any-ever-black);
             margin-bottom: 20px;
-            font-weight: 300;
+            font-weight: var(--font-weight-bold);
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font-primary);
         }
         
         .info-section p {
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 16px;
             line-height: 1.7;
             max-width: 800px;
@@ -311,30 +311,30 @@
         }
         
         .contact-card {
-            background: white;
+            background: var(--any-ever-white);
             padding: 25px;
             border-radius: 12px;
             border: 1px solid #e5e7eb;
         }
         
         .contact-card h3 {
-            color: #1f2937;
+            color: var(--any-ever-black);
             font-size: 18px;
             margin-bottom: 10px;
-            font-weight: 600;
+            font-weight: var(--font-weight-medium);
         }
         
         .contact-card p {
-            color: #6b7280;
+            color: var(--any-ever-light-grey);
             font-size: 14px;
             margin: 0;
         }
         
         .anyever-footer {
-            background: #1f2937;
+            background: var(--any-ever-black);
             padding: 30px 40px;
             text-align: center;
-            border-top: 2px solid #DAA520;
+            border-top: 2px solid var(--any-ever-gold);
             border-radius: 0 0 16px 16px;
         }
         
