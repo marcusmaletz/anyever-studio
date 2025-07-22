@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Briefing | ANY EVER</title>
+    <title>Creative Briefing für Audio Spots | ANY EVER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -397,24 +397,7 @@
         }
         
         .form-saved-indicator {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: #ffffff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
-        }
-        
-        .form-saved-indicator.show {
-            opacity: 1;
-            transform: translateX(0);
+            display: none;
         }
         
         .anyever-footer {
@@ -503,7 +486,7 @@
                     </a>
                     <div class="enjoy-audio">ENJOY.AUDIO</div>
                 </div>
-                <h1>Creative Briefing<br>Audio Spot</h1>
+                <h1>Creative Briefing<br>Audio Spots</h1>
                 <p class="subtitle">Für die perfekte Kampagne brauchen wir alle Details.<br>
                 <strong>Gemeinsam entwickeln wir Ihre kreative Lösung.</strong></p>
             </div>
@@ -643,31 +626,29 @@
                     Pflichtbestandteile
                 </h2>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="claim">Claim</label>
-                        <input type="text" id="claim" name="claim" placeholder="Ihr Werbespruch/Slogan">
-                    </div>
-                    <div class="form-group">
-                        <label for="url">URL</label>
-                        <input type="url" id="url" name="url" placeholder="https://www.beispiel.de">
-                    </div>
+                <div class="form-group">
+                    <label for="claim">Claim</label>
+                    <input type="text" id="claim" name="claim" placeholder="Ihr Werbespruch/Slogan">
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="soundlogo">Soundlogo</label>
-                        <input type="text" id="soundlogo" name="soundlogo" placeholder="Link zum Soundlogo oder Beschreibung">
-                    </div>
-                    <div class="form-group">
-                        <label for="brand-voice">Brand Voice</label>
-                        <input type="text" id="brand-voice" name="brand-voice" placeholder="Stimme/Sprecher-Vorgaben">
-                    </div>
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input type="url" id="url" name="url" placeholder="https://www.beispiel.de">
+                </div>
+                
+                <div class="form-group">
+                    <label for="soundlogo">Soundlogo</label>
+                    <input type="text" id="soundlogo" name="soundlogo" placeholder="Link zum Soundlogo oder Beschreibung">
+                </div>
+                
+                <div class="form-group">
+                    <label for="brand-voice">Brand Voice</label>
+                    <input type="text" id="brand-voice" name="brand-voice" placeholder="Stimme/Sprecher-Vorgaben">
                 </div>
                 
                 <div class="form-group">
                     <label for="musik">Musik</label>
-                    <textarea id="musik" name="musik" class="textarea-small" placeholder="Musikwünsche oder Link zu Referenzen"></textarea>
+                    <textarea id="musik" name="musik" class="textarea-small" placeholder="Musikvorstellungen oder Link zu Referenzen"></textarea>
                 </div>
             </div>
 
@@ -716,10 +697,49 @@
                 </div>
             </div>
 
-            <!-- Abschnitt 13: Medienplanung -->
+            <!-- Abschnitt 13: Kommunikationskanäle -->
             <div class="section">
                 <h2 class="section-title">
                     <span class="section-number">13</span>
+                    Kommunikationskanäle
+                </h2>
+                
+                <div class="form-group">
+                    <label>Wo soll der Audio-Spot ausgestrahlt werden? *</label>
+                    <div class="example-text">Mehrfachauswahl möglich</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kanal-radio" name="kommunikationskanaele" value="radio">
+                            <label for="kanal-radio">Radio</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kanal-online-audio" name="kommunikationskanaele" value="online-audio">
+                            <label for="kanal-online-audio">Online Audio</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kanal-podcast" name="kommunikationskanaele" value="podcast">
+                            <label for="kanal-podcast">Podcast</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kanal-ingame" name="kommunikationskanaele" value="ingame-audio">
+                            <label for="kanal-ingame">InGame-Audio</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kanal-sonstiges" name="kommunikationskanaele" value="sonstiges" onclick="document.getElementById('sonstiges-field').style.display = this.checked ? 'block' : 'none'; if(!this.checked) document.getElementById('sonstiges-details').value = '';">
+                            <label for="kanal-sonstiges">Sonstiges</label>
+                        </div>
+                    </div>
+                    
+                    <div id="sonstiges-field" style="display: none; margin-top: 15px;">
+                        <input type="text" id="sonstiges-details" placeholder="Welcher Kanal?" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschnitt 14: Medienplanung -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">14</span>
                     Medienplanung
                 </h2>
                 
@@ -756,10 +776,10 @@
                 </div>
             </div>
 
-            <!-- Abschnitt 14: Sonstiges -->
+            <!-- Abschnitt 15: Sonstiges -->
             <div class="section">
                 <h2 class="section-title">
-                    <span class="section-number">14</span>
+                    <span class="section-number">15</span>
                     Sonstiges
                 </h2>
                 
@@ -913,8 +933,25 @@
             emailBody += "-".repeat(19) + "\n";
             emailBody += `${formData.get('parallele-werbemassnahmen') || 'Nicht angegeben'}\n\n`;
             
-            // 13. Medienplanung
-            emailBody += "13 | MEDIENPLANUNG\n";
+            // 13. Kommunikationskanäle
+            emailBody += "13 | KOMMUNIKATIONSKANÄLE\n";
+            emailBody += "-".repeat(25) + "\n";
+            const kommunikationskanaele = formData.getAll('kommunikationskanaele');
+            if (kommunikationskanaele.length > 0) {
+                let kanaeleText = kommunikationskanaele.join(', ');
+                // Sonstiges-Details hinzufügen, falls ausgefüllt
+                const sonstigesDetails = document.getElementById('sonstiges-details').value;
+                if (kommunikationskanaele.includes('sonstiges') && sonstigesDetails) {
+                    kanaeleText = kanaeleText.replace('sonstiges', `sonstiges (${sonstigesDetails})`);
+                }
+                emailBody += `Ausstrahlungskanäle: ${kanaeleText}\n`;
+            } else {
+                emailBody += `Ausstrahlungskanäle: Nicht angegeben\n`;
+            }
+            emailBody += "\n";
+            
+            // 14. Medienplanung
+            emailBody += "14 | MEDIENPLANUNG\n";
             emailBody += "-".repeat(18) + "\n";
             emailBody += `Ausstrahlungsgebiet: ${formData.get('ausstrahlungsgebiet') || 'Nicht angegeben'}\n`;
             emailBody += `Kampagnenzeitraum: ${formData.get('kampagnenzeitraum') || 'Nicht angegeben'}\n`;
@@ -923,8 +960,8 @@
             emailBody += `Maximale Spotlänge: ${formData.get('maximale-spotlaenge') || 'Nicht angegeben'}\n`;
             emailBody += `Gewünschte Sender: ${formData.get('gewuenschte-sender') || 'Nicht angegeben'}\n\n`;
             
-            // 14. Sonstiges
-            emailBody += "14 | SONSTIGES\n";
+            // 15. Sonstiges
+            emailBody += "15 | SONSTIGES\n";
             emailBody += "-".repeat(13) + "\n";
             emailBody += `${formData.get('sonstiges') || 'Nicht angegeben'}\n\n`;
             
@@ -988,4 +1025,3 @@
     </script>
 </body>
 </html>
-        
