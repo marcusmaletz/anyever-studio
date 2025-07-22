@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Marketing | ANY EVER</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="any-ever-brand.css">
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      /* Content Marketing Specific Styles - erweitert ANY EVER Brand CSS */
       
       * {
         margin: 0;
@@ -17,31 +15,31 @@
       }
       
       body {
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-family: var(--font-primary);
         line-height: 1.6;
-        color: #374151;
-        background: #f3f4f6;
+        color: var(--any-ever-black);
+        background: var(--background-main);
         padding: 24px;
-        font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        font-weight: var(--font-weight-normal);
       }
       
       .container {
         max-width: 900px;
         margin: 0 auto;
-        background: white;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        background: var(--background-content);
+        box-shadow: var(--shadow-gold);
         border-radius: 16px;
         margin-bottom: 30px;
       }
       
       .header {
-        background: white;
+        background: var(--background-content);
         padding: 40px 40px 30px;
         text-align: center;
         position: relative;
         overflow: hidden;
         border-radius: 16px 16px 0 0;
-        border-bottom: 2px solid #DAA520;
+        border-bottom: 2px solid var(--any-ever-gold);
       }
       
       .request-counter {
@@ -49,33 +47,36 @@
         top: 20px;
         left: 30px;
         font-size: 14px;
-        color: #6b7280;
-        background: #f9fafb;
+        color: var(--any-ever-light-grey);
+        background: var(--any-ever-bright-grey);
         padding: 8px 16px;
         border-radius: 20px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-light);
         z-index: 10;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-medium);
       }
       
       .back-button {
         position: absolute;
         top: 20px;
         right: 30px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        color: #374151;
+        background: var(--any-ever-bright-grey);
+        border: 1px solid var(--border-light);
+        color: var(--any-ever-black);
         padding: 8px 16px;
         border-radius: 20px;
         text-decoration: none;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         transition: all 0.3s ease;
         z-index: 10;
+        font-family: var(--font-primary);
       }
       
       .back-button:hover {
-        background: #f3f4f6;
-        border-color: #d1d5db;
+        background: var(--any-ever-stone-grey);
+        border-color: var(--border-medium);
         transform: translateY(-1px);
       }
       
@@ -117,62 +118,37 @@
       
       .enjoy-audio {
         font-size: 14px;
-        font-weight: 400;
-        letter-spacing: 1px;
-        color: #000000;
+        font-weight: var(--font-weight-medium);
+        letter-spacing: var(--letter-spacing-medium);
+        color: var(--any-ever-black);
         text-transform: uppercase;
         margin-top: 5px;
+        font-family: var(--font-primary);
       }
       
       .header h1 {
         font-size: 32px;
         margin-bottom: 15px;
-        font-weight: 300;
+        font-weight: var(--font-weight-bold);
         text-transform: uppercase;
-        letter-spacing: 2px;
-        color: #1f2937;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        letter-spacing: var(--letter-spacing-wide);
+        color: var(--any-ever-black);
+        font-family: var(--font-primary);
       }
-      
-        .back-button {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            color: #374151;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        
-        .back-button:hover {
-            background: #f3f4f6;
-            border-color: #d1d5db;
-            transform: translateY(-1px);
-        }
-        
-        .logo-container a {
-            text-decoration: none;
-        }
       
       .form-content {
         padding: 40px;
-        background: white;
+        background: var(--background-content);
       }
       
       .section-title {
         font-size: 24px;
-        color: #1f2937;
+        color: var(--any-ever-black);
         margin-bottom: 25px;
-        font-weight: 300;
+        font-weight: var(--font-weight-bold);
         text-transform: uppercase;
-        letter-spacing: 1px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        letter-spacing: var(--letter-spacing-wide);
+        font-family: var(--font-primary);
       }
       
       .form-group {
@@ -181,13 +157,13 @@
       
       label {
         display: block;
-        font-weight: 500;
-        color: #374151;
+        font-weight: var(--font-weight-medium);
+        color: var(--any-ever-black);
         margin-bottom: 8px;
         font-size: 14px;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        letter-spacing: var(--letter-spacing-medium);
+        font-family: var(--font-primary);
       }
       
       input[type="text"], 
@@ -195,23 +171,23 @@
       textarea {
         width: 100%;
         padding: 15px 20px;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--border-light);
         border-radius: 8px;
         font-size: 16px;
-        background: white;
-        color: #374151;
+        background: var(--background-content);
+        color: var(--any-ever-black);
         transition: all 0.3s ease;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: 400;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-normal);
       }
       
       input[type="text"]:focus, 
       input[type="url"]:focus, 
       textarea:focus {
         outline: none;
-        border-color: #DAA520;
-        background: #fefefe;
-        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        border-color: var(--any-ever-gold);
+        background: var(--any-ever-white);
+        box-shadow: var(--focus-gold);
         transform: translateY(-2px);
       }
       
@@ -231,13 +207,14 @@
         padding: 15px 20px;
         border-radius: 8px;
         margin-bottom: 20px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         text-align: center;
+        font-family: var(--font-primary);
       }
       
       .loading-spinner {
-        border: 2px solid #f3f3f3;
-        border-top: 2px solid #DAA520;
+        border: 2px solid var(--any-ever-bright-grey);
+        border-top: 2px solid var(--any-ever-gold);
         border-radius: 50%;
         width: 20px;
         height: 20px;
@@ -253,94 +230,148 @@
       
       .rate-limit-timer {
         background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-        color: white;
+        color: var(--any-ever-white);
         padding: 15px 20px;
         border-radius: 8px;
-        font-weight: 600;
+        font-weight: var(--font-weight-medium);
         text-align: center;
         margin-bottom: 20px;
+        font-family: var(--font-primary);
       }
       
       .content-type-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 15px;
         margin-top: 20px;
       }
       
       .content-type-card {
-        background: #f9fafb;
-        border: 2px solid #e5e7eb;
+        background: var(--background-content);
+        border: 1px solid #f0f0f0;
         border-radius: 8px;
         padding: 15px;
         transition: all 0.3s ease;
         cursor: pointer;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
       }
       
       .content-type-card:hover {
-        background: #f3f4f6;
-        border-color: #d1d5db;
+        border-color: rgba(192, 174, 102, 0.3);
         transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(192, 174, 102, 0.1);
       }
       
       .content-type-card.selected {
-        border-color: #d1d5db;
-        background: #f3f4f6;
-        box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
+        border-color: var(--any-ever-gold);
+        background: #f8f8f8;
+        box-shadow: var(--focus-gold);
+        transform: translateY(-1px);
+      }
+
+      .content-type-card.coming-soon {
+        background: var(--background-content);
+        border: 1px dashed #d1d5db;
+        cursor: pointer;
+        opacity: 0.7;
+        position: relative;
+      }
+
+      .content-type-card.coming-soon:hover {
+        border-color: rgba(192, 174, 102, 0.4);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(192, 174, 102, 0.08);
+        opacity: 0.8;
+      }
+
+      .content-type-card.coming-soon.selected {
+        border: 1px dashed var(--any-ever-gold);
+        background: #f8f8f8;
+        box-shadow: 0 0 0 2px rgba(192, 174, 102, 0.1);
+        transform: translateY(-1px);
+        opacity: 0.8;
+      }
+
+      .content-type-card.coming-soon label {
+        color: #6b7280;
+      }
+
+      .content-type-card.coming-soon .format-badge {
+        background: #9ca3af;
+        color: var(--any-ever-white);
+      }
+
+      .coming-soon-badge {
+        display: inline-block;
+        background: #9ca3af;
+        color: var(--any-ever-white);
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-size: 10px;
+        margin-top: 5px;
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-primary);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(156, 163, 175, 0.2);
       }
       
       .content-type-card input[type="checkbox"] {
         width: 18px;
         height: 18px;
         margin-right: 12px;
-        accent-color: #DAA520;
+        accent-color: var(--any-ever-gold);
         cursor: pointer;
       }
       
       .content-type-card label {
         margin: 0;
-        color: #374151;
+        color: var(--any-ever-black);
         font-size: 14px;
         text-transform: none;
         letter-spacing: normal;
         cursor: pointer;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         display: flex;
         align-items: center;
+        font-family: var(--font-primary);
       }
       
       .format-badge {
         display: inline-block;
-        background: #e5e7eb;
-        color: #6b7280;
-        padding: 2px 8px;
+        background: var(--any-ever-gold);
+        color: var(--any-ever-white);
+        padding: 3px 10px;
         border-radius: 12px;
         font-size: 11px;
         margin-top: 8px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-primary);
+        letter-spacing: 0.5px;
       }
       
       .submit-btn, .review-btn, .manual-btn {
-        background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-        color: #ffffff;
+        background: var(--gradient-gold);
+        color: var(--any-ever-white);
         padding: 15px 40px;
         border: none;
         border-radius: 8px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: var(--font-weight-medium);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: var(--letter-spacing-normal);
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 8px 20px -5px rgba(218, 165, 32, 0.4);
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        box-shadow: var(--shadow-gold);
+        font-family: var(--font-primary);
       }
       
       .submit-btn:hover, .review-btn:hover, .manual-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 25px -5px rgba(218, 165, 32, 0.5);
-        background: linear-gradient(135deg, #B8860B 0%, #DAA520 100%);
+        box-shadow: 0 12px 25px -5px rgba(192, 174, 102, 0.5);
+        background: linear-gradient(135deg, #a58f4a 0%, var(--any-ever-gold) 100%);
       }
       
       .submit-btn:disabled, .review-btn:disabled, .manual-btn:disabled {
@@ -350,26 +381,26 @@
       }
       
       .manual-btn {
-        background: #6b7280;
+        background: var(--any-ever-light-grey);
         margin-right: 15px;
       }
       
       .manual-btn:hover {
-        background: #4b5563;
+        background: var(--any-ever-dark-grey);
       }
       
       .content-section {
         margin-bottom: 30px;
         padding: 25px;
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--border-light);
         border-radius: 12px;
-        background: #f9fafb;
+        background: var(--any-ever-bright-grey);
         transition: all 0.3s ease;
       }
       
       .content-section:hover {
-        border-color: #DAA520;
-        background: white;
+        border-color: var(--any-ever-gold);
+        background: var(--background-content);
       }
       
       .content-section textarea {
@@ -379,29 +410,31 @@
       .content-section select {
         width: 100%;
         padding: 12px 16px;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--border-light);
         border-radius: 8px;
         font-size: 14px;
-        background: white;
-        color: #374151;
+        background: var(--background-content);
+        color: var(--any-ever-black);
         margin-top: 10px;
         transition: all 0.3s ease;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-normal);
       }
       
       .content-section select:focus {
         outline: none;
-        border-color: #DAA520;
-        box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        border-color: var(--any-ever-gold);
+        box-shadow: var(--focus-gold);
       }
       
       .status-badge {
         padding: 6px 12px;
         border-radius: 20px;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: var(--font-weight-medium);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: var(--letter-spacing-normal);
+        font-family: var(--font-primary);
       }
       
       .post-action-buttons {
@@ -415,11 +448,11 @@
         padding: 8px 16px;
         border-radius: 6px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: var(--font-weight-medium);
         cursor: pointer;
         transition: all 0.2s;
         border: none;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: var(--font-primary);
       }
       
       .action-btn:disabled {
@@ -429,7 +462,7 @@
       
       .btn-post { 
         background: #10b981; 
-        color: white; 
+        color: var(--any-ever-white); 
       }
       .btn-post:hover:not(:disabled) { 
         background: #059669; 
@@ -438,7 +471,7 @@
       
       .btn-schedule { 
         background: #3b82f6; 
-        color: white; 
+        color: var(--any-ever-white); 
       }
       .btn-schedule:hover:not(:disabled) { 
         background: #2563eb; 
@@ -446,11 +479,11 @@
       }
       
       .btn-draft { 
-        background: #6b7280; 
-        color: white; 
+        background: var(--any-ever-light-grey); 
+        color: var(--any-ever-white); 
       }
       .btn-draft:hover:not(:disabled) { 
-        background: #4b5563; 
+        background: var(--any-ever-dark-grey); 
         transform: translateY(-1px);
       }
       
@@ -458,14 +491,14 @@
         text-align: right;
         margin-top: 30px;
         padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--border-light);
       }
       
       .anyever-footer {
-        background: #1f2937;
+        background: var(--any-ever-black);
         padding: 25px 40px;
         text-align: center;
-        border-top: 2px solid #DAA520;
+        border-top: 2px solid var(--any-ever-gold);
         border-radius: 0 0 16px 16px;
       }
       
@@ -476,10 +509,12 @@
       }
       
       .anyever-footer .tagline {
-        color: #d1d5db;
+        color: var(--any-ever-stone-grey);
         font-size: 12px;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: var(--letter-spacing-normal);
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-medium);
       }
       
       @media (max-width: 768px) {
@@ -588,114 +623,137 @@
         <div class="form-group">
           <label>Content-Kanäle auswählen (mindestens einen)</label>
           
-          <!-- Erste Reihe: LinkedIn, Facebook, Blog -->
-          <div class="content-type-grid">
-            <!-- LinkedIn -->
-            <div class="content-type-card" id="card-linkedin">
-              <label>
-                <input type="checkbox" id="enable_linkedin" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">LinkedIn Post</div>
-                  <div style="font-size: 12px; color: #6b7280;">Business Content</div>
-                  <span class="format-badge">1:1</span>
-                </div>
-              </label>
+          <!-- Business Content Section -->
+          <div style="margin-top: 25px; margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Business Content</h3>
+            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+              <!-- Newsletter -->
+              <div class="content-type-card" id="card-newsletter">
+                <label>
+                  <input type="checkbox" id="enable_newsletter" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Newsletter</div>
+                    <div style="font-size: 12px; color: #6b7280;">E-Mail Marketing</div>
+                    <span class="format-badge">E-Mail</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Blog -->
+              <div class="content-type-card" id="card-blog">
+                <label>
+                  <input type="checkbox" id="enable_blog" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Blog Artikel</div>
+                    <div style="font-size: 12px; color: #6b7280;">Langform Content</div>
+                    <span class="format-badge">16:9</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Media Section -->
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Social Media</h3>
+            
+            <!-- Erste Reihe: LinkedIn und Facebook -->
+            <div class="content-type-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 15px;">
+              <!-- LinkedIn -->
+              <div class="content-type-card" id="card-linkedin">
+                <label>
+                  <input type="checkbox" id="enable_linkedin" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">LinkedIn Post</div>
+                    <div style="font-size: 12px; color: #6b7280;">Business Content</div>
+                    <span class="format-badge">1:1</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Facebook -->
+              <div class="content-type-card" id="card-facebook">
+                <label>
+                  <input type="checkbox" id="enable_facebook" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Facebook Post</div>
+                    <div style="font-size: 12px; color: #6b7280;">Social Media</div>
+                    <span class="format-badge">1:1</span>
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <!-- Facebook -->
-            <div class="content-type-card" id="card-facebook">
-              <label>
-                <input type="checkbox" id="enable_facebook" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Facebook Post</div>
-                  <div style="font-size: 12px; color: #6b7280;">Social Media</div>
-                  <span class="format-badge">1080x1080</span>
-                </div>
-              </label>
-            </div>
+            <!-- Zweite Reihe: Alle Instagram Kanäle -->
+            <div class="content-type-grid" style="grid-template-columns: repeat(3, 1fr);">
+              <!-- Instagram Feed -->
+              <div class="content-type-card" id="card-instagram_feed">
+                <label>
+                  <input type="checkbox" id="enable_instagram_feed" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Instagram Feed</div>
+                    <div style="font-size: 12px; color: #6b7280;">Quadratisch</div>
+                    <span class="format-badge">1:1</span>
+                  </div>
+                </label>
+              </div>
 
-            <!-- Blog -->
-            <div class="content-type-card" id="card-blog">
-              <label>
-                <input type="checkbox" id="enable_blog" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Blog Artikel</div>
-                  <div style="font-size: 12px; color: #6b7280;">Langform Content</div>
-                  <span class="format-badge">16:9</span>
-                </div>
-              </label>
-            </div>
+              <!-- Instagram Story - Coming Soon -->
+              <div class="content-type-card coming-soon" id="card-instagram_story">
+                <label>
+                  <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Instagram Story</div>
+                    <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
+                    <span class="format-badge">9:16</span>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                  </div>
+                </label>
+              </div>
 
-            <!-- Instagram Feed -->
-            <div class="content-type-card" id="card-instagram_feed">
-              <label>
-                <input type="checkbox" id="enable_instagram_feed" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Instagram Feed</div>
-                  <div style="font-size: 12px; color: #6b7280;">Quadratisch</div>
-                  <span class="format-badge">1:1</span>
-                </div>
-              </label>
+              <!-- Instagram Reel - Coming Soon -->
+              <div class="content-type-card coming-soon" id="card-instagram_reel">
+                <label>
+                  <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Instagram Reel</div>
+                    <div style="font-size: 12px; color: #6b7280;">Video Content</div>
+                    <span class="format-badge">9:16 Video</span>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                  </div>
+                </label>
+              </div>
             </div>
+          </div>
 
-            <!-- Instagram Story -->
-            <div class="content-type-card" id="card-instagram_story">
-              <label>
-                <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Instagram Story</div>
-                  <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
-                  <span class="format-badge">9:16</span>
-                </div>
-              </label>
-            </div>
+          <!-- Sonderformate Section -->
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Sonderformate</h3>
+            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+              <!-- Podcast -->
+              <div class="content-type-card" id="card-podcast">
+                <label>
+                  <input type="checkbox" id="enable_podcast" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Audio-Podcast</div>
+                    <div style="font-size: 12px; color: #6b7280;">Audio Content</div>
+                    <span class="format-badge">Text-to-Speech</span>
+                  </div>
+                </label>
+              </div>
 
-            <!-- Instagram Reel -->
-            <div class="content-type-card" id="card-instagram_reel">
-              <label>
-                <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Instagram Reel</div>
-                  <div style="font-size: 12px; color: #6b7280;">Video Content</div>
-                  <span class="format-badge">9:16 Video</span>
-                </div>
-              </label>
-            </div>
-
-            <!-- Podcast -->
-            <div class="content-type-card" id="card-podcast">
-              <label>
-                <input type="checkbox" id="enable_podcast" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Podcast Skript</div>
-                  <div style="font-size: 12px; color: #6b7280;">Audio Content</div>
-                  <span class="format-badge">Text-to-Speech</span>
-                </div>
-              </label>
-            </div>
-
-            <!-- Avatar -->
-            <div class="content-type-card" id="card-avatar">
-              <label>
-                <input type="checkbox" id="enable_avatar" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Avatar Skript</div>
-                  <div style="font-size: 12px; color: #6b7280;">AI Video</div>
-                  <span class="format-badge">Video Avatar</span>
-                </div>
-              </label>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="content-type-card" id="card-newsletter">
-              <label>
-                <input type="checkbox" id="enable_newsletter" class="content-checkbox" />
-                <div>
-                  <div style="font-weight: 600;">Newsletter</div>
-                  <div style="font-size: 12px; color: #6b7280;">E-Mail Marketing</div>
-                  <span class="format-badge">Email</span>
-                </div>
-              </label>
+              <!-- Avatar - Coming Soon -->
+              <div class="content-type-card coming-soon" id="card-avatar">
+                <label>
+                  <input type="checkbox" id="enable_avatar" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">Avatar Video</div>
+                    <div style="font-size: 12px; color: #6b7280;">AI Video</div>
+                    <span class="format-badge">Video Avatar</span>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
         </div>
