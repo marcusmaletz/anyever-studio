@@ -92,7 +92,7 @@
             margin-bottom: 20px;
             font-weight: 300;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: #1f2937;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
@@ -423,8 +423,6 @@
         
         <div class="main-content">
             <div class="tools-section">
-                <h2 class="section-title">Projekte starten</h2>
-                
                 <div class="tools-grid">
                     <!-- Advertising -->
                     <a href="advertising.html" class="tool-card">
@@ -438,7 +436,7 @@
                             <li>CTV-Spots</li>
                             <li>DOOH-Kampagnen</li>
                         </ul>
-                        <div class="cta-button">Ads erstellen</div>
+                        <div class="cta-button">Werbung erstellen</div>
                     </a>
 
                     <!-- Content Marketing -->
@@ -480,8 +478,13 @@
                 class="logo-footer"
             >
             <div class="tagline">ENJOY.AUDIO</div>
-            <div class="copyright">© 2025 ANY EVER. Alle Rechte vorbehalten.</div>
+            <div class="copyright">© <span id="currentYear"></span> ANY EVER. Alle Rechte vorbehalten.</div>
         </div>
     </div>
+    
+    <script>
+        // Aktuelles Jahr setzen
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
