@@ -807,6 +807,21 @@
       const inputId = Date.now().toString();
       let isPolling = false;
       let rateLimitTimer = null;
+
+// === CHANNEL CONFIG ===
+      // Hier einfach true/false ändern um Kanäle zu aktivieren/deaktivieren
+      const CHANNEL_CONFIG = {
+        linkedin: true,
+        facebook: true,
+        instagram_feed: true,
+        instagram_story: true,
+        instagram_reel: true,
+        newsletter: true,
+        blog: true,
+        podcast: true,
+        avatar: false,        // Deaktiviert - wird als "Coming Soon" angezeigt
+      };
+      // === ENDE CONFIG ===
       
       const RATE_LIMITS = {
         DAILY_MAX: 20,
@@ -920,6 +935,9 @@
       // Initialize
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("input_id").value = inputId;
+        
+        // Kacheln basierend auf Config deaktivieren
+        applyChannelConfig();
         
         // Add click handlers for content type cards
         Object.keys(CONTENT_TYPES).forEach(type => {
@@ -1574,6 +1592,28 @@
 
       function submitInput() {
         submitInputWithValidation();
+      }
+ function applyChannelConfig() {
+        Object.keys(CHANNEL_CONFIG).forEach(channel => {
+          const card = document.getElementById(`card-${channel}`);
+          const checkbox = document.getElementById(`enable_${channel}`);
+          
+          if (card && !CHANNEL_CONFIG[channel]) {
+            card.classList.add('coming-soon');
+            
+            if (checkbox) {
+              checkbox.disabled = true;
+              checkbox.checked = false;
+            }
+            
+            if (!card.querySelector('.coming-soon-badge')) {
+              const badge = document.createElement('div');
+              badge.className = 'coming-soon-badge';
+              badge.textContent = 'Deaktiviert';
+              card.querySelector('label > div').appendChild(badge);
+            }
+          }
+        });
       }
     </script>
   </body>
