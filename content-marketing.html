@@ -702,27 +702,25 @@
               </div>
 
               <!-- Instagram Story - Coming Soon -->
-              <div class="content-type-card coming-soon" id="card-instagram_story">
+              <div class="content-type-card" id="card-instagram_story">
                 <label>
                   <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
                   <div>
                     <div style="font-weight: 600;">Instagram Story</div>
                     <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
                     <span class="format-badge">9:16</span>
-                    <div class="coming-soon-badge">Coming Soon</div>
-                  </div>
+                    </div>
                 </label>
               </div>
 
               <!-- Instagram Reel - Coming Soon -->
-              <div class="content-type-card coming-soon" id="card-instagram_reel">
+              <div class="content-type-card" id="card-instagram_reel">
                 <label>
                   <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
                   <div>
                     <div style="font-weight: 600;">Instagram Reel</div>
                     <div style="font-size: 12px; color: #6b7280;">Video Content</div>
-                    <span class="format-badge">9:16 Video</span>
-                    <div class="coming-soon-badge">Coming Soon</div>
+                    <span class="format-badge">9:16 Video</span>                   
                   </div>
                 </label>
               </div>
@@ -746,14 +744,13 @@
               </div>
 
               <!-- Avatar - Coming Soon -->
-              <div class="content-type-card coming-soon" id="card-avatar">
+              <div class="content-type-card" id="card-avatar">
                 <label>
                   <input type="checkbox" id="enable_avatar" class="content-checkbox" />
                   <div>
                     <div style="font-weight: 600;">Avatar Video</div>
                     <div style="font-size: 12px; color: #6b7280;">AI Video</div>
-                    <span class="format-badge">Video Avatar</span>
-                    <div class="coming-soon-badge">Coming Soon</div>
+                    <span class="format-badge">Video Avatar</span>                    
                   </div>
                 </label>
               </div>
@@ -810,16 +807,16 @@
 
 // === CHANNEL CONFIG ===
       // Hier einfach true/false ändern um Kanäle zu aktivieren/deaktivieren
-      const CHANNEL_CONFIG = {
+     const CHANNEL_CONFIG = {
         linkedin: true,
         facebook: true,
         instagram_feed: true,
-        instagram_story: true,
-        instagram_reel: true,
+        instagram_story: false,    // Jetzt über Config steuerbar
+        instagram_reel: false,     // Jetzt über Config steuerbar
         newsletter: true,
         blog: true,
         podcast: true,
-        avatar: false,        // Deaktiviert - wird als "Coming Soon" angezeigt
+        avatar: false,             // Jetzt über Config steuerbar
       };
       // === ENDE CONFIG ===
       
@@ -1593,7 +1590,7 @@
       function submitInput() {
         submitInputWithValidation();
       }
- function applyChannelConfig() {
+  function applyChannelConfig() {
         Object.keys(CHANNEL_CONFIG).forEach(channel => {
           const card = document.getElementById(`card-${channel}`);
           const checkbox = document.getElementById(`enable_${channel}`);
