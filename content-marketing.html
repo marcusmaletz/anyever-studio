@@ -1498,8 +1498,10 @@
           const statusElement = document.getElementById(config.statusField);
           
           if (textElement && textElement.value.trim() !== '') {
-            payload[config.textField] = escapeJsonString(textElement.value);
-            payload[config.statusField] = statusElement.value;
+            const reviewTextKey = config.backendTextKey.replace('_text', '_review');
+            const reviewStatusKey = config.backendStatusKey.replace('_status', '_review_status');
+            payload[reviewTextKey] = escapeJsonString(textElement.value);
+            payload[reviewStatusKey] = statusElement.value;
           }
         });
 
