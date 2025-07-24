@@ -4,47 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Marketing | ANY EVER</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
     <style>
-      /* ANY EVER Brand CSS Variablen - Direkt eingebettet */
-      :root {
-        /* ANY EVER Primärfarben */
-        --any-ever-gold: #c0ae66;
-        --any-ever-black: #000000;
-        --any-ever-dark-grey: #434343;
-        --any-ever-light-grey: #999999;
-        --any-ever-stone-grey: #c0c0c0;
-        --any-ever-bright-grey: #eeeeee;
-        --any-ever-white: #ffffff;
-        
-        /* Schriftarten */
-        --font-primary: 'Montserrat', system-ui, -apple-system, sans-serif;
-        --font-secondary: 'Montserrat', system-ui, -apple-system, sans-serif;
-        
-        /* ChatGPT-style ultra-elegante Schriftgewichte */
-        --font-weight-bold: 200;
-        --font-weight-medium: 300;
-        --font-weight-normal: 200;
-        --font-weight-light: 100;
-        
-        /* Letter-spacing */
-        --letter-spacing-ultra: 12px;
-        --letter-spacing-wide: 8px;
-        --letter-spacing-medium: 4px;
-        --letter-spacing-normal: 2px;
-        
-        /* Layout-Farben */
-        --background-main: #eeeeee;
-        --background-content: #ffffff;
-        --border-light: #c0c0c0;
-        --border-medium: #999999;
-        
-        /* Schatten und Effekte */
-        --gradient-gold: linear-gradient(135deg, var(--any-ever-gold) 0%, #a58f4a 100%);
-        --shadow-gold: 0 10px 25px -5px rgba(192, 174, 102, 0.4);
-        --focus-gold: 0 0 0 3px rgba(192, 174, 102, 0.1);
-      }
-
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap');
+      /* Content Marketing Specific Styles - erweitert ANY EVER Brand CSS */
       
       * {
         margin: 0;
@@ -59,7 +21,6 @@
         background: var(--background-main);
         padding: 24px;
         font-weight: var(--font-weight-normal);
-        min-height: 100vh;
       }
       
       .container {
@@ -119,6 +80,27 @@
         transform: translateY(-1px);
       }
       
+      .logo-container a {
+        text-decoration: none;
+      }
+      
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
+        background-size: cover;
+        z-index: 1;
+      }
+      
+      .header-content {
+        position: relative;
+        z-index: 2;
+      }
+      
       .logo-container {
         display: flex;
         flex-direction: column;
@@ -159,6 +141,16 @@
         background: var(--background-content);
       }
       
+      .section-title {
+        font-size: 24px;
+        color: var(--any-ever-black);
+        margin-bottom: 25px;
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-wide);
+        font-family: var(--font-primary);
+      }
+      
       .form-group {
         margin-bottom: 20px;
       }
@@ -187,7 +179,6 @@
         transition: all 0.3s ease;
         font-family: var(--font-primary);
         font-weight: var(--font-weight-normal);
-        resize: vertical;
       }
       
       input[type="text"]:focus, 
@@ -197,234 +188,93 @@
         border-color: var(--any-ever-gold);
         background: var(--any-ever-white);
         box-shadow: var(--focus-gold);
+        transform: translateY(-2px);
       }
       
-      textarea.auto-resize {
-        min-height: 80px;
+      textarea {
+        min-height: 100px;
         resize: vertical;
       }
-
-      /* Content Type Selection Styles */
-      .content-type-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 15px;
-        margin-bottom: 25px;
-      }
-
-      .content-type-card {
-        border: 2px solid var(--border-light);
-        border-radius: 12px;
-        padding: 20px;
-        transition: all 0.3s ease;
-        background: var(--background-content);
-        cursor: pointer;
-        position: relative;
-      }
-
-      .content-type-card:hover {
-        border-color: var(--any-ever-gold);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px -8px rgba(192, 174, 102, 0.3);
-      }
-
-      .content-type-card label {
-        cursor: pointer;
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        text-transform: none;
-        letter-spacing: normal;
-        margin-bottom: 0;
-      }
-
-      .content-type-card input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--any-ever-gold);
-        margin-top: 2px;
-        flex-shrink: 0;
-      }
-
-      .content-type-card.selected {
-        border-color: var(--any-ever-gold);
-        background: rgba(192, 174, 102, 0.05);
-        box-shadow: var(--focus-gold);
-      }
-
-      .format-badge {
-        display: inline-block;
-        background: var(--any-ever-bright-grey);
-        color: var(--any-ever-dark-grey);
-        font-size: 10px;
-        padding: 4px 8px;
-        border-radius: 12px;
-        margin-top: 8px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .section-separator {
-        margin: 35px 0 25px 0;
-      }
-
-      .section-separator h3 {
-        font-size: 16px;
-        font-weight: var(--font-weight-medium);
-        color: var(--any-ever-black);
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-medium);
-        font-family: var(--font-primary);
-      }
-
-      /* Bildauswahl System */
-      .image-selection-container {
-        margin-top: 30px;
-        padding: 25px;
-        background: var(--any-ever-bright-grey);
-        border-radius: 12px;
-        border: 2px solid var(--border-light);
-        display: none; /* Initially hidden */
-      }
-
-      .image-selection-container.show {
-        display: block;
-        animation: fadeIn 0.3s ease-in-out;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .image-selection-title {
-        font-size: 18px;
-        font-weight: var(--font-weight-medium);
-        color: var(--any-ever-black);
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-medium);
-        font-family: var(--font-primary);
-      }
-
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
-      }
-
-      .image-option {
-        position: relative;
-        border: 3px solid var(--border-light);
-        border-radius: 12px;
+      
+      .auto-resize {
+        resize: vertical;
         overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: var(--background-content);
+        min-height: 100px;
       }
-
-      .image-option:hover {
-        border-color: var(--any-ever-gold);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px -8px rgba(192, 174, 102, 0.4);
-      }
-
-      .image-option.selected {
-        border-color: var(--any-ever-gold);
-        box-shadow: var(--shadow-gold);
-      }
-
-      .image-option img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        display: block;
-      }
-
-      .image-option-label {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.8));
-        color: white;
-        padding: 15px 12px 12px;
-        font-size: 14px;
+      
+      .status-message {
+        transition: opacity 0.3s ease;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
         font-weight: var(--font-weight-medium);
         text-align: center;
+        font-family: var(--font-primary);
       }
-
-      .image-option input[type="radio"] {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+      
+      .loading-spinner {
+        border: 2px solid var(--any-ever-bright-grey);
+        border-top: 2px solid var(--any-ever-gold);
+        border-radius: 50%;
         width: 20px;
         height: 20px;
-        accent-color: var(--any-ever-gold);
-        z-index: 2;
-      }
-
-      /* Submit Button */
-      .submit-section {
-        margin-top: 40px;
-        text-align: center;
-        padding: 30px 40px;
-        background: var(--background-content);
-        border-radius: 0 0 16px 16px;
-      }
-
-      .submit-btn {
-        background: var(--gradient-gold);
-        color: var(--any-ever-white);
-        border: none;
-        padding: 18px 40px;
-        font-size: 16px;
-        font-weight: var(--font-weight-medium);
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-normal);
-        font-family: var(--font-primary);
-        box-shadow: var(--shadow-gold);
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 35px -10px rgba(192, 174, 102, 0.5);
-      }
-
-      .submit-btn:disabled {
-        background: var(--any-ever-stone-grey);
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-      }
-
-      .loading-spinner {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        border: 2px solid transparent;
-        border-top: 2px solid currentColor;
-        border-radius: 50%;
         animation: spin 1s linear infinite;
+        display: inline-block;
         margin-right: 8px;
       }
-
+      
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      
+      .rate-limit-timer {
+        background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+        color: var(--any-ever-white);
+        padding: 15px 20px;
+        border-radius: 8px;
+        font-weight: var(--font-weight-medium);
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: var(--font-primary);
+      }
+      
+      .content-type-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .content-type-card {
+        background: var(--background-content);
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 15px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .content-type-card:hover {
+        border-color: rgba(192, 174, 102, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(192, 174, 102, 0.1);
+      }
+      
+      .content-type-card.selected {
+        border-color: var(--any-ever-gold);
+        background: #fafafa;
+        box-shadow: var(--focus-gold);
+        transform: translateY(-1px);
+      }
 
-      /* Coming Soon Styling */
       .content-type-card.coming-soon {
         background: var(--background-content);
-        border: 2px dashed #d1d5db;
-        cursor: not-allowed;
+        border: 1px dashed #d1d5db;
+        cursor: pointer;
         opacity: 0.7;
         position: relative;
       }
@@ -437,7 +287,7 @@
       }
 
       .content-type-card.coming-soon.selected {
-        border: 2px dashed var(--any-ever-gold);
+        border: 1px dashed var(--any-ever-gold);
         background: #fafafa;
         box-shadow: 0 0 0 2px rgba(192, 174, 102, 0.1);
         transform: translateY(-1px);
@@ -446,7 +296,6 @@
 
       .content-type-card.coming-soon label {
         color: #6b7280;
-        cursor: not-allowed;
       }
 
       .content-type-card.coming-soon .format-badge {
@@ -468,48 +317,231 @@
         text-transform: uppercase;
         box-shadow: 0 2px 4px rgba(156, 163, 175, 0.2);
       }
-
-      /* Status Messages */
-      .status-container {
-        margin: 20px 0;
-        min-height: 50px;
+      
+      .content-type-card input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+        accent-color: var(--any-ever-gold);
+        cursor: pointer;
       }
-
-      .status-message {
-        padding: 15px 20px;
-        border-radius: 8px;
-        margin: 10px 0;
+      
+      .content-type-card label {
+        margin: 0;
+        color: var(--any-ever-black);
+        font-size: 14px;
+        text-transform: none;
+        letter-spacing: normal;
+        cursor: pointer;
         font-weight: var(--font-weight-medium);
         display: flex;
         align-items: center;
+        font-family: var(--font-primary);
+      }
+      
+      .format-badge {
+        display: inline-block;
+        background: var(--any-ever-gold);
+        color: var(--any-ever-white);
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        margin-top: 8px;
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-primary);
+        letter-spacing: 0.5px;
+      }
+      
+      .submit-btn, .review-btn, .manual-btn {
+        background: var(--gradient-gold);
+        color: var(--any-ever-white);
+        padding: 15px 40px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: var(--font-weight-medium);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-normal);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-gold);
+        font-family: var(--font-primary);
+      }
+      
+      .submit-btn:hover, .review-btn:hover, .manual-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px -5px rgba(192, 174, 102, 0.5);
+        background: linear-gradient(135deg, #a58f4a 0%, var(--any-ever-gold) 100%);
+      }
+      
+      .submit-btn:disabled, .review-btn:disabled, .manual-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .manual-btn {
+        background: var(--any-ever-light-grey);
+        margin-right: 15px;
+      }
+      
+      .manual-btn:hover {
+        background: var(--any-ever-dark-grey);
+      }
+      
+      /* Review Container - initially hidden */
+      .review-container {
+        display: none;
+      }
+      
+      .review-container.show {
+        display: block;
+        animation: slideDown 0.3s ease-in-out;
+      }
+      
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .content-section {
+        margin-bottom: 30px;
+        padding: 25px;
+        border: 2px solid var(--border-light);
+        border-radius: 12px;
+        background: var(--background-content);
+        transition: all 0.3s ease;
+      }
+      
+      .content-section:hover {
+        border-color: var(--any-ever-gold);
+        background: #fafafa;
+      }
+      
+      .content-section textarea {
+        margin-top: 10px;
+      }
+      
+      .content-section select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
+        font-size: 14px;
+        background: var(--background-content);
+        color: var(--any-ever-black);
+        margin-top: 10px;
+        transition: all 0.3s ease;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-normal);
+      }
+      
+      .content-section select:focus {
+        outline: none;
+        border-color: var(--any-ever-gold);
+        box-shadow: var(--focus-gold);
+      }
+      
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: var(--font-weight-medium);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-normal);
+        font-family: var(--font-primary);
+      }
+      
+      .post-action-buttons {
+        display: flex;
         gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
       }
-
-      .status-message.success {
-        background: #d1fae5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
+      
+      .action-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        font-family: var(--font-primary);
       }
-
-      .status-message.error {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
+      
+      .action-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
-
-      .status-message.info {
-        background: #dbeafe;
-        color: #1e40af;
-        border: 1px solid #93c5fd;
+      
+      .btn-post { 
+        background: #10b981; 
+        color: var(--any-ever-white); 
       }
-
-      .status-message.warning {
-        background: #fef3c7;
-        color: #92400e;
-        border: 1px solid #fcd34d;
+      .btn-post:hover:not(:disabled) { 
+        background: #059669; 
+        transform: translateY(-1px);
       }
-
-      /* Responsive Design */
+      
+      .btn-schedule { 
+        background: #3b82f6; 
+        color: var(--any-ever-white); 
+      }
+      .btn-schedule:hover:not(:disabled) { 
+        background: #2563eb; 
+        transform: translateY(-1px);
+      }
+      
+      .btn-draft { 
+        background: var(--any-ever-light-grey); 
+        color: var(--any-ever-white); 
+      }
+      .btn-draft:hover:not(:disabled) { 
+        background: var(--any-ever-dark-grey); 
+        transform: translateY(-1px);
+      }
+      
+      .submit-section {
+        text-align: right;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-light);
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+      }
+      
+      .anyever-footer {
+        background: var(--any-ever-black);
+        padding: 25px 40px;
+        text-align: center;
+        border-top: 2px solid var(--any-ever-gold);
+        border-radius: 0 0 16px 16px;
+        position: relative;
+      }
+      
+      .anyever-footer .logo-footer {
+        width: 100px;
+        height: auto;
+        margin-bottom: 8px;
+      }
+      
+      .anyever-footer .tagline {
+        color: var(--any-ever-stone-grey);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-normal);
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-medium);
+      }
+      
       @media (max-width: 768px) {
         body {
           padding: 12px;
@@ -520,18 +552,26 @@
         }
         
         .header {
-          padding: 30px 20px 25px;
+          padding: 30px 20px 20px;
         }
         
-        .request-counter,
-        .back-button {
+        .logo-anyever {
+          width: 160px;
+        }
+        
+        .header h1 {
+          font-size: 24px;
+        }
+        
+        .form-content, .review-section {
+          padding: 30px 20px;
+        }
+        
+        .request-counter {
           position: static;
-          display: inline-block;
-          margin: 10px 5px;
-        }
-        
-        .form-content {
-          padding: 25px 20px;
+          text-align: center;
+          margin-bottom: 15px;
+          display: block;
         }
         
         .content-type-grid {
@@ -539,27 +579,37 @@
           gap: 12px;
         }
         
-        .image-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
+        .post-action-buttons {
+          flex-direction: column;
         }
         
         .submit-section {
-          padding: 25px 20px;
+          text-align: center;
         }
         
-        .header h1 {
-          font-size: 24px;
+        .submit-btn, .review-btn, .manual-btn {
+          width: 100%;
+          margin: 5px 0;
         }
       }
     </style>
   </head>
-
   <body>
+    <!-- Status Message Container -->
+    <div id="status-container"></div>
+
+    <!-- Rate Limit Display -->
+    <div id="rate-limit-container" style="display: none;">
+      <div class="rate-limit-timer">
+        <span id="rate-limit-text"></span>
+      </div>
+    </div>
+
+    <!-- Content Input Section -->
     <div class="container">
       <div class="header">
         <div class="request-counter">
-          <span id="request-count">0</span>/20
+          Requests heute: <span id="daily-request-count">0</span>/20
         </div>
         <a href="index.html" class="back-button">← ANY EVER Studio</a>
         <div class="header-content">
@@ -589,9 +639,9 @@
           <label>Content-Kanäle auswählen (mindestens einen)</label>
           
           <!-- Business Content Section -->
-          <div class="section-separator">
-            <h3>Business Content</h3>
-            <div class="content-type-grid">
+          <div style="margin-top: 25px; margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Business Content</h3>
+            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
               <!-- Newsletter -->
               <div class="content-type-card" id="card-newsletter">
                 <label>
@@ -619,8 +669,8 @@
           </div>
 
           <!-- Social Media Section -->
-          <div class="section-separator">
-            <h3>Social Media</h3>
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Social Media</h3>
             
             <!-- Erste Reihe: LinkedIn und Facebook -->
             <div class="content-type-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 15px;">
@@ -671,7 +721,7 @@
                     <div style="font-weight: 600;">Instagram Story</div>
                     <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
                     <span class="format-badge">9:16</span>
-                  </div>
+                    </div>
                 </label>
               </div>
 
@@ -682,7 +732,7 @@
                   <div>
                     <div style="font-weight: 600;">Instagram Reel</div>
                     <div style="font-size: 12px; color: #6b7280;">Video Content</div>
-                    <span class="format-badge">9:16 Video</span>
+                    <span class="format-badge">9:16 Video</span>                   
                   </div>
                 </label>
               </div>
@@ -690,9 +740,9 @@
           </div>
 
           <!-- Sonderformate Section -->
-          <div class="section-separator">
-            <h3>Sonderformate</h3>
-            <div class="content-type-grid">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Sonderformate</h3>
+            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
               <!-- Podcast -->
               <div class="content-type-card" id="card-podcast">
                 <label>
@@ -711,8 +761,8 @@
                   <input type="checkbox" id="enable_avatar" class="content-checkbox" />
                   <div>
                     <div style="font-weight: 600;">Avatar Video</div>
-                    <div style="font-size: 12px; color: #6b7280;">KI-generiert</div>
-                    <span class="format-badge">Kommt bald</span>
+                    <div style="font-size: 12px; color: #6b7280;">AI Video</div>
+                    <span class="format-badge">Video Avatar</span>                    
                   </div>
                 </label>
               </div>
@@ -720,83 +770,34 @@
           </div>
         </div>
 
-        <!-- Bildauswahl Container - wird NUR im Review-Bereich angezeigt, NACH der Generierung -->
-        <div class="image-selection-container" id="image-selection-container" style="display: none;">
-          <div class="image-selection-title">🖼️ Bildauswahl für Social Media</div>
-          <p style="color: var(--any-ever-light-grey); margin-bottom: 15px;">Die DALL-E Bilder werden zusammen mit Ihren Texten generiert. Die Bildauswahl erfolgt im Review-Bereich.</p>
-        </div>
-
-        <!-- Status Container -->
-        <div class="status-container" id="status-container"></div>
-
-        <!-- Submit Button -->
         <div class="submit-section">
-          <button type="button" onclick="submitForm()" class="submit-btn" id="submit-btn">
+          <button id="submit-btn" onclick="submitForm()" class="submit-btn">
             Inhalt übermitteln
-          </button>
-          <p style="margin-top: 15px; color: var(--any-ever-light-grey); font-size: 14px;">
-            Ihr Content wird automatisch generiert und kann anschließend überprüft werden.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Content Review & Posting Section -->
-    <div class="container">
-      <div class="header">
-        <div class="header-content">
-          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
-        </div>
-      </div>
-
-      <div class="review-section" style="padding: 40px;">
-        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
-
-        <div id="content-sections-container"></div>
-
-        <div class="submit-section">
-          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
-            🔄 Content aktualisieren
-          </button>
-          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
-            Freigaben speichern
           </button>
         </div>
       </div>
       
-      <div class="anyever-footer" style="background: var(--any-ever-black); padding: 25px 40px; text-align: center; border-top: 2px solid var(--any-ever-gold); border-radius: 0 0 16px 16px; position: relative;">
+      <!-- Footer mit Version -->
+      <div class="anyever-footer">
         <img 
           src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
           alt="ANY EVER Logo" 
-          style="width: 100px; height: auto; margin-bottom: 8px;"
+          class="logo-footer"
         >
-        <div style="color: var(--any-ever-stone-grey); font-size: 12px; text-transform: uppercase; letter-spacing: var(--letter-spacing-normal); font-family: var(--font-primary); font-weight: var(--font-weight-medium);">ENJOY.AUDIO</div>
+        <div class="tagline">ENJOY.AUDIO</div>
         
         <!-- Version Info - dezent unten rechts -->
         <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
-          v2.1.0 | 24.07.2025 19:36
+          v2.2.1 | 24.07.2025 19:58
         </div>
       </div>
     </div>
 
     <script>
-      // ========================================
-      // GLOBALE VARIABLEN & KONFIGURATION
-      // ========================================
-      
-      let requestCount = parseInt(localStorage.getItem('dailyRequestCount') || '0');
-      let lastRequestDate = localStorage.getItem('lastRequestDate');
-      const today = new Date().toDateString();
-      
-      // Reset counter if it's a new day
-      if (lastRequestDate !== today) {
-        requestCount = 0;
-        localStorage.setItem('dailyRequestCount', '0');
-        localStorage.setItem('lastRequestDate', today);
-      }
-      
-      // Update counter display
-      document.getElementById('request-count').textContent = requestCount;
+      // Global Variables & Rate Limiting
+      const inputId = Date.now().toString();
+      let isPolling = false;
+      let rateLimitTimer = null;
 
       // === CHANNEL CONFIG ===
       // Hier einfach true/false ändern um Kanäle zu aktivieren/deaktivieren
@@ -813,7 +814,13 @@
       };
       // === ENDE CONFIG ===
       
-      // Content Type Configuration
+      const RATE_LIMITS = {
+        DAILY_MAX: 20,
+        COOLDOWN_MINUTES: 5,
+        STORAGE_KEY: 'content_generation_rate_limit'
+      };
+
+      // Updated Content Type Configuration
       const CONTENT_TYPES = {
         linkedin: { 
           id: 'linkedin', 
@@ -901,7 +908,7 @@
           backendTextKey: 'avatar_text',        
           backendStatusKey: 'avatar_status',
           postingEnabled: false,
-          imageFormat: 'Kommt bald'
+          imageFormat: 'Video Avatar'
         },
         newsletter: {
           id: 'newsletter',
@@ -916,10 +923,47 @@
         }
       };
 
-      // ========================================
-      // CHANNEL CONFIG ANWENDEN
-      // ========================================
-      
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log('🚀 VERSION: v2.2.1 | Build: 24.07.2025 19:58 CET | Features: Footer-Fix + Versionsnummer-Fix');
+        
+        document.getElementById("input_id").value = inputId;
+        
+        // Kacheln basierend auf Config deaktivieren
+        applyChannelConfig();
+        
+        // Add click handlers for content type cards
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
+          const card = document.getElementById(`card-${type}`);
+          
+          if (checkbox && card) {
+            checkbox.addEventListener('change', () => updateCardSelection(type));
+            updateCardSelection(type); // Initial state
+          }
+        });
+        
+        // Load daily counter
+        const today = new Date().toDateString();
+        const rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        if (rateLimitData.date === today) {
+          document.getElementById('daily-request-count').textContent = rateLimitData.count || 0;
+        }
+      });
+
+      function updateCardSelection(type) {
+        const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
+        const card = document.getElementById(`card-${type}`);
+        
+        if (checkbox && card) {
+          if (checkbox.checked) {
+            card.classList.add('selected');
+          } else {
+            card.classList.remove('selected');
+          }
+        }
+      }
+
       function applyChannelConfig() {
         Object.keys(CHANNEL_CONFIG).forEach(channel => {
           const card = document.getElementById(`card-${channel}`);
@@ -943,243 +987,124 @@
         });
       }
 
-      // ========================================
-      // STATUS MESSAGE SYSTEM
-      // ========================================
-      
-      function showStatusMessage(message, type = 'info', persistent = false) {
-        const container = document.getElementById('status-container');
+      // Rate Limiting Functions
+      function checkRateLimit() {
+        const now = Date.now();
+        const today = new Date().toDateString();
         
-        // Remove existing non-persistent messages
-        if (!persistent) {
-          const existing = container.querySelector('.status-message:not(.persistent)');
-          if (existing) existing.remove();
-        } else {
-          // Remove any existing persistent message
-          const existing = container.querySelector('.status-message.persistent');
-          if (existing) existing.remove();
+        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        
+        if (rateLimitData.date !== today) {
+          rateLimitData = { date: today, count: 0, lastRequest: 0 };
         }
         
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `status-message ${type}${persistent ? ' persistent' : ''}`;
-        messageDiv.innerHTML = message;
-        
-        container.appendChild(messageDiv);
-        
-        // Auto-remove non-persistent messages after 5 seconds
-        if (!persistent && (type === 'success' || type === 'info')) {
-          setTimeout(() => {
-            if (messageDiv.parentNode) {
-              messageDiv.style.opacity = '0';
-              setTimeout(() => messageDiv.remove(), 300);
-            }
-          }, 8000);
+        if (rateLimitData.count >= RATE_LIMITS.DAILY_MAX) {
+          showErrorMessage(`Tageslimit erreicht (${RATE_LIMITS.DAILY_MAX} Requests). Versuchen Sie es morgen wieder.`);
+          return false;
         }
+        
+        const timeSinceLastRequest = now - rateLimitData.lastRequest;
+        const cooldownMs = RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000;
+        
+        if (timeSinceLastRequest < cooldownMs) {
+          const remainingTime = Math.ceil((cooldownMs - timeSinceLastRequest) / 1000);
+          startCooldownTimer(remainingTime);
+          return false;
+        }
+        
+        return true;
       }
       
-      function showSuccessMessage(message) {
-        showStatusMessage(message, 'success');
+      function updateRateLimit() {
+        const today = new Date().toDateString();
+        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
+        
+        if (rateLimitData.date !== today) {
+          rateLimitData = { date: today, count: 0, lastRequest: 0 };
+        }
+        
+        rateLimitData.count++;
+        rateLimitData.lastRequest = Date.now();
+        
+        localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(rateLimitData));
+        document.getElementById('daily-request-count').textContent = rateLimitData.count;
       }
       
-      function showErrorMessage(message) {
-        showStatusMessage(message, 'error');
-      }
-      
-      function showInfoMessage(message, persistent = false) {
-        showStatusMessage(message, 'info', persistent);
-      }
-      
-      function showWarningMessage(message) {
-        showStatusMessage(message, 'warning');
-      }
-      
-      function showProgressMessage(message) {
-        showStatusMessage(message, 'info');
-      }
-      
-      function clearPersistentMessage() {
-        const container = document.getElementById('status-container');
-        const existing = container.querySelector('.status-message.persistent');
-        if (existing) existing.remove();
+      function startCooldownTimer(seconds) {
+        const container = document.getElementById('rate-limit-container');
+        const text = document.getElementById('rate-limit-text');
+        
+        container.style.display = 'block';
+        document.getElementById('submit-btn').disabled = true;
+        
+        const updateTimer = () => {
+          if (seconds <= 0) {
+            container.style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+            return;
+          }
+          
+          const minutes = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          text.textContent = `Cooldown aktiv: ${minutes}:${secs.toString().padStart(2, '0')} verbleibend`;
+          
+          seconds--;
+          setTimeout(updateTimer, 1000);
+        };
+        
+        updateTimer();
       }
 
-      // ========================================
-      // AUTO-RESIZE TEXTAREA FUNKTION
-      // ========================================
-      
+      // Base64 Functions
+      function encodeBase64Text(text) {
+        try {
+          if (!text || text.trim() === '') return '';
+          const utf8Bytes = new TextEncoder().encode(text);
+          const binaryString = String.fromCharCode(...utf8Bytes);
+          return btoa(binaryString);
+        } catch (error) {
+          console.error("❌ Base64 Encode Fehler:", error);
+          return text;
+        }
+      }
+
+      function decodeBase64Text(base64String) {
+        try {
+          if (!base64String || base64String.trim() === '') return '';
+          const binaryString = atob(base64String);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          return new TextDecoder('utf-8').decode(bytes);
+        } catch (error) {
+          console.error("❌ Base64 Decode Fehler:", error);
+          try {
+            return atob(base64String);
+          } catch (fallbackError) {
+            return base64String;
+          }
+        }
+      }
+
       function autoResize(textarea) {
         textarea.style.height = 'auto';
         textarea.style.height = Math.max(100, textarea.scrollHeight) + 'px';
       }
 
-      // ========================================
-      // CONTENT TYPE SELECTION LOGIC
-      // ========================================
-      
-      // Social Media Kanäle die Bilder benötigen
-      const SOCIAL_MEDIA_CHANNELS = ['linkedin', 'facebook', 'instagram_feed', 'instagram_story', 'instagram_reel'];
-      
-      function setupContentTypeSelection() {
-        const checkboxes = document.querySelectorAll('.content-checkbox');
-        const imageContainer = document.getElementById('image-selection-container');
-        
-        checkboxes.forEach(checkbox => {
-          checkbox.addEventListener('change', function() {
-            const card = this.closest('.content-type-card');
-            
-            // Toggle selected state
-            if (this.checked) {
-              card.classList.add('selected');
-            } else {
-              card.classList.remove('selected');
-            }
-            
-            // Check if any social media channel is selected
-            updateImageSelectionVisibility();
-          });
-        });
-        
-        // Image selection event handlers
-        setupImageSelection();
-      }
-      
-      function updateImageSelectionVisibility() {
-        // Bildauswahl wird NICHT mehr vor der Generierung angezeigt
-        // Sie erfolgt später im Review-Process nach der Content-Generierung
-        const imageContainer = document.getElementById('image-selection-container');
-        imageContainer.style.display = 'none';
-      }
-      
-      function setupImageSelection() {
-        const imageOptions = document.querySelectorAll('.image-option');
-        
-        imageOptions.forEach(option => {
-          option.addEventListener('click', function() {
-            // Remove selected class from all options
-            imageOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Add selected class to clicked option
-            this.classList.add('selected');
-            
-            // Check the radio button
-            const radio = this.querySelector('input[type="radio"]');
-            if (radio) {
-              radio.checked = true;
-            }
-          });
-        });
-      }
-
-      // ========================================
-      // STATUS MESSAGE SYSTEM
-      // ========================================
-      
-      function showStatusMessage(message, type = 'info', persistent = false) {
-        const container = document.getElementById('status-container');
-        
-        // Remove existing non-persistent messages
-        if (!persistent) {
-          const existing = container.querySelector('.status-message:not(.persistent)');
-          if (existing) existing.remove();
-        } else {
-          // Remove any existing persistent message
-          const existing = container.querySelector('.status-message.persistent');
-          if (existing) existing.remove();
-        }
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `status-message ${type}${persistent ? ' persistent' : ''}`;
-        messageDiv.innerHTML = message;
-        
-        container.appendChild(messageDiv);
-        
-        // Auto-remove non-persistent messages after 5 seconds
-        if (!persistent) {
-          setTimeout(() => {
-            if (messageDiv.parentNode) {
-              messageDiv.remove();
-            }
-          }, 5000);
-        }
-      }
-      
-      function showSuccessMessage(message) {
-        showStatusMessage(message, 'success');
-      }
-      
-      function showErrorMessage(message) {
-        showStatusMessage(message, 'error');
-      }
-      
-      function showInfoMessage(message, persistent = false) {
-        showStatusMessage(message, 'info', persistent);
-      }
-      
-      function showWarningMessage(message) {
-        showStatusMessage(message, 'warning');
-      }
-      
-      function clearPersistentMessage() {
-        const container = document.getElementById('status-container');
-        const existing = container.querySelector('.status-message.persistent');
-        if (existing) existing.remove();
-      }
-
-      // ========================================
-      // FORM VALIDATION
-      // ========================================
-      
-      function validateForm() {
-        const thema = document.getElementById('thema').value.trim();
-        if (!thema) {
-          showErrorMessage('Bitte geben Sie ein Thema ein.');
-          return false;
-        }
-        
-        // Check if at least one content type is selected
-        const checkboxes = document.querySelectorAll('.content-checkbox:checked');
-        if (checkboxes.length === 0) {
-          showErrorMessage('Bitte wählen Sie mindestens einen Content-Kanal aus.');
-          return false;
-        }
-        
-        // Bildauswahl wird NACH der Generierung gemacht, nicht vorher!
-        
-        return true;
-      }
-
-      // ========================================
-      // FORM SUBMISSION
-      // ========================================
-      
-      function showLoadingState(isLoading) {
-        const button = document.getElementById('submit-btn');
-        if (isLoading) {
-          button.disabled = true;
-          button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
-        } else {
-          button.disabled = false;
-          button.innerHTML = 'Inhalt übermitteln';
-        }
-      }
-      
+      // Enhanced Validation & Submission
       async function submitForm() {
-        if (!validateForm()) return;
-        
-        // Check rate limit (simplified version)
-        if (requestCount >= 20) {
-          showErrorMessage('Tageslimit von 20 Anfragen erreicht. Versuchen Sie es morgen erneut.');
+        if (!checkRateLimit()) {
           return;
         }
         
         const thema = document.getElementById("thema").value.trim();
-        const selectedChannels = getSelectedChannels();
-        
         if (!thema) {
           showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
           return;
         }
 
+        const selectedChannels = getSelectedChannels();
         if (selectedChannels.length === 0) {
           showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
           return;
@@ -1189,7 +1114,7 @@
         if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
 
         const payload = {
-          input_id: generateInputId(),
+          input_id: inputId,
           thema: thema,
           subline: document.getElementById("subline").value,
           selected_channels: selectedChannels
@@ -1205,7 +1130,6 @@
       }
 
       async function executeSubmission(payload) {
-        // RICHTIGE WEBHOOK URL aus der gestrigen Version
         const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
 
         try {
@@ -1219,22 +1143,18 @@
           });
 
           if (response.ok) {
-            // Update request counter
-            requestCount++;
-            localStorage.setItem('dailyRequestCount', requestCount.toString());
-            document.getElementById('request-count').textContent = requestCount;
-            
+            updateRateLimit();
             showSuccessMessage("Erfolgreich gestartet! ✅");
             
-            // Store input_id for review loading
-            localStorage.setItem('current_input_id', payload.input_id);
-            document.getElementById("input_id").value = payload.input_id;
+            // Show review container with animation
+            const reviewContainer = document.getElementById('review-container');
+            if (reviewContainer) {
+              reviewContainer.classList.add('show');
+            }
             
-            // Create content sections for review
             createContentSections(payload.selected_channels);
             showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
             
-            // Start polling after 30 seconds
             setTimeout(async () => {
               await startIntelligentPolling();
             }, 30000);
@@ -1249,16 +1169,10 @@
           showLoadingState(false);
         }
       }
-      
-      function generateInputId() {
-        return Date.now().toString();
-      }
 
-      // Dynamic Content Sections Creation (wie in der Referenz)
+      // Dynamic Content Sections with Posting Actions
       function createContentSections(selectedChannels) {
         const container = document.getElementById("content-sections-container");
-        if (!container) return;
-        
         container.innerHTML = "";
         
         selectedChannels.forEach(channel => {
@@ -1308,76 +1222,125 @@
         });
       }
 
-      // ========================================
-      // POLLING SYSTEM (aus der Referenz übernommen)
-      // ========================================
-      
+      function updatePostingButtons(channel) {
+        const config = CONTENT_TYPES[channel];
+        const statusField = document.getElementById(config.statusField);
+        const textField = document.getElementById(config.textField);
+        const section = document.getElementById(`${channel}-section`);
+        
+        if (!section || !config.postingEnabled) return;
+        
+        const buttons = section.querySelectorAll('.action-btn');
+        const isApproved = statusField.value === 'yes';
+        const hasContent = textField.value.trim() !== '';
+        
+        buttons.forEach(btn => {
+          btn.disabled = !(isApproved && hasContent);
+        });
+      }
+
+      // Status Message System
+      function showStatusMessage(message, type, persistent = false) {
+        const container = document.getElementById("status-container");
+        
+        if (!persistent) {
+          const existing = container.querySelector('.status-message:not(.persistent)');
+          if (existing) existing.remove();
+        } else {
+          const existing = container.querySelector('.status-message');
+          if (existing) existing.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
+        
+        const styles = {
+          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
+          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
+          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
+          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
+        };
+        
+        messageDiv.setAttribute('style', styles[type] || styles.info);
+        messageDiv.textContent = message;
+        
+        container.appendChild(messageDiv);
+        
+        if ((type === 'success' || type === 'info') && !persistent) {
+          setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+          }, 8000);
+        }
+      }
+
+      function clearPersistentMessage() {
+        const container = document.getElementById("status-container");
+        const existing = container.querySelector('.status-message.persistent');
+        if (existing) existing.remove();
+      }
+
+      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
+      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
+      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
+      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
+      function showInfoMessage(message, persistent = false) { showStatusMessage(message, 'info', persistent); }
+
+      function showLoadingState(isLoading, buttonId = "submit-btn") {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
+          } else {
+            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
+          }
+        }
+      }
+
+      // Polling System
       async function startIntelligentPolling() {
         let attempts = 0;
         const maxAttempts = 24;
         
         console.log("🚀 === POLLING GESTARTET ===");
-        console.log(`Ziel: ${maxAttempts} Versuche über ${maxAttempts * 15 / 60} Minuten`);
         
         const poll = async () => {
           attempts++;
           console.log(`\n🔄 === POLLING VERSUCH ${attempts}/${maxAttempts} ===`);
-          console.log(`⏰ Zeitstempel: ${new Date().toLocaleTimeString()}`);
           
           showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
           
           try {
-            console.log("📞 Rufe loadReview(true) auf...");
             const success = await loadReview(true);
-            console.log(`📊 loadReview Ergebnis: ${success ? 'ERFOLG' : 'KEIN CONTENT'}`);
             
             if (success) {
               console.log("✅ === POLLING ERFOLGREICH BEENDET ===");
               clearPersistentMessage();
               showSuccessMessage("✅ Content ist da! Automatisch geladen.");
-              return; // WICHTIG: Polling stoppen
+              return;
             }
             
-            console.log(`⏳ Versuch ${attempts}: Noch kein Content verfügbar`);
-            
             if (attempts < maxAttempts) {
-              console.log(`⏰ Plane nächsten Poll in 15 Sekunden (Versuch ${attempts + 1}/${maxAttempts})`);
-              setTimeout(() => {
-                console.log(`🔄 Starte geplanten Poll ${attempts + 1}...`);
-                poll();
-              }, 15000);
-            } else {
-              console.log("🛑 === POLLING LIMIT ERREICHT ===");
-              clearPersistentMessage();
-              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
-              
-              const manualBtn = document.getElementById("manual-load-btn");
-              if (manualBtn) {
-                manualBtn.style.display = "inline-block";
-                console.log("✅ Manueller Button jetzt sichtbar");
-              } else {
-                console.error("❌ Manual-Load-Button nicht gefunden!");
-              }
-            }
-          } catch (error) {
-            console.error(`❌ === POLLING FEHLER BEI VERSUCH ${attempts} ===`);
-            console.error("Fehler-Details:", error);
-            console.error("Fehler-Stack:", error.stack);
-            
-            if (attempts < maxAttempts) {
-              console.log("🔄 Versuche trotz Fehler weiter...");
               setTimeout(() => poll(), 15000);
             } else {
-              console.log("🛑 Polling wegen zu vielen Fehlern beendet");
               clearPersistentMessage();
-              showErrorMessage("❌ Fehler beim automatischen Laden. Verwenden Sie den 'Content aktualisieren' Button.");
+              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            }
+          } catch (error) {
+            console.error(`❌ POLLING FEHLER:`, error);
+            if (attempts < maxAttempts) {
+              setTimeout(() => poll(), 15000);
+            } else {
+              clearPersistentMessage();
+              showErrorMessage("❌ Fehler beim automatischen Laden.");
               document.getElementById("manual-load-btn").style.display = "inline-block";
             }
           }
         };
         
-        console.log("🏁 Starte ersten Poll...");
-        poll(); // Starte das Polling
+        poll();
       }
 
       async function loadReview(silentMode = false) {
@@ -1392,36 +1355,26 @@
         try {
           if (!silentMode) showProgressMessage("Lade Content...");
           
-          console.log(`🔍 Lade Content für input_id: ${inputIdValue}`);
-          
           const response = await fetch(webhookUrl);
           if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 
           const responseText = await response.text();
-          console.log("🔍 RAW RESPONSE:", responseText.substring(0, 200) + "...");
-          
           let data;
           try {
             data = JSON.parse(responseText);
           } catch (parseError) {
-            console.error("❌ JSON Parse Fehler:", parseError);
-            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents. Fehler: ${parseError.message}`);
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
             return false;
           }
           
-          console.log("🔍 VOLLSTÄNDIGE BACKEND-RESPONSE:", data);
-          
           let hasGeneratedContent = false;
-          let contentStats = {};
           let sectionsWithContent = 0;
           let totalSections = 0;
           
-          // ✅ NUR BESTEHENDE SECTIONS PRÜFEN!
           Object.keys(CONTENT_TYPES).forEach(type => {
             const config = CONTENT_TYPES[type];
             const sectionElement = document.getElementById(`${type}-section`);
             
-            // Nur prüfen wenn Section tatsächlich existiert (= Kanal war ausgewählt)
             if (sectionElement) {
               totalSections++;
               
@@ -1429,26 +1382,14 @@
               const backendStatus = data[config.backendStatusKey];
               
               if (backendText) {
-                console.log(`🔍 ${config.label} - Original Base64 (erste 50 Zeichen):`, backendText.substring(0, 50));
                 backendText = decodeBase64Text(backendText);
-                console.log(`✅ ${config.label} - Dekodiert (erste 100 Zeichen):`, backendText.substring(0, 100));
               }
               
               const hasContent = backendText && backendText.trim() !== '';
-              contentStats[type] = {
-                hasContent: hasContent,
-                contentLength: backendText ? backendText.length : 0,
-                status: backendStatus,
-                backendKey: config.backendTextKey,
-                sectionExists: true
-              };
-              
-              console.log(`📝 ${config.label}:`, contentStats[type]);
               
               if (hasContent) {
                 sectionsWithContent++;
                 hasGeneratedContent = true;
-                sectionElement.style.display = 'block';
                 
                 const textField = document.getElementById(config.textField);
                 const statusField = document.getElementById(config.statusField);
@@ -1461,24 +1402,10 @@
                 
                 updateSectionStatus(sectionElement, backendStatus);
                 updatePostingButtons(type);
-              } else {
-                console.log(`❌ ${config.label} Section vorhanden, aber kein Content`);
               }
-            } else {
-              console.log(`⏭️ ${config.label} Section nicht vorhanden (Kanal nicht ausgewählt)`);
-              contentStats[type] = {
-                hasContent: false,
-                sectionExists: false,
-                skipped: true
-              };
             }
           });
           
-          console.log("📊 CONTENT STATISTIK:", contentStats);
-          console.log(`🎯 Sections mit Content: ${sectionsWithContent}/${totalSections}`);
-          console.log(`🎯 Alle Sections befüllt: ${sectionsWithContent === totalSections ? 'JA' : 'NEIN'}`);
-          
-          // ✅ NUR ERFOLGREICH WENN ALLE EXISTIERENDEN SECTIONS CONTENT HABEN
           const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
           
           document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
@@ -1486,12 +1413,10 @@
           if (allSectionsFilled) {
             clearPersistentMessage();
             if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
-            console.log("✅ === ALLE SECTIONS KOMPLETT - POLLING BEENDET ===");
             return true;
           } else {
             if (!silentMode) {
               showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
-              console.log(`⏳ Noch nicht alle Sections befüllt: ${sectionsWithContent}/${totalSections}`);
             }
             return false;
           }
@@ -1516,55 +1441,6 @@
           const config = statusConfig[status] || statusConfig['pending'];
           statusBadge.textContent = config.text;
           statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
-        }
-      }
-
-      function updatePostingButtons(channel) {
-        const config = CONTENT_TYPES[channel];
-        const statusField = document.getElementById(config.statusField);
-        const textField = document.getElementById(config.textField);
-        const section = document.getElementById(`${channel}-section`);
-        
-        if (!section || !config.postingEnabled) return;
-        
-        const buttons = section.querySelectorAll('.action-btn');
-        const isApproved = statusField && statusField.value === 'yes';
-        const hasContent = textField && textField.value.trim() !== '';
-        
-        buttons.forEach(btn => {
-          btn.disabled = !(isApproved && hasContent);
-        });
-      }
-
-      // Base64 Functions
-      function encodeBase64Text(text) {
-        try {
-          if (!text || text.trim() === '') return '';
-          const utf8Bytes = new TextEncoder().encode(text);
-          const binaryString = String.fromCharCode(...utf8Bytes);
-          return btoa(binaryString);
-        } catch (error) {
-          console.error("❌ Base64 Encode Fehler:", error);
-          return text;
-        }
-      }
-
-      function decodeBase64Text(base64String) {
-        try {
-          if (!base64String || base64String.trim() === '') return '';
-          const binaryString = atob(base64String);
-          const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-          }
-          return new TextDecoder('utf-8').decode(bytes);
-        } catch (error) {
-          console.error("❌ Base64 Decode Fehler:", error);
-          try {
-            return atob(base64String);
-          } catch (fallbackError) {
-            return base64String;
-          }
         }
       }
 
@@ -1623,7 +1499,6 @@
           mode: "save"
         };
 
-        // Alle verfügbaren Content-Typen senden
         Object.keys(CONTENT_TYPES).forEach(type => {
           const config = CONTENT_TYPES[type];
           const textElement = document.getElementById(config.textField);
@@ -1631,7 +1506,7 @@
           
           if (textElement && textElement.value.trim() !== '') {
             payload[config.textField] = escapeJsonString(textElement.value);
-            payload[config.statusField] = statusElement ? statusElement.value : 'pending';
+            payload[config.statusField] = statusElement.value;
           }
         });
 
@@ -1639,7 +1514,6 @@
 
         try {
           showLoadingState(true, "review-submit-btn");
-          console.log("💾 Speichere Content-Felder:", payload);
           
           const response = await fetch(webhookUrl, {
             method: "POST",
@@ -1653,7 +1527,6 @@
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
         } catch (error) {
-          console.error("Review submission error:", error);
           showErrorMessage(`Fehler beim Speichern: ${error.message}`);
         } finally {
           showLoadingState(false, "review-submit-btn");
@@ -1669,75 +1542,44 @@
           .replace(/\r/g, '\\r')
           .replace(/\t/g, '\\t');
       }
-
-      // ========================================
-      // DALL-E BILD SYSTEM (für zukünftige Integration)
-      // ========================================
-      
-      function loadDalleImages(imageUrls) {
-        const imageGrid = document.getElementById('image-grid');
-        const imageOptions = imageGrid.querySelectorAll('.image-option img');
-        
-        imageUrls.forEach((url, index) => {
-          if (imageOptions[index]) {
-            imageOptions[index].src = url;
-            imageOptions[index].style.display = 'block';
-          }
-        });
-        
-        // Show image selection if social media channels are selected
-        updateImageSelectionVisibility();
-      }
-
-      // ========================================
-      // INITIALIZATION
-      // ========================================
-      
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('Content Marketing Tool initialized');
-        console.log('🚀 VERSION: v2.1.0 | Build: 24.07.2025 19:36 CET | Features: Config-System + Thumbnails + Review');
-        
-        // Kacheln basierend auf Config deaktivieren
-        applyChannelConfig();
-        
-        // Setup content type selection
-        setupContentTypeSelection();
-        
-        // Setup auto-resize for existing textareas
-        document.querySelectorAll('textarea.auto-resize').forEach(textarea => {
-          autoResize(textarea);
-        });
-        
-        // Show welcome message
-        showInfoMessage('💡 Wählen Sie Ihregewünschten Content-Kanäle aus und beschreiben Sie Ihr Thema.');
-      });
-
-      // ========================================
-      // UTILITY FUNCTIONS
-      // ========================================
-      
-      function escapeJsonString(str) {
-        return str
-          .replace(/\\/g, '\\\\')
-          .replace(/"/g, '\\"')
-          .replace(/\n/g, '\\n')
-          .replace(/\r/g, '\\r')
-          .replace(/\t/g, '\\t');
-      }
-      
-      // Base64 encoding/decoding für UTF-8 Kompatibilität
-      function encodeBase64Text(text) {
-        return btoa(unescape(encodeURIComponent(text)));
-      }
-      
-      function decodeBase64Text(base64) {
-        try {
-          return decodeURIComponent(escape(atob(base64)));
-        } catch (e) {
-          console.warn('Base64 decode failed, returning original:', e);
-          return base64;
-        }
-      }
     </script>
   </body>
-</html>
+</html> 
+          src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+          alt="ANY EVER Logo" 
+          class="logo-footer"
+        >
+        <div class="tagline">ENJOY.AUDIO</div>
+        
+        <!-- Version Info - dezent unten rechts -->
+        <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
+          v2.2.0 | 24.07.2025 19:55
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Review & Posting Section - initially hidden -->
+    <div class="container review-container" id="review-container">
+      <div class="header">
+        <div class="header-content">
+          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
+        </div>
+      </div>
+
+      <div class="review-section" style="padding: 40px;">
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+
+        <div id="content-sections-container"></div>
+
+        <div class="submit-section">
+          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+            🔄 Content aktualisieren
+          </button>
+          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
+            Freigaben speichern
+          </button>
+        </div>
+      </div>
+      
+      <div class="anyever-footer">
+        <img
