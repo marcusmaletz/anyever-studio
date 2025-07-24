@@ -1338,8 +1338,49 @@
             console.log("📊 Parsed Data:", data);
           } catch (parseError) {
             console.error("❌ JSON Parse Error:", parseError);
-            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
-            return false;
+            console.log("🔧 Attempting to fix JSON...");
+            
+            // Versuche JSON zu reparieren
+            let fixedJson = responseText;
+            
+            // Häufige JSON-Fehler beheben
+            fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1'); // Entferne trailing commas
+            fixedJson = fixedJson.replace(/([{,]\s*)(\w+):/g, '$1"$2":'); // Füge Anführungszeichen um Keys hinzu
+            fixedJson = fixedJson.replace(/:\s*'([^']*)'/g, ':"$1"'); // Ersetze single quotes mit double quotes
+            fixedJson = fixedJson.replace(/\\n/g, '\\\\n'); // Escape newlines properly
+            fixedJson = fixedJson.replace(/\\"/g, '\\\\"'); // Escape quotes properly
+            
+            try {
+              data = JSON.parse(fixedJson);
+              console.log("✅ JSON repariert:", data);
+            } catch (secondError) {
+              console.error("❌ JSON konnte nicht repariert werden:", secondError);
+              
+              // Fallback: Versuche Daten manuell zu extrahieren
+              const extractData = {};
+              Object.keys(CONTENT_TYPES).forEach(type => {
+                const config = CONTENT_TYPES[type];
+                
+                // Suche nach den Datenfeldern im Raw-Text
+                const textMatch = responseText.match(new RegExp(`"${config.backendTextKey}"\\s*:\\s*"([^"]*)"`, 'i'));
+                const statusMatch = responseText.match(new RegExp(`"${config.backendStatusKey}"\\s*:\\s*"([^"]*)"`, 'i'));
+                
+                if (textMatch) {
+                  extractData[config.backendTextKey] = textMatch[1];
+                }
+                if (statusMatch) {
+                  extractData[config.backendStatusKey] = statusMatch[1];
+                }
+              });
+              
+              if (Object.keys(extractData).length > 0) {
+                data = extractData;
+                console.log("🔧 Daten manuell extrahiert:", data);
+              } else {
+                if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+                return false;
+              }
+            }
           }
           
           let hasGeneratedContent = false;
