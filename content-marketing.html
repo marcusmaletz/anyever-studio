@@ -420,6 +420,55 @@
         100% { transform: rotate(360deg); }
       }
 
+      /* Coming Soon Styling */
+      .content-type-card.coming-soon {
+        background: var(--background-content);
+        border: 2px dashed #d1d5db;
+        cursor: not-allowed;
+        opacity: 0.7;
+        position: relative;
+      }
+
+      .content-type-card.coming-soon:hover {
+        border-color: rgba(192, 174, 102, 0.4);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(192, 174, 102, 0.08);
+        opacity: 0.8;
+      }
+
+      .content-type-card.coming-soon.selected {
+        border: 2px dashed var(--any-ever-gold);
+        background: #fafafa;
+        box-shadow: 0 0 0 2px rgba(192, 174, 102, 0.1);
+        transform: translateY(-1px);
+        opacity: 0.8;
+      }
+
+      .content-type-card.coming-soon label {
+        color: #6b7280;
+        cursor: not-allowed;
+      }
+
+      .content-type-card.coming-soon .format-badge {
+        background: #9ca3af;
+        color: var(--any-ever-white);
+      }
+
+      .coming-soon-badge {
+        display: inline-block;
+        background: #9ca3af;
+        color: var(--any-ever-white);
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-size: 10px;
+        margin-top: 5px;
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-primary);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(156, 163, 175, 0.2);
+      }
+
       /* Status Messages */
       .status-container {
         margin: 20px 0;
@@ -744,6 +793,151 @@
       
       // Update counter display
       document.getElementById('request-count').textContent = requestCount;
+
+      // === CHANNEL CONFIG ===
+      // Hier einfach true/false ändern um Kanäle zu aktivieren/deaktivieren
+      const CHANNEL_CONFIG = {
+        linkedin: true,
+        facebook: true,
+        instagram_feed: true,
+        instagram_story: false,    
+        instagram_reel: false,    
+        newsletter: false,
+        blog: false,
+        podcast: true,
+        avatar: false,            
+      };
+      // === ENDE CONFIG ===
+      
+      // Content Type Configuration
+      const CONTENT_TYPES = {
+        linkedin: { 
+          id: 'linkedin', 
+          label: 'LinkedIn Post', 
+          textField: 'linkedin_text', 
+          statusField: 'linkedin_status',
+          enableField: 'enable_linkedin',
+          backendTextKey: 'linkedin_text',      
+          backendStatusKey: 'linkedin_status',
+          postingEnabled: true,
+          imageFormat: '1:1'
+        },
+        facebook: { 
+          id: 'facebook', 
+          label: 'Facebook Post', 
+          textField: 'facebook_text', 
+          statusField: 'facebook_status',
+          enableField: 'enable_facebook',
+          backendTextKey: 'facebook_text',      
+          backendStatusKey: 'facebook_status',
+          postingEnabled: true,
+          imageFormat: '1:1'
+        },
+        instagram_feed: { 
+          id: 'instagram_feed', 
+          label: 'Instagram Feed', 
+          textField: 'instagram_feed_text', 
+          statusField: 'instagram_feed_status',
+          enableField: 'enable_instagram_feed',
+          backendTextKey: 'insta_feed_text',    
+          backendStatusKey: 'insta_feed_status',
+          postingEnabled: false,
+          imageFormat: '1:1'
+        },
+        instagram_reel: { 
+          id: 'instagram_reel', 
+          label: 'Instagram Reel', 
+          textField: 'instagram_reel_text', 
+          statusField: 'instagram_reel_status',
+          enableField: 'enable_instagram_reel',
+          backendTextKey: 'insta_reel_text',    
+          backendStatusKey: 'insta_reel_status',
+          postingEnabled: false,
+          imageFormat: '9:16 Video'
+        },
+        instagram_story: { 
+          id: 'instagram_story', 
+          label: 'Instagram Story', 
+          textField: 'instagram_story_text', 
+          statusField: 'instagram_story_status',
+          enableField: 'enable_instagram_story',
+          backendTextKey: 'insta_story_text',    
+          backendStatusKey: 'insta_story_status',
+          postingEnabled: false,
+          imageFormat: '9:16'
+        },
+        blog: { 
+          id: 'blog', 
+          label: 'Blog Artikel', 
+          textField: 'blog_text', 
+          statusField: 'blog_status',
+          enableField: 'enable_blog',
+          backendTextKey: 'blog_text',          
+          backendStatusKey: 'blog_status',
+          postingEnabled: false,
+          imageFormat: '16:9'
+        },
+        podcast: {
+          id: 'podcast',
+          label: 'Podcast Skript',
+          textField: 'podcast_text',
+          statusField: 'podcast_status', 
+          enableField: 'enable_podcast',
+          backendTextKey: 'podcast_text',       
+          backendStatusKey: 'podcast_status',
+          postingEnabled: true,
+          imageFormat: 'Text-to-Speech'
+        },
+        avatar: {
+          id: 'avatar',
+          label: 'Avatar Skript',
+          textField: 'avatar_text',
+          statusField: 'avatar_status',
+          enableField: 'enable_avatar', 
+          backendTextKey: 'avatar_text',        
+          backendStatusKey: 'avatar_status',
+          postingEnabled: false,
+          imageFormat: 'Kommt bald'
+        },
+        newsletter: {
+          id: 'newsletter',
+          label: 'Newsletter',
+          textField: 'newsletter_text',
+          statusField: 'newsletter_status',
+          enableField: 'enable_newsletter', 
+          backendTextKey: 'newsletter_text',        
+          backendStatusKey: 'newsletter_status',
+          postingEnabled: true,
+          imageFormat: 'E-Mail'
+        }
+      };
+
+      // ========================================
+      // CHANNEL CONFIG ANWENDEN
+      // ========================================
+      
+      function applyChannelConfig() {
+        Object.keys(CHANNEL_CONFIG).forEach(channel => {
+          const card = document.getElementById(`card-${channel}`);
+          const checkbox = document.getElementById(`enable_${channel}`);
+          
+          if (card && !CHANNEL_CONFIG[channel]) {
+            card.classList.add('coming-soon');
+            
+            if (checkbox) {
+              checkbox.disabled = true;
+              checkbox.checked = false;
+            }
+            
+            if (!card.querySelector('.coming-soon-badge')) {
+              const badge = document.createElement('div');
+              badge.className = 'coming-soon-badge';
+              badge.textContent = 'Coming soon';
+              card.querySelector('label > div').appendChild(badge);
+            }
+          }
+        });
+      }
 
       // ========================================
       // AUTO-RESIZE TEXTAREA FUNKTION
@@ -1100,6 +1294,9 @@
       
       document.addEventListener('DOMContentLoaded', function() {
         console.log('Content Marketing Tool initialized');
+        
+        // Kacheln basierend auf Config deaktivieren
+        applyChannelConfig();
         
         // Setup content type selection
         setupContentTypeSelection();
