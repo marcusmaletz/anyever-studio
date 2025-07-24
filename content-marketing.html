@@ -720,34 +720,10 @@
           </div>
         </div>
 
-        <!-- Bildauswahl Container - wird nur bei Social Media Auswahl angezeigt -->
-        <div class="image-selection-container" id="image-selection-container">
+        <!-- Bildauswahl Container - wird NUR im Review-Bereich angezeigt, NACH der Generierung -->
+        <div class="image-selection-container" id="image-selection-container" style="display: none;">
           <div class="image-selection-title">🖼️ Bildauswahl für Social Media</div>
-          <p style="color: var(--any-ever-light-grey); margin-bottom: 15px;">Wählen Sie eines der 4 generierten DALL-E Bilder für Ihre Social Media Posts aus:</p>
-          
-          <div class="image-grid" id="image-grid">
-            <!-- Wird dynamisch mit den 4 DALL-E Bildern gefüllt -->
-            <div class="image-option" data-option="1">
-              <input type="radio" name="selectedImage" value="1" id="image-1">
-              <img src="" alt="DALL-E Option 1" id="img-1">
-              <div class="image-option-label">Professional Style</div>
-            </div>
-            <div class="image-option" data-option="2">
-              <input type="radio" name="selectedImage" value="2" id="image-2">
-              <img src="" alt="DALL-E Option 2" id="img-2">
-              <div class="image-option-label">Creative Style</div>
-            </div>
-            <div class="image-option" data-option="3">
-              <input type="radio" name="selectedImage" value="3" id="image-3">
-              <img src="" alt="DALL-E Option 3" id="img-3">
-              <div class="image-option-label">Minimalist Style</div>
-            </div>
-            <div class="image-option" data-option="4">
-              <input type="radio" name="selectedImage" value="4" id="image-4">
-              <img src="" alt="DALL-E Option 4" id="img-4">
-              <div class="image-option-label">Modern Style</div>
-            </div>
-          </div>
+          <p style="color: var(--any-ever-light-grey); margin-bottom: 15px;">Die DALL-E Bilder werden zusammen mit Ihren Texten generiert. Die Bildauswahl erfolgt im Review-Bereich.</p>
         </div>
 
         <!-- Status Container -->
@@ -970,16 +946,10 @@
       }
       
       function updateImageSelectionVisibility() {
+        // Bildauswahl wird NICHT mehr vor der Generierung angezeigt
+        // Sie erfolgt später im Review-Process nach der Content-Generierung
         const imageContainer = document.getElementById('image-selection-container');
-        const hasSocialMedia = SOCIAL_MEDIA_CHANNELS.some(channel => 
-          document.getElementById(`enable_${channel}`).checked
-        );
-        
-        if (hasSocialMedia) {
-          imageContainer.classList.add('show');
-        } else {
-          imageContainer.classList.remove('show');
-        }
+        imageContainer.style.display = 'none';
       }
       
       function setupImageSelection() {
@@ -1075,18 +1045,7 @@
           return false;
         }
         
-        // Check if image is selected when social media is chosen
-        const hasSocialMedia = SOCIAL_MEDIA_CHANNELS.some(channel => 
-          document.getElementById(`enable_${channel}`).checked
-        );
-        
-        if (hasSocialMedia) {
-          const selectedImage = document.querySelector('input[name="selectedImage"]:checked');
-          if (!selectedImage) {
-            showErrorMessage('Bitte wählen Sie ein Bild für Ihre Social Media Posts aus.');
-            return false;
-          }
-        }
+        // Bildauswahl wird NACH der Generierung gemacht, nicht vorher!
         
         return true;
       }
@@ -1134,11 +1093,7 @@
             formData[`enable_${channelName}`] = true;
           });
           
-          // Add selected image if social media is chosen
-          const selectedImage = document.querySelector('input[name="selectedImage"]:checked');
-          if (selectedImage) {
-            formData.selected_image_option = selectedImage.value;
-          }
+          // Bildauswahl erfolgt später im Review-Process!
           
           // Store input_id for later use
           localStorage.setItem('current_input_id', formData.input_id);
