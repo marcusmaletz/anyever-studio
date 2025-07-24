@@ -741,6 +741,39 @@
       </div>
     </div>
 
+    <!-- Content Review & Posting Section -->
+    <div class="container">
+      <div class="header">
+        <div class="header-content">
+          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
+        </div>
+      </div>
+
+      <div class="review-section" style="padding: 40px;">
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+
+        <div id="content-sections-container"></div>
+
+        <div class="submit-section">
+          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+            🔄 Content aktualisieren
+          </button>
+          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
+            Freigaben speichern
+          </button>
+        </div>
+      </div>
+      
+      <div class="anyever-footer" style="background: var(--any-ever-black); padding: 25px 40px; text-align: center; border-top: 2px solid var(--any-ever-gold); border-radius: 0 0 16px 16px;">
+        <img 
+          src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+          alt="ANY EVER Logo" 
+          style="width: 100px; height: auto; margin-bottom: 8px;"
+        >
+        <div style="color: var(--any-ever-stone-grey); font-size: 12px; text-transform: uppercase; letter-spacing: var(--letter-spacing-normal); font-family: var(--font-primary); font-weight: var(--font-weight-medium);">ENJOY.AUDIO</div>
+      </div>
+    </div>
+
     <script>
       // ========================================
       // GLOBALE VARIABLEN & KONFIGURATION
@@ -1068,73 +1101,146 @@
       async function submitForm() {
         if (!validateForm()) return;
         
-        // Check rate limit
+        // Check rate limit (simplified version)
         if (requestCount >= 20) {
           showErrorMessage('Tageslimit von 20 Anfragen erreicht. Versuchen Sie es morgen erneut.');
           return;
         }
         
-        showLoadingState(true);
+        const thema = document.getElementById("thema").value.trim();
+        const selectedChannels = getSelectedChannels();
         
+        if (!thema) {
+          showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
+          return;
+        }
+
+        if (selectedChannels.length === 0) {
+          showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
+          return;
+        }
+
+        const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
+        if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
+
+        const payload = {
+          input_id: generateInputId(),
+          thema: thema,
+          subline: document.getElementById("subline").value,
+          selected_channels: selectedChannels
+        };
+
+        await executeSubmission(payload);
+      }
+
+      function getSelectedChannels() {
+        return Object.keys(CONTENT_TYPES).filter(type => 
+          document.getElementById(CONTENT_TYPES[type].enableField).checked
+        );
+      }
+
+      async function executeSubmission(payload) {
+        // RICHTIGE WEBHOOK URL aus der gestrigen Version
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+
         try {
-          // Prepare form data
-          const formData = {
-            mode: "generate",
-            thema: document.getElementById('thema').value.trim(),
-            subline: document.getElementById('subline').value.trim(),
-            timestamp: new Date().toISOString(),
-            input_id: generateInputId()
-          };
+          showLoadingState(true);
+          showProgressMessage("Content wird generiert...");
           
-          // Add selected content types
-          const checkboxes = document.querySelectorAll('.content-checkbox:checked');
-          checkboxes.forEach(checkbox => {
-            const channelName = checkbox.id.replace('enable_', '');
-            formData[`enable_${channelName}`] = true;
-          });
-          
-          // Bildauswahl erfolgt später im Review-Process!
-          
-          // Store input_id for later use
-          localStorage.setItem('current_input_id', formData.input_id);
-          
-          console.log('Sending form data:', formData);
-          
-          // Send to Make.com webhook
-          const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
           const response = await fetch(webhookUrl, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
           });
-          
+
           if (response.ok) {
-            // Update request count
+            // Update request counter
             requestCount++;
             localStorage.setItem('dailyRequestCount', requestCount.toString());
             document.getElementById('request-count').textContent = requestCount;
             
-            showSuccessMessage('✅ Ihre Anfrage wurde übermittelt! Der Content wird nun generiert...');
+            showSuccessMessage("Erfolgreich gestartet! ✅");
             
-            // Start polling for results
-            startPollingForResults(formData.input_id);
+            // Store input_id for review loading
+            localStorage.setItem('current_input_id', payload.input_id);
+            document.getElementById("input_id").value = payload.input_id;
+            
+            // Create content sections for review
+            createContentSections(payload.selected_channels);
+            showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
+            
+            // Start polling after 30 seconds
+            setTimeout(async () => {
+              await startIntelligentPolling();
+            }, 30000);
             
           } else {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
-          
         } catch (error) {
-          console.error('Submission error:', error);
-          showErrorMessage(`Fehler beim Übermitteln: ${error.message}`);
+          console.error("Submission error:", error);
+          showErrorMessage(`Fehler beim Übertragen: ${error.message}`);
         } finally {
           showLoadingState(false);
         }
       }
       
       function generateInputId() {
-        return 'content_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        return Date.now().toString();
+      }
+
+      // Dynamic Content Sections Creation (wie in der Referenz)
+      function createContentSections(selectedChannels) {
+        const container = document.getElementById("content-sections-container");
+        if (!container) return;
+        
+        container.innerHTML = "";
+        
+        selectedChannels.forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const sectionDiv = document.createElement('div');
+          sectionDiv.id = `${channel}-section`;
+          sectionDiv.className = 'content-section';
+          
+          const postingButtons = config.postingEnabled ? `
+            <div class="post-action-buttons">
+              <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
+                🚀 Sofort posten
+              </button>
+              <button class="action-btn btn-schedule" onclick="scheduleContent('${channel}')" disabled>
+                📅 Planen
+              </button>
+              <button class="action-btn btn-draft" onclick="saveDraft('${channel}')" disabled>
+                📝 Als Entwurf
+              </button>
+            </div>
+          ` : `
+            <div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
+              Automatisches Posting für diesen Kanal noch nicht verfügbar
+            </div>
+          `;
+          
+          sectionDiv.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: between; margin-bottom: 15px;">
+              <label style="font-size: 18px; font-weight: 600; color: #1f2937; margin: 0;">${config.label}:</label>
+              <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                <span style="font-size: 12px; color: #6b7280;">${config.imageFormat}</span>
+                <span class="status-badge" style="background: #dbeafe; color: #1e40af;">Wird generiert...</span>
+              </div>
+            </div>
+            <textarea id="${config.textField}" class="auto-resize" 
+                      placeholder="${config.label} Content wird generiert..."
+                      oninput="autoResize(this); updatePostingButtons('${channel}')"></textarea>
+            <select id="${config.statusField}" onchange="updatePostingButtons('${channel}')">
+              <option value="pending">Auswahl treffen</option>
+              <option value="yes">Freigeben</option>
+              <option value="no">Ablehnen</option>
+            </select>
+            ${postingButtons}
+          `;
+          
+          container.appendChild(sectionDiv);
+        });
       }
 
       // ========================================
