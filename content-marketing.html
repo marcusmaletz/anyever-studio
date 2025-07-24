@@ -380,105 +380,91 @@
         transform: none;
       }
       
-      .manual-btn {
-        background: var(--any-ever-light-grey);
-        margin-right: 15px;
-      }
-      
-      .manual-btn:hover {
-        background: var(--any-ever-dark-grey);
-      }
-      
-      /* Review Container - initially hidden */
       .review-container {
         display: none;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s ease-in-out;
       }
       
       .review-container.show {
         display: block;
-        animation: slideDown 0.3s ease-in-out;
+        opacity: 1;
+        transform: translateY(0);
       }
       
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .review-section {
+        padding: 40px;
+        background: var(--background-content);
       }
       
       .content-section {
-        margin-bottom: 30px;
-        padding: 25px;
-        border: 2px solid var(--border-light);
-        border-radius: 12px;
         background: var(--background-content);
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
         transition: all 0.3s ease;
       }
       
       .content-section:hover {
-        border-color: var(--any-ever-gold);
-        background: #fafafa;
+        border-color: rgba(192, 174, 102, 0.3);
+        box-shadow: 0 2px 8px rgba(192, 174, 102, 0.1);
       }
       
       .content-section textarea {
-        margin-top: 10px;
-      }
-      
-      .content-section select {
         width: 100%;
-        padding: 12px 16px;
+        min-height: 120px;
+        margin-bottom: 15px;
+        padding: 15px;
         border: 2px solid var(--border-light);
         border-radius: 8px;
-        font-size: 14px;
-        background: var(--background-content);
-        color: var(--any-ever-black);
-        margin-top: 10px;
-        transition: all 0.3s ease;
         font-family: var(--font-primary);
-        font-weight: var(--font-weight-normal);
+        font-size: 14px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
       }
       
-      .content-section select:focus {
-        outline: none;
+      .content-section textarea:focus {
         border-color: var(--any-ever-gold);
+        outline: none;
         box-shadow: var(--focus-gold);
       }
       
-      .status-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: var(--font-weight-medium);
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-normal);
+      .content-section select {
+        padding: 10px 15px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
         font-family: var(--font-primary);
+        font-size: 14px;
+        background: var(--background-content);
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+        margin-bottom: 15px;
+      }
+      
+      .content-section select:focus {
+        border-color: var(--any-ever-gold);
+        outline: none;
       }
       
       .post-action-buttons {
         display: flex;
         gap: 10px;
-        margin-top: 15px;
         flex-wrap: wrap;
       }
       
       .action-btn {
         padding: 8px 16px;
+        border: none;
         border-radius: 6px;
-        font-size: 14px;
+        font-family: var(--font-primary);
+        font-size: 12px;
         font-weight: var(--font-weight-medium);
         cursor: pointer;
-        transition: all 0.2s;
-        border: none;
-        font-family: var(--font-primary);
-      }
-      
-      .action-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+        transition: all 0.3s ease;
+        flex: 1;
+        min-width: 120px;
       }
       
       .btn-post { 
@@ -601,7 +587,7 @@
     <!-- Rate Limit Display -->
     <div id="rate-limit-container" style="display: none;">
       <div class="rate-limit-timer">
-        <span id="rate-limit-text"></span>
+        <span>⏱️ <strong>Rate Limit erreicht:</strong> Noch <span id="rate-limit-text"></span>
       </div>
     </div>
 
@@ -632,6 +618,11 @@
         <div class="form-group">
           <label for="subline">Subline (optional)</label>
           <textarea id="subline" class="auto-resize" placeholder="Zusätzliche Informationen oder Untertitel" rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input_image_idea">Bildidee (optional)</label>
+          <textarea id="input_image_idea" class="auto-resize" placeholder="Beschreiben Sie Ihre Bildvorstellung für die Social Media Posts" rows="2" oninput="autoResize(this)"></textarea>
         </div>
 
         <!-- Enhanced Content Type Selection -->
@@ -793,6 +784,44 @@
       </div>
     </div>
 
+    <!-- Content Review & Posting Section - initially hidden -->
+    <div class="container review-container" id="review-container">
+      <div class="header">
+        <div class="header-content">
+          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
+        </div>
+      </div>
+
+      <div class="review-section" style="padding: 40px;">
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />d="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+
+        <div id="content-sections-container"></div>
+
+        <div class="submit-section">
+          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+            🔄 Content aktualisieren
+          </button>
+          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
+            Freigaben speichern
+          </button>
+        </div>
+      </div>
+      
+      <div class="anyever-footer">
+        <img 
+          src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+          alt="ANY EVER Logo" 
+          class="logo-footer"
+        >
+        <div class="tagline">ENJOY.AUDIO</div>
+        
+        <!-- Version Info - dezent unten rechts -->
+        <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
+          v2.2.0 | 24.07.2025 19:55
+        </div>
+      </div>
+    </div>
+
     <script>
       // Global Variables & Rate Limiting
       const inputId = Date.now().toString();
@@ -929,141 +958,136 @@
         
         document.getElementById("input_id").value = inputId;
         
-        // Kacheln basierend auf Config deaktivieren
-        applyChannelConfig();
-        
-        // Add click handlers for content type cards
-        Object.keys(CONTENT_TYPES).forEach(type => {
-          const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
-          const card = document.getElementById(`card-${type}`);
+        // Apply Channel Config
+        Object.keys(CHANNEL_CONFIG).forEach(channel => {
+          const checkbox = document.getElementById(`enable_${channel}`);
+          const card = document.getElementById(`card-${channel}`);
           
           if (checkbox && card) {
-            checkbox.addEventListener('change', () => updateCardSelection(type));
-            updateCardSelection(type); // Initial state
+            checkbox.checked = CHANNEL_CONFIG[channel];
+            
+            if (CHANNEL_CONFIG[channel]) {
+              card.classList.add('selected');
+            } else {
+              card.style.opacity = '0.5';
+              card.style.pointerEvents = 'none';
+            }
           }
         });
         
-        // Load daily counter
-        const today = new Date().toDateString();
-        const rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
-        if (rateLimitData.date === today) {
-          document.getElementById('daily-request-count').textContent = rateLimitData.count || 0;
-        }
+        updateRequestCounter();
+        
+        document.querySelectorAll('.content-checkbox').forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+            const card = this.closest('.content-type-card');
+            card.classList.toggle('selected', this.checked);
+          });
+        });
       });
 
-      function updateCardSelection(type) {
-        const checkbox = document.getElementById(CONTENT_TYPES[type].enableField);
-        const card = document.getElementById(`card-${type}`);
-        
-        if (checkbox && card) {
-          if (checkbox.checked) {
-            card.classList.add('selected');
-          } else {
-            card.classList.remove('selected');
-          }
-        }
-      }
-
-      function applyChannelConfig() {
-        Object.keys(CHANNEL_CONFIG).forEach(channel => {
-          const card = document.getElementById(`card-${channel}`);
-          const checkbox = document.getElementById(`enable_${channel}`);
-          
-          if (card && !CHANNEL_CONFIG[channel]) {
-            card.classList.add('coming-soon');
-            
-            if (checkbox) {
-              checkbox.disabled = true;
-              checkbox.checked = false;
-            }
-            
-            if (!card.querySelector('.coming-soon-badge')) {
-              const badge = document.createElement('div');
-              badge.className = 'coming-soon-badge';
-              badge.textContent = 'Coming soon';
-              card.querySelector('label > div').appendChild(badge);
-            }
-          }
-        });
-      }
-
       // Rate Limiting Functions
-      function checkRateLimit() {
-        const now = Date.now();
+      function getRateLimitData() {
+        const stored = localStorage.getItem(RATE_LIMITS.STORAGE_KEY);
+        if (!stored) return { requests: 0, lastReset: new Date().toDateString(), lastRequest: null };
+        return JSON.parse(stored);
+      }
+
+      function updateRateLimit() {
+        const data = getRateLimitData();
         const today = new Date().toDateString();
         
-        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
-        
-        if (rateLimitData.date !== today) {
-          rateLimitData = { date: today, count: 0, lastRequest: 0 };
+        if (data.lastReset !== today) {
+          data.requests = 0;
+          data.lastReset = today;
         }
         
-        if (rateLimitData.count >= RATE_LIMITS.DAILY_MAX) {
-          showErrorMessage(`Tageslimit erreicht (${RATE_LIMITS.DAILY_MAX} Requests). Versuchen Sie es morgen wieder.`);
-          return false;
+        data.requests++;
+        data.lastRequest = Date.now();
+        
+        localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(data));
+        updateRequestCounter();
+        
+        if (data.requests >= RATE_LIMITS.DAILY_MAX) {
+          showRateLimitBanner();
         }
+      }
+
+      function checkRateLimit() {
+        const data = getRateLimitData();
+        const today = new Date().toDateString();
         
-        const timeSinceLastRequest = now - rateLimitData.lastRequest;
-        const cooldownMs = RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000;
+        if (data.lastReset !== today) return true;
         
-        if (timeSinceLastRequest < cooldownMs) {
-          const remainingTime = Math.ceil((cooldownMs - timeSinceLastRequest) / 1000);
-          startCooldownTimer(remainingTime);
-          return false;
+        if (data.requests >= RATE_LIMITS.DAILY_MAX) {
+          if (data.lastRequest) {
+            const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
+            const now = Date.now();
+            
+            if (now < cooldownEnd) {
+              const remaining = Math.ceil((cooldownEnd - now) / 60000);
+              showErrorMessage(`Rate Limit erreicht. Versuchen Sie es in ${remaining} Minuten erneut.`);
+              return false;
+            } else {
+              data.requests = 0;
+              localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(data));
+              updateRequestCounter();
+              hideRateLimitBanner();
+            }
+          }
         }
         
         return true;
       }
-      
-      function updateRateLimit() {
+
+      function updateRequestCounter() {
+        const data = getRateLimitData();
         const today = new Date().toDateString();
-        let rateLimitData = JSON.parse(localStorage.getItem(RATE_LIMITS.STORAGE_KEY) || '{}');
-        
-        if (rateLimitData.date !== today) {
-          rateLimitData = { date: today, count: 0, lastRequest: 0 };
-        }
-        
-        rateLimitData.count++;
-        rateLimitData.lastRequest = Date.now();
-        
-        localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(rateLimitData));
-        document.getElementById('daily-request-count').textContent = rateLimitData.count;
-      }
-      
-      function startCooldownTimer(seconds) {
-        const container = document.getElementById('rate-limit-container');
-        const text = document.getElementById('rate-limit-text');
-        
-        container.style.display = 'block';
-        document.getElementById('submit-btn').disabled = true;
-        
-        const updateTimer = () => {
-          if (seconds <= 0) {
-            container.style.display = 'none';
-            document.getElementById('submit-btn').disabled = false;
-            return;
-          }
-          
-          const minutes = Math.floor(seconds / 60);
-          const secs = seconds % 60;
-          text.textContent = `Cooldown aktiv: ${minutes}:${secs.toString().padStart(2, '0')} verbleibend`;
-          
-          seconds--;
-          setTimeout(updateTimer, 1000);
-        };
-        
-        updateTimer();
+        const requests = data.lastReset === today ? data.requests : 0;
+        document.getElementById("daily-request-count").textContent = requests;
       }
 
-      // Base64 Functions
-      function encodeBase64Text(text) {
+      function showRateLimitBanner() {
+        const banner = document.getElementById("rate-limit-container");
+        const data = getRateLimitData();
+        
+        if (data.lastRequest) {
+          const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
+          const now = Date.now();
+          
+          if (now < cooldownEnd) {
+            const remaining = Math.ceil((cooldownEnd - now) / 60000);
+            document.getElementById("rate-limit-text").textContent = `${remaining} Minuten`;
+            banner.style.display = "block";
+            
+            rateLimitTimer = setInterval(() => {
+              const newRemaining = Math.ceil((cooldownEnd - Date.now()) / 60000);
+              if (newRemaining <= 0) {
+                hideRateLimitBanner();
+              } else {
+                document.getElementById("rate-limit-text").textContent = `${newRemaining} Minuten`;
+              }
+            }, 60000);
+          }
+        }
+      }
+
+      function hideRateLimitBanner() {
+        document.getElementById("rate-limit-container").style.display = "none";
+        if (rateLimitTimer) {
+          clearInterval(rateLimitTimer);
+          rateLimitTimer = null;
+        }
+      }
+
+      // Base64 Utilities
+      function encodeToBase64(text) {
         try {
-          if (!text || text.trim() === '') return '';
-          const utf8Bytes = new TextEncoder().encode(text);
-          const binaryString = String.fromCharCode(...utf8Bytes);
+          const encoder = new TextEncoder();
+          const bytes = encoder.encode(text);
+          const binaryString = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
           return btoa(binaryString);
         } catch (error) {
-          console.error("❌ Base64 Encode Fehler:", error);
+          console.error("❌ Base64 Encoding Fehler:", error);
           return text;
         }
       }
@@ -1117,6 +1141,7 @@
           input_id: inputId,
           thema: thema,
           subline: document.getElementById("subline").value,
+          input_image_idea: document.getElementById("input_image_idea").value,
           selected_channels: selectedChannels
         };
 
@@ -1170,7 +1195,7 @@
         }
       }
 
-      // Dynamic Content Sections with Posting Actions
+      // Dynamic Content Sections with Posting Actions - FIXED VERSION
       function createContentSections(selectedChannels) {
         const container = document.getElementById("content-sections-container");
         container.innerHTML = "";
@@ -1181,7 +1206,8 @@
           sectionDiv.id = `${channel}-section`;
           sectionDiv.className = 'content-section';
           
-          const postingButtons = config.postingEnabled ? `
+          const postingButtons = config.postingEnabled ?
+            `
             <div class="post-action-buttons">
               <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
                 🚀 Sofort posten
@@ -1200,7 +1226,7 @@
           `;
           
           sectionDiv.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: between; margin-bottom: 15px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
               <label style="font-size: 18px; font-weight: 600; color: #1f2937; margin: 0;">${config.label}:</label>
               <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
                 <span style="font-size: 12px; color: #6b7280;">${config.imageFormat}</span>
@@ -1237,65 +1263,6 @@
         buttons.forEach(btn => {
           btn.disabled = !(isApproved && hasContent);
         });
-      }
-
-      // Status Message System
-      function showStatusMessage(message, type, persistent = false) {
-        const container = document.getElementById("status-container");
-        
-        if (!persistent) {
-          const existing = container.querySelector('.status-message:not(.persistent)');
-          if (existing) existing.remove();
-        } else {
-          const existing = container.querySelector('.status-message');
-          if (existing) existing.remove();
-        }
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
-        
-        const styles = {
-          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
-          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
-          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
-          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
-        };
-        
-        messageDiv.setAttribute('style', styles[type] || styles.info);
-        messageDiv.textContent = message;
-        
-        container.appendChild(messageDiv);
-        
-        if ((type === 'success' || type === 'info') && !persistent) {
-          setTimeout(() => {
-            messageDiv.style.opacity = '0';
-            setTimeout(() => messageDiv.remove(), 300);
-          }, 8000);
-        }
-      }
-
-      function clearPersistentMessage() {
-        const container = document.getElementById("status-container");
-        const existing = container.querySelector('.status-message.persistent');
-        if (existing) existing.remove();
-      }
-
-      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
-      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
-      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
-      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
-      function showInfoMessage(message, persistent = false) { showStatusMessage(message, 'info', persistent); }
-
-      function showLoadingState(isLoading, buttonId = "submit-btn") {
-        const button = document.getElementById(buttonId);
-        if (button) {
-          button.disabled = isLoading;
-          if (isLoading) {
-            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
-          } else {
-            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
-          }
-        }
       }
 
       // Polling System
@@ -1542,39 +1509,66 @@
           .replace(/\r/g, '\\r')
           .replace(/\t/g, '\\t');
       }
+
+      // Status Message System
+      function showStatusMessage(message, type, persistent = false) {
+        const container = document.getElementById("status-container");
+        
+        if (!persistent) {
+          const existing = container.querySelector('.status-message:not(.persistent)');
+          if (existing) existing.remove();
+        } else {
+          const existing = container.querySelector('.status-message');
+          if (existing) existing.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
+        
+        const styles = {
+          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
+          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
+          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
+          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
+        };
+        
+        messageDiv.setAttribute('style', styles[type] || styles.info);
+        messageDiv.textContent = message;
+        
+        container.appendChild(messageDiv);
+        
+        if ((type === 'success' || type === 'info') && !persistent) {
+          setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+          }, 8000);
+        }
+      }
+
+      function clearPersistentMessage() {
+        const container = document.getElementById("status-container");
+        const existing = container.querySelector('.status-message.persistent');
+        if (existing) existing.remove();
+      }
+
+      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
+      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
+      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
+      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
+      function showInfoMessage(message, persistent = false) { showStatusMessage(message, 'info', persistent); }
+
+      function showLoadingState(isLoading, buttonId = "submit-btn") {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
+          } else {
+            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
+          }
+        }
+      }
     </script>
   </body>
-</html> 
-               
-        <!-- Version Info - dezent unten rechts -->
-        <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
-          v2.2.0 | 24.07.2025 19:55
-        </div>
-      </div>
-    </div>
-
-    <!-- Content Review & Posting Section - initially hidden -->
-    <div class="container review-container" id="review-container">
-      <div class="header">
-        <div class="header-content">
-          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
-        </div>
-      </div>
-
-      <div class="review-section" style="padding: 40px;">
-        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
-
-        <div id="content-sections-container"></div>
-
-        <div class="submit-section">
-          <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
-            🔄 Content aktualisieren
-          </button>
-          <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="display: none;">
-            Freigaben speichern
-          </button>
-        </div>
-      </div>
-      
-      <div class="anyever-footer">
-        <img
+</html>="padding: 40px;">
+        <input type="text" i
