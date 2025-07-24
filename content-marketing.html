@@ -1195,7 +1195,7 @@
         }
       }
 
-      // Dynamic Content Sections with Posting Actions - FIXED VERSION
+      // Dynamic Content Sections with Posting Actions - KOMPLETT KORRIGIERT
       function createContentSections(selectedChannels) {
         const container = document.getElementById("content-sections-container");
         container.innerHTML = "";
@@ -1322,14 +1322,22 @@
         try {
           if (!silentMode) showProgressMessage("Lade Content...");
           
+          console.log("🔍 === DEBUGGING loadReview ===");
+          console.log("Input ID:", inputIdValue);
+          console.log("Webhook URL:", webhookUrl);
+          
           const response = await fetch(webhookUrl);
           if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 
           const responseText = await response.text();
+          console.log("📥 Raw Response:", responseText);
+          
           let data;
           try {
             data = JSON.parse(responseText);
+            console.log("📊 Parsed Data:", data);
           } catch (parseError) {
+            console.error("❌ JSON Parse Error:", parseError);
             if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
             return false;
           }
@@ -1342,14 +1350,23 @@
             const config = CONTENT_TYPES[type];
             const sectionElement = document.getElementById(`${type}-section`);
             
+            console.log(`🔍 Checking ${type}:`, {
+              sectionExists: !!sectionElement,
+              backendTextKey: config.backendTextKey,
+              backendData: data[config.backendTextKey]
+            });
+            
             if (sectionElement) {
               totalSections++;
               
               let backendText = data[config.backendTextKey];
               const backendStatus = data[config.backendStatusKey];
               
+              console.log(`📝 ${type} Raw Text:`, backendText);
+              
               if (backendText) {
                 backendText = decodeBase64Text(backendText);
+                console.log(`📝 ${type} Decoded Text:`, backendText);
               }
               
               const hasContent = backendText && backendText.trim() !== '';
@@ -1361,16 +1378,34 @@
                 const textField = document.getElementById(config.textField);
                 const statusField = document.getElementById(config.statusField);
                 
+                console.log(`✅ ${type} Content found:`, {
+                  textField: !!textField,
+                  statusField: !!statusField,
+                  content: backendText.substring(0, 100) + "..."
+                });
+                
                 if (textField) {
                   textField.value = backendText || "";
                   autoResize(textField);
+                  console.log(`📝 ${type} Text field updated`);
                 }
                 if (statusField) statusField.value = backendStatus || "pending";
                 
                 updateSectionStatus(sectionElement, backendStatus);
                 updatePostingButtons(type);
+              } else {
+                console.log(`⚠️ ${type} No content found`);
               }
+            } else {
+              console.log(`❌ ${type} Section element not found!`);
             }
+          });
+          
+          console.log("📊 Final Stats:", {
+            totalSections,
+            sectionsWithContent,
+            hasGeneratedContent,
+            allSectionsFilled: totalSections > 0 && sectionsWithContent === totalSections
           });
           
           const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
