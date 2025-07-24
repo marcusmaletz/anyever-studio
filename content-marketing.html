@@ -939,12 +939,72 @@
       }
 
       // ========================================
+      // STATUS MESSAGE SYSTEM
+      // ========================================
+      
+      function showStatusMessage(message, type = 'info', persistent = false) {
+        const container = document.getElementById('status-container');
+        
+        // Remove existing non-persistent messages
+        if (!persistent) {
+          const existing = container.querySelector('.status-message:not(.persistent)');
+          if (existing) existing.remove();
+        } else {
+          // Remove any existing persistent message
+          const existing = container.querySelector('.status-message.persistent');
+          if (existing) existing.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `status-message ${type}${persistent ? ' persistent' : ''}`;
+        messageDiv.innerHTML = message;
+        
+        container.appendChild(messageDiv);
+        
+        // Auto-remove non-persistent messages after 5 seconds
+        if (!persistent && (type === 'success' || type === 'info')) {
+          setTimeout(() => {
+            if (messageDiv.parentNode) {
+              messageDiv.style.opacity = '0';
+              setTimeout(() => messageDiv.remove(), 300);
+            }
+          }, 8000);
+        }
+      }
+      
+      function showSuccessMessage(message) {
+        showStatusMessage(message, 'success');
+      }
+      
+      function showErrorMessage(message) {
+        showStatusMessage(message, 'error');
+      }
+      
+      function showInfoMessage(message, persistent = false) {
+        showStatusMessage(message, 'info', persistent);
+      }
+      
+      function showWarningMessage(message) {
+        showStatusMessage(message, 'warning');
+      }
+      
+      function showProgressMessage(message) {
+        showStatusMessage(message, 'info');
+      }
+      
+      function clearPersistentMessage() {
+        const container = document.getElementById('status-container');
+        const existing = container.querySelector('.status-message.persistent');
+        if (existing) existing.remove();
+      }
+
+      // ========================================
       // AUTO-RESIZE TEXTAREA FUNKTION
       // ========================================
       
       function autoResize(textarea) {
         textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+        textarea.style.height = Math.max(100, textarea.scrollHeight) + 'px';
       }
 
       // ========================================
@@ -1244,78 +1304,365 @@
       }
 
       // ========================================
-      // POLLING SYSTEM FÜR ERGEBNISSE
+      // POLLING SYSTEM (aus der Referenz übernommen)
       // ========================================
       
-      async function startPollingForResults(inputId) {
+      async function startIntelligentPolling() {
         let attempts = 0;
-        const maxAttempts = 24; // 6 Minuten maximum
+        const maxAttempts = 24;
         
-        showInfoMessage('🔄 Content wird generiert... Dies kann bis zu 6 Minuten dauern.', true);
+        console.log("🚀 === POLLING GESTARTET ===");
+        console.log(`Ziel: ${maxAttempts} Versuche über ${maxAttempts * 15 / 60} Minuten`);
         
         const poll = async () => {
           attempts++;
-          console.log(`Polling attempt ${attempts}/${maxAttempts} for input_id: ${inputId}`);
+          console.log(`\n🔄 === POLLING VERSUCH ${attempts}/${maxAttempts} ===`);
+          console.log(`⏰ Zeitstempel: ${new Date().toLocaleTimeString()}`);
+          
+          showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
           
           try {
-            const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputId}`;
-            const response = await fetch(webhookUrl);
+            console.log("📞 Rufe loadReview(true) auf...");
+            const success = await loadReview(true);
+            console.log(`📊 loadReview Ergebnis: ${success ? 'ERFOLG' : 'KEIN CONTENT'}`);
             
-            if (!response.ok) {
-              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            if (success) {
+              console.log("✅ === POLLING ERFOLGREICH BEENDET ===");
+              clearPersistentMessage();
+              showSuccessMessage("✅ Content ist da! Automatisch geladen.");
+              return; // WICHTIG: Polling stoppen
             }
             
-            const data = await response.json();
-            console.log('Polling response:', data);
+            console.log(`⏳ Versuch ${attempts}: Noch kein Content verfügbar`);
             
-            // Check if content is ready
-            if (hasContentReady(data)) {
-              clearPersistentMessage();
-              showSuccessMessage('✅ Content ist fertig! Sie werden zum Review-Interface weitergeleitet...');
-              
-              // Redirect to review page with input_id
+            if (attempts < maxAttempts) {
+              console.log(`⏰ Plane nächsten Poll in 15 Sekunden (Versuch ${attempts + 1}/${maxAttempts})`);
               setTimeout(() => {
-                window.location.href = `content-review.html?input_id=${inputId}`;
-              }, 2000);
+                console.log(`🔄 Starte geplanten Poll ${attempts + 1}...`);
+                poll();
+              }, 15000);
+            } else {
+              console.log("🛑 === POLLING LIMIT ERREICHT ===");
+              clearPersistentMessage();
+              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
               
-              return; // Stop polling
+              const manualBtn = document.getElementById("manual-load-btn");
+              if (manualBtn) {
+                manualBtn.style.display = "inline-block";
+                console.log("✅ Manueller Button jetzt sichtbar");
+              } else {
+                console.error("❌ Manual-Load-Button nicht gefunden!");
+              }
             }
-            
-            // Continue polling if not ready and haven't exceeded max attempts
-            if (attempts < maxAttempts) {
-              setTimeout(poll, 15000); // Wait 15 seconds before next attempt
-            } else {
-              clearPersistentMessage();
-              showWarningMessage('⏱️ Die Generierung dauert länger als üblich. Bitte überprüfen Sie den Status manuell.');
-            }
-            
           } catch (error) {
-            console.error('Polling error:', error);
+            console.error(`❌ === POLLING FEHLER BEI VERSUCH ${attempts} ===`);
+            console.error("Fehler-Details:", error);
+            console.error("Fehler-Stack:", error.stack);
+            
             if (attempts < maxAttempts) {
-              setTimeout(poll, 15000); // Retry on error
+              console.log("🔄 Versuche trotz Fehler weiter...");
+              setTimeout(() => poll(), 15000);
             } else {
+              console.log("🛑 Polling wegen zu vielen Fehlern beendet");
               clearPersistentMessage();
-              showErrorMessage('❌ Fehler beim Abrufen des Status. Bitte versuchen Sie es später erneut.');
+              showErrorMessage("❌ Fehler beim automatischen Laden. Verwenden Sie den 'Content aktualisieren' Button.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
             }
           }
         };
         
-        // Start first poll after 30 seconds
-        setTimeout(poll, 30000);
+        console.log("🏁 Starte ersten Poll...");
+        poll(); // Starte das Polling
       }
-      
-      function hasContentReady(data) {
-        // Check if at least some content fields are present and not empty
-        const contentFields = [
-          'linkedin_text', 'facebook_text', 'instagram_feed_text', 
-          'instagram_story_text', 'instagram_reel_text', 'blog_text', 
-          'podcast_text', 'avatar_text', 'newsletter_text'
-        ];
+
+      async function loadReview(silentMode = false) {
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) {
+          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+          return false;
+        }
+
+        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+
+        try {
+          if (!silentMode) showProgressMessage("Lade Content...");
+          
+          console.log(`🔍 Lade Content für input_id: ${inputIdValue}`);
+          
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+          const responseText = await response.text();
+          console.log("🔍 RAW RESPONSE:", responseText.substring(0, 200) + "...");
+          
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error("❌ JSON Parse Fehler:", parseError);
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents. Fehler: ${parseError.message}`);
+            return false;
+          }
+          
+          console.log("🔍 VOLLSTÄNDIGE BACKEND-RESPONSE:", data);
+          
+          let hasGeneratedContent = false;
+          let contentStats = {};
+          let sectionsWithContent = 0;
+          let totalSections = 0;
+          
+          // ✅ NUR BESTEHENDE SECTIONS PRÜFEN!
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const config = CONTENT_TYPES[type];
+            const sectionElement = document.getElementById(`${type}-section`);
+            
+            // Nur prüfen wenn Section tatsächlich existiert (= Kanal war ausgewählt)
+            if (sectionElement) {
+              totalSections++;
+              
+              let backendText = data[config.backendTextKey];
+              const backendStatus = data[config.backendStatusKey];
+              
+              if (backendText) {
+                console.log(`🔍 ${config.label} - Original Base64 (erste 50 Zeichen):`, backendText.substring(0, 50));
+                backendText = decodeBase64Text(backendText);
+                console.log(`✅ ${config.label} - Dekodiert (erste 100 Zeichen):`, backendText.substring(0, 100));
+              }
+              
+              const hasContent = backendText && backendText.trim() !== '';
+              contentStats[type] = {
+                hasContent: hasContent,
+                contentLength: backendText ? backendText.length : 0,
+                status: backendStatus,
+                backendKey: config.backendTextKey,
+                sectionExists: true
+              };
+              
+              console.log(`📝 ${config.label}:`, contentStats[type]);
+              
+              if (hasContent) {
+                sectionsWithContent++;
+                hasGeneratedContent = true;
+                sectionElement.style.display = 'block';
+                
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                
+                if (textField) {
+                  textField.value = backendText || "";
+                  autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+              } else {
+                console.log(`❌ ${config.label} Section vorhanden, aber kein Content`);
+              }
+            } else {
+              console.log(`⏭️ ${config.label} Section nicht vorhanden (Kanal nicht ausgewählt)`);
+              contentStats[type] = {
+                hasContent: false,
+                sectionExists: false,
+                skipped: true
+              };
+            }
+          });
+          
+          console.log("📊 CONTENT STATISTIK:", contentStats);
+          console.log(`🎯 Sections mit Content: ${sectionsWithContent}/${totalSections}`);
+          console.log(`🎯 Alle Sections befüllt: ${sectionsWithContent === totalSections ? 'JA' : 'NEIN'}`);
+          
+          // ✅ NUR ERFOLGREICH WENN ALLE EXISTIERENDEN SECTIONS CONTENT HABEN
+          const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+          
+          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+          
+          if (allSectionsFilled) {
+            clearPersistentMessage();
+            if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
+            console.log("✅ === ALLE SECTIONS KOMPLETT - POLLING BEENDET ===");
+            return true;
+          } else {
+            if (!silentMode) {
+              showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
+              console.log(`⏳ Noch nicht alle Sections befüllt: ${sectionsWithContent}/${totalSections}`);
+            }
+            return false;
+          }
+          
+        } catch (error) {
+          console.error("❌ Fehler beim Laden der Review-Daten", error);
+          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+          return false;
+        }
+      }
+
+      function updateSectionStatus(sectionDiv, status) {
+        const statusBadge = sectionDiv.querySelector('.status-badge');
+        if (statusBadge) {
+          const statusConfig = {
+            'pending': { text: 'Pending', class: 'background: #fef3c7; color: #92400e;' },
+            'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
+            'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
+            'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
+          };
+          
+          const config = statusConfig[status] || statusConfig['pending'];
+          statusBadge.textContent = config.text;
+          statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
+        }
+      }
+
+      function updatePostingButtons(channel) {
+        const config = CONTENT_TYPES[channel];
+        const statusField = document.getElementById(config.statusField);
+        const textField = document.getElementById(config.textField);
+        const section = document.getElementById(`${channel}-section`);
         
-        return contentFields.some(field => {
-          const value = data[field];
-          return value && value.trim() !== '';
+        if (!section || !config.postingEnabled) return;
+        
+        const buttons = section.querySelectorAll('.action-btn');
+        const isApproved = statusField && statusField.value === 'yes';
+        const hasContent = textField && textField.value.trim() !== '';
+        
+        buttons.forEach(btn => {
+          btn.disabled = !(isApproved && hasContent);
         });
+      }
+
+      // Base64 Functions
+      function encodeBase64Text(text) {
+        try {
+          if (!text || text.trim() === '') return '';
+          const utf8Bytes = new TextEncoder().encode(text);
+          const binaryString = String.fromCharCode(...utf8Bytes);
+          return btoa(binaryString);
+        } catch (error) {
+          console.error("❌ Base64 Encode Fehler:", error);
+          return text;
+        }
+      }
+
+      function decodeBase64Text(base64String) {
+        try {
+          if (!base64String || base64String.trim() === '') return '';
+          const binaryString = atob(base64String);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          return new TextDecoder('utf-8').decode(bytes);
+        } catch (error) {
+          console.error("❌ Base64 Decode Fehler:", error);
+          try {
+            return atob(base64String);
+          } catch (fallbackError) {
+            return base64String;
+          }
+        }
+      }
+
+      // Posting Functions
+      async function postContent(channel) {
+        const config = CONTENT_TYPES[channel];
+        const content = document.getElementById(config.textField).value;
+        const inputIdValue = document.getElementById("input_id").value;
+        
+        if (!confirm(`${config.label} sofort veröffentlichen?`)) return;
+        
+        try {
+          showProgressMessage(`Veröffentliche ${config.label}...`);
+          
+          const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              mode: "post",
+              channel: channel,
+              content: escapeJsonString(content),
+              action: "immediate"
+            }),
+          });
+          
+          if (response.ok) {
+            showSuccessMessage(`✅ ${config.label} erfolgreich veröffentlicht!`);
+            updateSectionStatus(document.getElementById(`${channel}-section`), 'posted');
+          } else {
+            throw new Error(`HTTP ${response.status}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler beim Veröffentlichen: ${error.message}`);
+        }
+      }
+
+      async function scheduleContent(channel) {
+        const config = CONTENT_TYPES[channel];
+        const scheduleTime = prompt("Wann soll gepostet werden? (Format: YYYY-MM-DD HH:MM)");
+        
+        if (!scheduleTime) return;
+        
+        showInfoMessage(`⏰ ${config.label} für ${scheduleTime} geplant (Feature in Entwicklung)`);
+      }
+
+      async function saveDraft(channel) {
+        const config = CONTENT_TYPES[channel];
+        showInfoMessage(`📝 ${config.label} als Entwurf gespeichert (Feature in Entwicklung)`);
+      }
+
+      async function submitReview() {
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save"
+        };
+
+        // Alle verfügbaren Content-Typen senden
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const config = CONTENT_TYPES[type];
+          const textElement = document.getElementById(config.textField);
+          const statusElement = document.getElementById(config.statusField);
+          
+          if (textElement && textElement.value.trim() !== '') {
+            payload[config.textField] = escapeJsonString(textElement.value);
+            payload[config.statusField] = statusElement ? statusElement.value : 'pending';
+          }
+        });
+
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+
+        try {
+          showLoadingState(true, "review-submit-btn");
+          console.log("💾 Speichere Content-Felder:", payload);
+          
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Review submission error:", error);
+          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+        } finally {
+          showLoadingState(false, "review-submit-btn");
+        }
+      }
+
+      function escapeJsonString(str) {
+        if (!str) return '';
+        return str
+          .replace(/\\/g, '\\\\')
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r')
+          .replace(/\t/g, '\\t');
       }
 
       // ========================================
