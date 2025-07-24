@@ -764,13 +764,18 @@
         </div>
       </div>
       
-      <div class="anyever-footer" style="background: var(--any-ever-black); padding: 25px 40px; text-align: center; border-top: 2px solid var(--any-ever-gold); border-radius: 0 0 16px 16px;">
+      <div class="anyever-footer" style="background: var(--any-ever-black); padding: 25px 40px; text-align: center; border-top: 2px solid var(--any-ever-gold); border-radius: 0 0 16px 16px; position: relative;">
         <img 
           src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
           alt="ANY EVER Logo" 
           style="width: 100px; height: auto; margin-bottom: 8px;"
         >
         <div style="color: var(--any-ever-stone-grey); font-size: 12px; text-transform: uppercase; letter-spacing: var(--letter-spacing-normal); font-family: var(--font-primary); font-weight: var(--font-weight-medium);">ENJOY.AUDIO</div>
+        
+        <!-- Version Info - dezent unten rechts -->
+        <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
+          v2.1.0 | 24.07.2025 15:42
+        </div>
       </div>
     </div>
 
@@ -1690,6 +1695,7 @@
       
       document.addEventListener('DOMContentLoaded', function() {
         console.log('Content Marketing Tool initialized');
+        console.log('🚀 VERSION: v2.1.0 | Build: 24.07.2025 15:42 | Features: Config-System + Thumbnails + Review');
         
         // Kacheln basierend auf Config deaktivieren
         applyChannelConfig();
