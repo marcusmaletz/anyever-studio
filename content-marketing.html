@@ -584,16 +584,6 @@
           <textarea id="subline" class="auto-resize" placeholder="Zusätzliche Informationen oder Untertitel" rows="2" oninput="autoResize(this)"></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="url">Ziel-URL (optional)</label>
-          <input type="url" id="url" placeholder="https://www.beispiel.de" />
-        </div>
-
-        <div class="form-group">
-          <label for="grafik_url">Grafik-URL (optional)</label>
-          <input type="url" id="grafik_url" placeholder="https://www.beispiel.de/bild.jpg" />
-        </div>
-
         <!-- Enhanced Content Type Selection -->
         <div class="form-group">
           <label>Content-Kanäle auswählen (mindestens einen)</label>
@@ -1133,8 +1123,6 @@
             mode: "generate",
             thema: document.getElementById('thema').value.trim(),
             subline: document.getElementById('subline').value.trim(),
-            url: document.getElementById('url').value.trim(),
-            grafik_url: document.getElementById('grafik_url').value.trim(),
             timestamp: new Date().toISOString(),
             input_id: generateInputId()
           };
