@@ -528,6 +528,58 @@
         font-weight: var(--font-weight-medium);
       }
       
+      /* Styling für das Bilder-Auswahl-Grid */
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+      }
+
+      .image-option {
+        border: 3px solid transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      }
+
+      .image-option:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      }
+
+      .image-option.selected {
+        border-color: var(--any-ever-gold);
+        box-shadow: 0 0 0 4px rgba(192, 174, 102, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .image-option img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Visuelles Feedback für die Auswahl */
+      .image-option .selected-overlay {
+        display: none;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(192, 174, 102, 0.6);
+        color: white;
+        font-size: 36px;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(2px);
+      }
+
+      .image-option.selected .selected-overlay {
+        display: flex;
+      }
+
       @media (max-width: 768px) {
         body {
           padding: 12px;
@@ -581,17 +633,14 @@
     </style>
   </head>
   <body>
-    <!-- Status Message Container -->
     <div id="status-container"></div>
 
-    <!-- Rate Limit Display -->
     <div id="rate-limit-container" style="display: none;">
       <div class="rate-limit-timer">
         <span>⏱️ <strong>Rate Limit erreicht:</strong> Noch <span id="rate-limit-text"></span>
       </div>
     </div>
 
-    <!-- Content Input Section -->
     <div class="container">
       <div class="header">
         <div class="request-counter">
@@ -625,15 +674,12 @@
           <textarea id="input_image_idea" class="auto-resize" placeholder="Beschreiben Sie Ihre Bildvorstellung für die Social Media Posts" rows="2" oninput="autoResize(this)"></textarea>
         </div>
 
-        <!-- Enhanced Content Type Selection -->
         <div class="form-group">
           <label>Content-Kanäle auswählen (mindestens einen)</label>
           
-          <!-- Business Content Section -->
           <div style="margin-top: 25px; margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Business Content</h3>
             <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-              <!-- Newsletter -->
               <div class="content-type-card" id="card-newsletter">
                 <label>
                   <input type="checkbox" id="enable_newsletter" class="content-checkbox" />
@@ -645,7 +691,6 @@
                 </label>
               </div>
 
-              <!-- Blog -->
               <div class="content-type-card" id="card-blog">
                 <label>
                   <input type="checkbox" id="enable_blog" class="content-checkbox" />
@@ -659,13 +704,10 @@
             </div>
           </div>
 
-          <!-- Social Media Section -->
           <div style="margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Social Media</h3>
             
-            <!-- Erste Reihe: LinkedIn und Facebook -->
             <div class="content-type-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 15px;">
-              <!-- LinkedIn -->
               <div class="content-type-card" id="card-linkedin">
                 <label>
                   <input type="checkbox" id="enable_linkedin" class="content-checkbox" />
@@ -677,7 +719,6 @@
                 </label>
               </div>
 
-              <!-- Facebook -->
               <div class="content-type-card" id="card-facebook">
                 <label>
                   <input type="checkbox" id="enable_facebook" class="content-checkbox" />
@@ -690,9 +731,7 @@
               </div>
             </div>
 
-            <!-- Zweite Reihe: Alle Instagram Kanäle -->
             <div class="content-type-grid" style="grid-template-columns: repeat(3, 1fr);">
-              <!-- Instagram Feed -->
               <div class="content-type-card" id="card-instagram_feed">
                 <label>
                   <input type="checkbox" id="enable_instagram_feed" class="content-checkbox" />
@@ -704,7 +743,6 @@
                 </label>
               </div>
 
-              <!-- Instagram Story -->
               <div class="content-type-card" id="card-instagram_story">
                 <label>
                   <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
@@ -716,7 +754,6 @@
                 </label>
               </div>
 
-              <!-- Instagram Reel -->
               <div class="content-type-card" id="card-instagram_reel">
                 <label>
                   <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
@@ -730,11 +767,9 @@
             </div>
           </div>
 
-          <!-- Sonderformate Section -->
           <div style="margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Sonderformate</h3>
             <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-              <!-- Podcast -->
               <div class="content-type-card" id="card-podcast">
                 <label>
                   <input type="checkbox" id="enable_podcast" class="content-checkbox" />
@@ -746,7 +781,6 @@
                 </label>
               </div>
 
-              <!-- Avatar -->
               <div class="content-type-card" id="card-avatar">
                 <label>
                   <input type="checkbox" id="enable_avatar" class="content-checkbox" />
@@ -768,7 +802,6 @@
         </div>
       </div>
       
-      <!-- Footer mit Version -->
       <div class="anyever-footer">
         <img 
           src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
@@ -777,14 +810,12 @@
         >
         <div class="tagline">ENJOY.AUDIO</div>
         
-        <!-- Version Info - dezent unten rechts -->
         <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
           v2.2.1 | 24.07.2025 19:58
         </div>
       </div>
     </div>
 
-    <!-- Content Review & Posting Section - initially hidden -->
     <div class="container review-container" id="review-container">
       <div class="header">
         <div class="header-content">
@@ -793,6 +824,17 @@
       </div>
 
       <div class="review-section" style="padding: 40px;">
+        <div id="image-selection-container" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Social Media (1:1 Format)
+          </h3>
+          <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">
+            Wählen Sie ein Bild aus. Es wird für LinkedIn, Facebook und den Instagram Feed verwendet.
+          </p>
+          <div id="image-selection-grid" class="image-grid">
+            </div>
+          <input type="hidden" id="selected_image_url" name="selected_image_url">
+        </div>
         <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly /><input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
 
         <div id="content-sections-container"></div>
@@ -815,7 +857,6 @@
         >
         <div class="tagline">ENJOY.AUDIO</div>
         
-        <!-- Version Info - dezent unten rechts -->
         <div style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
           v2.2.0 | 24.07.2025 19:55
         </div>
@@ -1317,6 +1358,12 @@
           return false;
         }
 
+        // NEU: Bilder-Grid zurücksetzen
+        const imageContainer = document.getElementById("image-selection-container");
+        if (imageContainer) imageContainer.style.display = "none";
+        const imageGrid = document.getElementById("image-selection-grid");
+        if (imageGrid) imageGrid.innerHTML = "";
+
         const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
 
         try {
@@ -1451,6 +1498,18 @@
           
           const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
           
+          // NEU: Bilder-Grid befüllen, wenn Bild-URLs vorhanden sind
+          const imageUrls = [
+            data.image_option_1_url,
+            data.image_option_2_url,
+            data.image_option_3_url,
+            data.image_option_4_url
+          ].filter(url => url && url.startsWith('http')); // Nur gültige URLs nehmen
+
+          if (imageUrls.length > 0) {
+            populateImageGrid(imageUrls, data.selected_image_url);
+          }
+
           document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
           
           if (allSectionsFilled) {
@@ -1485,6 +1544,50 @@
           statusBadge.textContent = config.text;
           statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
         }
+      }
+
+      function populateImageGrid(urls, selectedUrl) {
+        const container = document.getElementById("image-selection-container");
+        const grid = document.getElementById("image-selection-grid");
+        const hiddenInput = document.getElementById("selected_image_url");
+        
+        if (!grid || !container || !hiddenInput) return;
+        
+        grid.innerHTML = ""; // Altes Grid leeren
+        
+        urls.forEach((url, index) => {
+          const isSelected = url === selectedUrl;
+        
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'image-option';
+          if (isSelected) {
+            optionDiv.classList.add('selected');
+          }
+          optionDiv.setAttribute('onclick', `selectImage(this, '${url}')`);
+          
+          optionDiv.innerHTML = `
+            <img src="${url}" alt="Bildvariante ${index + 1}">
+            <div class="selected-overlay">✔</div>
+          `;
+          
+          grid.appendChild(optionDiv);
+        });
+        
+        hiddenInput.value = selectedUrl || "";
+        container.style.display = "block"; // Grid anzeigen
+      }
+
+      function selectImage(element, imageUrl) {
+        // Alle 'selected' Klassen entfernen
+        const allOptions = document.querySelectorAll('.image-option');
+        allOptions.forEach(opt => opt.classList.remove('selected'));
+        
+        // Klasse zum angeklickten Element hinzufügen
+        element.classList.add('selected');
+        
+        // URL im versteckten Feld speichern
+        document.getElementById('selected_image_url').value = imageUrl;
+        console.log('🖼️ Bild ausgewählt:', imageUrl);
       }
 
       // Posting Functions
@@ -1539,7 +1642,8 @@
       async function submitReview() {
         const payload = {
           input_id: document.getElementById("input_id").value,
-          mode: "save"
+          mode: "save",
+          selected_image_url: document.getElementById("selected_image_url").value
         };
 
         Object.keys(CONTENT_TYPES).forEach(type => {
