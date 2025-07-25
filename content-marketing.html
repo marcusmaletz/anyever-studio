@@ -1668,7 +1668,7 @@
           const statusElement = document.getElementById(config.statusField);
           
           if (textElement && textElement.value.trim() !== '') {
-            payload[config.textField] = escapeJsonString(textElement.value);
+            payload[config.textField] = textElement.value;
             payload[config.statusField] = statusElement.value;
           }
         });
