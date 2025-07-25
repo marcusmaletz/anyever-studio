@@ -1696,16 +1696,6 @@
         }
       }
 
-      function escapeJsonString(str) {
-        if (!str) return '';
-        return str
-          .replace(/\\/g, '\\\\')
-          .replace(/"/g, '\\"')
-          .replace(/\n/g, '\\n')
-          .replace(/\r/g, '\\r')
-          .replace(/\t/g, '\\t');
-      }
-
       // Status Message System
       function showStatusMessage(message, type, persistent = false) {
         const container = document.getElementById("status-container");
