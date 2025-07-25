@@ -1477,20 +1477,20 @@
                   content: backendText.substring(0, 100) + "..."
                 });
                 
-                if (textField) {
-                  let finalText = backendText || "";
+               if (textField) {
+    // Loggt den rohen Text, wie er vom Server kommt, in die Konsole
+    console.log("===== START ROHDATEN FÜR KANAL: " + type + " =====");
+    console.log(backendText);
+    console.log("===== ENDE ROHDATEN =====");
 
-                  // Schritt 1: Ersetze die sichtbare Zeichenfolge "\\n" durch einen echten Zeilenumbruch.
-                  // Das korrigiert die Escaping-Fehler aus dem JSON.
-                  finalText = finalText.replace(/\\n/g, '\n');
+    // Der alte Code wird vorübergehend auskommentiert
+    // let finalText = backendText || "";
+    // finalText = finalText.replace(/\\n/g, '\n');
+    // textField.value = finalText;
 
-                  // Schritt 2: Stelle sicher, dass alle Arten von Zeilenumbrüchen (falls noch vorhanden)
-                  // einheitlich behandelt werden. (Dieser Teil ist eine reine Sicherheitsmaßnahme).
-                  finalText = finalText.replace(/\r\n|\r|\n/g, '\n');
-
-                  textField.value = finalText;
-                  autoResize(textField);
-                  console.log(`📝 ${type} Text field updated with normalized newlines`);
+    // Wir setzen den Wert erstmal direkt, um zu sehen, was passiert
+    textField.value = backendText || "";
+    autoResize(textField);
 }
                 
                 if (statusField) statusField.value = backendStatus || "pending";
