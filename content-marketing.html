@@ -1478,15 +1478,20 @@
                 });
                 
                 if (textField) {
-  let finalText = backendText || "";
-  // NEU: Ersetze die Zeichenfolge '\\n' durch einen echten Zeilenumbruch '\n'
-  finalText = finalText.replace(/\\n/g, '\n');
+                  let finalText = backendText || "";
 
-  textField.value = finalText;
-  autoResize(textField);
-  console.log(`📝 ${type} Text field updated`);
+                  // Schritt 1: Ersetze die sichtbare Zeichenfolge "\\n" durch einen echten Zeilenumbruch.
+                  // Das korrigiert die Escaping-Fehler aus dem JSON.
+                  finalText = finalText.replace(/\\n/g, '\n');
+
+                  // Schritt 2: Stelle sicher, dass alle Arten von Zeilenumbrüchen (falls noch vorhanden)
+                  // einheitlich behandelt werden. (Dieser Teil ist eine reine Sicherheitsmaßnahme).
+                  finalText = finalText.replace(/\r\n|\r|\n/g, '\n');
+
+                  textField.value = finalText;
+                  autoResize(textField);
+                  console.log(`📝 ${type} Text field updated with normalized newlines`);
 }
-
                 
                 if (statusField) statusField.value = backendStatus || "pending";
                 
