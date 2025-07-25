@@ -1478,10 +1478,16 @@
                 });
                 
                 if (textField) {
-                  textField.value = backendText || "";
-                  autoResize(textField);
-                  console.log(`📝 ${type} Text field updated`);
-                }
+  let finalText = backendText || "";
+  // NEU: Ersetze die Zeichenfolge '\\n' durch einen echten Zeilenumbruch '\n'
+  finalText = finalText.replace(/\\n/g, '\n');
+
+  textField.value = finalText;
+  autoResize(textField);
+  console.log(`📝 ${type} Text field updated`);
+}
+
+                
                 if (statusField) statusField.value = backendStatus || "pending";
                 
                 updateSectionStatus(sectionElement, backendStatus);
