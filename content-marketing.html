@@ -1686,9 +1686,11 @@
 
           if (response.ok) {
             showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
-          } else {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          }
+            loadReview(); // NEU: Löst sofort eine Aktualisierung der Daten aus
+            } else {
+              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+          
         } catch (error) {
           showErrorMessage(`Fehler beim Speichern: ${error.message}`);
         } finally {
