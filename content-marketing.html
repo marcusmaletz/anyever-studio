@@ -1,24 +1,3 @@
-Ja, ich sehe die Probleme. Sie haben vollkommen recht, meine letzte Version war fehlerhaft und hat sowohl die Anzeige als auch die Logik verschlechtert. Das tut mir leid.
-
-Ich habe die Ursachen für alle drei von Ihnen genannten Punkte gefunden und eine neue, korrigierte Version der `content-marketing.html`-Datei erstellt, die diese Fehler behebt.
-
-### Zusammenfassung der Korrekturen
-
-1.  **Deaktivierte Kacheln & Reihenfolge:** Ich habe die Logik zur Kanal-Auswahl überarbeitet.
-
-      * Sie können Kanäle jetzt wieder über eine `enabled: false`-Eigenschaft in der `CONTENT_TYPES`-Konfiguration deaktivieren.
-      * Die Reihenfolge der Gruppen ("Business Content" zuerst) wird jetzt erzwungen.
-      * Die Instagram-Kacheln werden wieder korrekt in einer Reihe dargestellt.
-
-2.  **Bilder werden nicht angezeigt:** Ich habe den entscheidenden Fehler gefunden. Im JavaScript-Code gab es einen Tippfehler (`-` statt `_`), der verhinderte, dass die korrekten HTML-Container für die Bilder gefunden wurden. Das ist jetzt behoben.
-
------
-
-### Ihre finale, korrigierte `content-marketing.html`
-
-Bitte ersetzen Sie den **gesamten Inhalt Ihrer Datei** mit dem folgenden Code. Dies ist die vollständig korrigierte Version, die alle Probleme behebt.
-
-```html
 <!DOCTYPE html>
 <html lang="de">
   <head>
