@@ -1384,7 +1384,6 @@
         const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
 
         try {
-          console.log("DATENPAKET VOM SERVER:", data);
           if (!silentMode) showProgressMessage("Lade Content...");
           
           console.log("🔍 === DEBUGGING loadReview ===");
@@ -1398,10 +1397,16 @@
           console.log("📥 Raw Response:", responseText);
           
           let data;
-          try {
-            data = JSON.parse(responseText);
-            console.log("📊 Parsed Data:", data);
-          } catch (parseError) {
+         try {
+  data = JSON.parse(responseText);
+  console.log("📊 Parsed Data:", data);
+
+  // HIER IST DIE KORREKTE STELLE FÜR UNSEREN TEST
+  console.log("===== START DATENPAKET VOM SERVER =====");
+  console.log(data);
+  console.log("===== ENDE DATENPAKET VOM SERVER =====");
+
+} catch (parseError) {
             console.error("❌ JSON Parse Error:", parseError);
             console.log("🔧 Attempting to fix JSON...");
             
