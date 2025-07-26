@@ -1762,47 +1762,48 @@ async function postAllChannels() {
 }
 
       async function submitReview() {
-        const payload = {
-  input_id: document.getElementById("input_id").value,
-  mode: "save",
-  selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
-};
+  const payload = {
+    input_id: document.getElementById("input_id").value,
+    mode: "save",
+    selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
+    selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
+    selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+  };
 
-        Object.keys(CONTENT_TYPES).forEach(type => {
-          const config = CONTENT_TYPES[type];
-          const textElement = document.getElementById(config.textField);
-          const statusElement = document.getElementById(config.statusField);
-          
-          if (textElement && textElement.value.trim() !== '') {
-            payload[config.textField] = textElement.value;
-            payload[config.statusField] = statusElement.value;
-          }
-        });
+  Object.keys(CONTENT_TYPES).forEach(type => {
+    const config = CONTENT_TYPES[type];
+    const textElement = document.getElementById(config.textField);
+    const statusElement = document.getElementById(config.statusField);
 
-        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+    if (textElement && textElement.value.trim() !== '') {
+      payload[config.textField] = textElement.value;
+      payload[config.statusField] = statusElement.value;
+    }
+  });
 
-        try {
-          showLoadingState(true, "review-submit-btn");
-          
-          const response = await fetch(webhookUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
+  const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
 
-          if (response.ok) {
-            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
-            loadReview(); // NEU: Löst sofort eine Aktualisierung der Daten aus
-            } else {
-              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-          
-        } catch (error) {
-          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
-        } finally {
-          showLoadingState(false, "review-submit-btn");
-        }
-      }
+  try {
+    showLoadingState(true, "review-submit-btn");
+
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+      loadReview(false);
+    } else {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+  } finally {
+    showLoadingState(false, "review-submit-btn");
+  }
+}
 
       // Status Message System
       function showStatusMessage(message, type, persistent = false) {
