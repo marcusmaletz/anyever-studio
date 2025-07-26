@@ -898,7 +898,7 @@
           backendTextKey: 'facebook_text',      
           backendStatusKey: 'facebook_status',
           postingEnabled: true,
-          imageFormat: '1:1'
+          imageFormat: '1_1'
         },
         instagram_feed: { 
           id: 'instagram_feed', 
@@ -909,7 +909,7 @@
           backendTextKey: 'insta_feed_text',    
           backendStatusKey: 'insta_feed_status',
           postingEnabled: false,
-          imageFormat: '1:1'
+          imageFormat: '1_1'
         },
         instagram_reel: { 
           id: 'instagram_reel', 
@@ -931,7 +931,7 @@
           backendTextKey: 'insta_story_text',    
           backendStatusKey: 'insta_story_status',
           postingEnabled: false,
-          imageFormat: '9:16'
+          imageFormat: '9_16'
         },
         blog: { 
           id: 'blog', 
@@ -942,7 +942,7 @@
           backendTextKey: 'blog_text',          
           backendStatusKey: 'blog_status',
           postingEnabled: false,
-          imageFormat: '16:9'
+          imageFormat: '16_9'
         },
         podcast: {
           id: 'podcast',
@@ -953,7 +953,7 @@
           backendTextKey: 'podcast_text',       
           backendStatusKey: 'podcast_status',
           postingEnabled: true,
-          imageFormat: 'Text-to-Speech'
+          imageFormat: '1_1'
         },
         avatar: {
           id: 'avatar',
@@ -1293,21 +1293,23 @@
   const statusField = document.getElementById(config.statusField);
   const textField = document.getElementById(config.textField);
   const section = document.getElementById(`${channel}-section`);
-  
+
   if (!section) return;
-  
+
   const postBtn = section.querySelector('.btn-post');
-  const draftBtn = section.querySelector('.btn-draft');
-  
   const isApproved = statusField.value === 'yes';
   const hasContent = textField.value.trim() !== '';
-  
-  if (postBtn && config.postingEnabled) {
-    postBtn.disabled = !(isApproved && hasContent);
+  let imageIsSelected = true;
+
+  if (config.imageFormat !== 'none') {
+    const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
+    imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
   }
 
-  if (draftBtn) {
-    draftBtn.disabled = !hasContent;
+  const isPostable = hasContent && isApproved && imageIsSelected;
+
+  if (postBtn && config.postingEnabled) {
+    postBtn.disabled = !isPostable;
   }
 }
 
@@ -1564,49 +1566,43 @@ if (imageUrls_1_1.length > 0) {
         }
       }
 
-      function populateImageGrid(urls, selectedUrl) {
-        const container = document.getElementById("image-selection-container");
-        const grid = document.getElementById("image-selection-grid");
-        const hiddenInput = document.getElementById("selected_image_url");
-        
-        if (!grid || !container || !hiddenInput) return;
-        
-        grid.innerHTML = ""; // Altes Grid leeren
-        
-        urls.forEach((url, index) => {
-          const isSelected = url === selectedUrl;
-        
-          const optionDiv = document.createElement('div');
-          optionDiv.className = 'image-option';
-          if (isSelected) {
-            optionDiv.classList.add('selected');
-          }
-          optionDiv.setAttribute('onclick', `selectImage(this, '${url}')`);
-          
-          optionDiv.innerHTML = `
-            <img src="${url}" alt="Bildvariante ${index + 1}">
-            <div class="selected-overlay">✔</div>
-          `;
-          
-          grid.appendChild(optionDiv);
-        });
-        
-        hiddenInput.value = selectedUrl || "";
-        container.style.display = "block"; // Grid anzeigen
-      }
+      function populateImageGrid(format, urls, selectedUrl) {
+  const container = document.getElementById(`image-selection-container-${format}`);
+  const grid = document.getElementById(`image-selection-grid-${format}`);
+  const hiddenInput = document.getElementById(`selected_image_url_${format}`);
 
-      function selectImage(element, imageUrl) {
-        // Alle 'selected' Klassen entfernen
-        const allOptions = document.querySelectorAll('.image-option');
-        allOptions.forEach(opt => opt.classList.remove('selected'));
-        
-        // Klasse zum angeklickten Element hinzufügen
-        element.classList.add('selected');
-        
-        // URL im versteckten Feld speichern
-        document.getElementById('selected_image_url').value = imageUrl;
-        console.log('🖼️ Bild ausgewählt:', imageUrl);
-      }
+  if (!grid || !container || !hiddenInput) return;
+
+  grid.innerHTML = "";
+
+  urls.forEach((url, index) => {
+    const isSelected = url === selectedUrl;
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'image-option';
+    if (isSelected) optionDiv.classList.add('selected');
+    optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
+    optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
+    grid.appendChild(optionDiv);
+  });
+
+  hiddenInput.value = selectedUrl || "";
+  container.style.display = "block";
+}
+
+      function selectImage(format, element, imageUrl) {
+  const grid = document.getElementById(`image-selection-grid-${format}`);
+  const allOptions = grid.querySelectorAll('.image-option');
+  allOptions.forEach(opt => opt.classList.remove('selected'));
+
+  element.classList.add('selected');
+  document.getElementById(`selected_image_url_${format}`).value = imageUrl;
+
+  Object.keys(CONTENT_TYPES).forEach(channel => {
+    if (CONTENT_TYPES[channel].imageFormat === format) {
+      updatePostingButtons(channel);
+    }
+  });
+}
 
       // Posting Functions
       async function postContent(channel) {
@@ -1692,10 +1688,10 @@ if (imageUrls_1_1.length > 0) {
 
       async function submitReview() {
         const payload = {
-          input_id: document.getElementById("input_id").value,
-          mode: "save",
-          selected_image_url: document.getElementById("selected_image_url").value
-        };
+  input_id: document.getElementById("input_id").value,
+  mode: "save",
+  selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
+};
 
         Object.keys(CONTENT_TYPES).forEach(type => {
           const config = CONTENT_TYPES[type];
