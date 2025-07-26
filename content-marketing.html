@@ -841,17 +841,21 @@
 
         <div id="content-sections-container"></div>
 
-        <div class="submit-section">
-  <button id="post-all-btn" onclick="postAllChannels()" class="review-btn" style="background: #10b981;">
+        <div class="submit-section" style="display: flex; justify-content: space-between; align-items: center;">
+
+  <button id="post-all-btn" onclick="postAllChannels()" class="review-btn" style="background: #10b981; flex-grow: 0;">
     🚀 Alle Freigaben posten
   </button>
 
-  <button id="manual-load-btn" ...>
-    ...
-  </button>
-  <button id="review-submit-btn" ...>
-    Freigaben speichern
-  </button>
+  <div style="display: flex; gap: 15px;">
+    <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+      🔄 Content aktualisieren
+    </button>
+    <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="flex-grow: 0;">
+      Freigaben speichern
+    </button>
+  </div>
+
 </div>
       
       <div class="anyever-footer">
