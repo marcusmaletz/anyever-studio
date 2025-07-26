@@ -1335,8 +1335,39 @@
   if (postBtn && config.postingEnabled) {
     postBtn.disabled = !isPostable;
   }
+  updateGlobalPostAllButton(); // <-- NEU
 }
 
+function updateGlobalPostAllButton() {
+  const postAllBtn = document.getElementById('post-all-btn');
+  if (!postAllBtn) return;
+
+  let atLeastOnePostable = false;
+  Object.keys(CONTENT_TYPES).forEach(channel => {
+    const config = CONTENT_TYPES[channel];
+    const section = document.getElementById(`${channel}-section`);
+    if (section) { // Nur prüfen, wenn der Kanal-Abschnitt existiert
+      const statusField = document.getElementById(config.statusField);
+      const textField = document.getElementById(config.textField);
+      
+      const isApproved = statusField.value === 'yes';
+      const hasContent = textField.value.trim() !== '';
+      let imageIsSelected = true;
+
+      if (config.imageFormat !== 'none') {
+        const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
+        imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+      }
+
+      if (isApproved && hasContent && imageIsSelected) {
+        atLeastOnePostable = true;
+      }
+    }
+  });
+
+  postAllBtn.disabled = !atLeastOnePostable;
+}
+      
       // Polling System
       async function startIntelligentPolling() {
         let attempts = 0;
@@ -1465,6 +1496,7 @@
                 return false;
               }
             }
+           updateGlobalPostAllButton(); // <-- NEU
           }
 
 // Bilder-Grid für Format 1_1 befüllen
@@ -1633,6 +1665,7 @@ if (imageUrls_1_1.length > 0) {
       updatePostingButtons(channel);
     }
   });
+  updateGlobalPostAllButton(); // <-- NEU
 }
 
       // Posting Functions
