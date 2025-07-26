@@ -1044,21 +1044,21 @@
         document.getElementById("input_id").value = inputId;
         
         // Apply Channel Config
-        Object.keys(CHANNEL_CONFIG).forEach(channel => {
-          const checkbox = document.getElementById(`enable_${channel}`);
-          const card = document.getElementById(`card-${channel}`);
-          
-          if (checkbox && card) {
-            checkbox.checked = CHANNEL_CONFIG[channel];
-            
-            if (CHANNEL_CONFIG[channel]) {
-              card.classList.add('selected');
-            } else {
-              card.style.opacity = '0.5';
-              card.style.pointerEvents = 'none';
-            }
-          }
-        });
+Object.keys(CHANNEL_CONFIG).forEach(channel => {
+  const checkbox = document.getElementById(`enable_${channel}`);
+  const card = document.getElementById(`card-${channel}`);
+  
+  if (checkbox && card) {
+    checkbox.checked = false; // <-- HIER IST DIE ÄNDERUNG
+    
+    if (CHANNEL_CONFIG[channel]) {
+      card.classList.add('selected');
+    } else {
+      card.style.opacity = '0.5';
+      card.style.pointerEvents = 'none';
+    }
+  }
+});
         
         updateRequestCounter();
         
