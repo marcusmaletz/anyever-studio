@@ -1436,6 +1436,19 @@
               }
             }
           }
+
+// Bilder-Grid für Format 1_1 befüllen
+const format_1_1 = '1_1';
+const imageUrls_1_1 = [
+  data[`image_option_${format_1_1}_1_url`],
+  data[`image_option_${format_1_1}_2_url`],
+  data[`image_option_${format_1_1}_3_url`],
+  data[`image_option_${format_1_1}_4_url`]
+].filter(url => url && url.startsWith('http'));
+
+if (imageUrls_1_1.length > 0) {
+  populateImageGrid(format_1_1, imageUrls_1_1, data[`selected_image_url_${format_1_1}`]);
+}
           
           let hasGeneratedContent = false;
           let sectionsWithContent = 0;
@@ -1515,20 +1528,8 @@
           });
           
           const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+
           
-          // Bilder-Grid für Format 1_1 befüllen
-const format_1_1 = '1_1';
-const imageUrls_1_1 = [
-  data[`image_option_${format_1_1}_1_url`],
-  data[`image_option_${format_1_1}_2_url`],
-  data[`image_option_${format_1_1}_3_url`],
-  data[`image_option_${format_1_1}_4_url`]
-].filter(url => url && url.startsWith('http'));
-
-if (imageUrls_1_1.length > 0) {
-  populateImageGrid(format_1_1, imageUrls_1_1, data[`selected_image_url_${format_1_1}`]);
-}
-
           document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
           
           if (allSectionsFilled) {
