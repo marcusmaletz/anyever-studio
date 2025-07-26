@@ -773,7 +773,7 @@
             backendStatusKey: 'newsletter_status',
             postingEnabled: true,
             imageFormat: 'none',
-            enabled: false
+            enabled: true
           }
       };
 
@@ -817,35 +817,25 @@
                 title.textContent = groupName;
                 groupContainer.appendChild(title);
 
-                const grid = document.createElement('div');
-                grid.className = 'content-type-grid';
-                
+                const parentGrid = document.createElement('div');
+                groupContainer.appendChild(parentGrid);
+
                 if (groupName === 'Social Media') {
-                   const sm_groups = { main: [], insta: [] };
-                   groups[groupName].forEach(config => {
-                       if (config.id.startsWith('instagram')) {
-                           sm_groups.insta.push(config);
-                       } else {
-                           sm_groups.main.push(config);
-                       }
-                   });
-                   
                    const mainGrid = document.createElement('div');
                    mainGrid.className = 'content-type-grid';
                    mainGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-                   sm_groups.main.forEach(config => buildCard(config, mainGrid));
-                   groupContainer.appendChild(mainGrid);
+                   groups[groupName].filter(c => !c.id.startsWith('instagram')).forEach(config => buildCard(config, mainGrid));
+                   parentGrid.appendChild(mainGrid);
 
                    const instaGrid = document.createElement('div');
                    instaGrid.className = 'content-type-grid';
                    instaGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
                    instaGrid.style.marginTop = '15px';
-                   sm_groups.insta.forEach(config => buildCard(config, instaGrid));
-                   groupContainer.appendChild(instaGrid);
-
+                   groups[groupName].filter(c => c.id.startsWith('instagram')).forEach(config => buildCard(config, instaGrid));
+                   parentGrid.appendChild(instaGrid);
                 } else {
-                    groups[groupName].forEach(config => buildCard(config, grid));
-                    groupContainer.appendChild(grid);
+                    parentGrid.className = 'content-type-grid';
+                    groups[groupName].forEach(config => buildCard(config, parentGrid));
                 }
                 container.appendChild(groupContainer);
             }
@@ -861,6 +851,7 @@
             if (config.id === 'podcast') formatText = 'Text-to-Speech';
             if (config.id === 'avatar') formatText = 'Video Avatar';
             if (config.id === 'newsletter') formatText = 'E-Mail';
+            if (config.imageFormat === 'none') formatText = 'Text';
 
 
             card.innerHTML = `
@@ -888,6 +879,7 @@
         updateRequestCounter();
         
         document.querySelectorAll('.content-checkbox').forEach(checkbox => {
+          checkbox.checked = false;
           checkbox.addEventListener('change', function() {
             const card = this.closest('.content-type-card');
             card.classList.toggle('selected', this.checked);
@@ -1306,7 +1298,10 @@
         const grid = document.getElementById(`image-selection-grid_${format}`);
         const hiddenInput = document.getElementById(`selected_image_url_${format}`);
         
-        if (!grid || !container || !hiddenInput) return;
+        if (!grid || !container || !hiddenInput) {
+          console.error(`Ein oder mehrere HTML-Elemente für das Format ${format} wurden nicht gefunden.`);
+          return;
+        }
         
         grid.innerHTML = "";
         
