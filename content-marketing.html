@@ -1431,203 +1431,114 @@ function updateGlobalPostAllButton() {
       }
 
       async function loadReview(silentMode = false) {
-        const inputIdValue = document.getElementById("input_id").value;
-        if (!inputIdValue) {
-          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
-          return false;
+  const inputIdValue = document.getElementById("input_id").value;
+  if (!inputIdValue) {
+    if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+    return false;
+  }
+
+  // Hide all image containers initially
+  ['1_1', '16_9', '9_16'].forEach(format => {
+    const container = document.getElementById(`image-selection-container-${format}`);
+    if (container) container.style.display = "none";
+  });
+
+  const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+
+  try {
+    if (!silentMode) showProgressMessage("Lade Content...");
+
+    const response = await fetch(webhookUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+    const responseText = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError, responseText);
+      if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+      return false;
+    }
+
+    console.log("===== START DATENPAKET VOM SERVER =====");
+    console.log(data);
+    console.log("===== ENDE DATENPAKET VOM SERVER =====");
+
+    // Bilder-Grids für alle Formate befüllen
+    const formats = ['1_1', '16_9', '9_16'];
+    formats.forEach(format => {
+      const imageUrls = [
+        data[`image_option_${format}_1_url`],
+        data[`image_option_${format}_2_url`],
+        data[`image_option_${format}_3_url`],
+        data[`image_option_${format}_4_url`]
+      ].filter(url => url && url.startsWith('http'));
+
+      if (imageUrls.length > 0) {
+        populateImageGrid(format, imageUrls, data[`selected_image_url_${format}`]);
+      }
+    });
+
+    let hasGeneratedContent = false;
+    let sectionsWithContent = 0;
+    let totalSections = 0;
+
+    Object.keys(CONTENT_TYPES).forEach(type => {
+      const config = CONTENT_TYPES[type];
+      const sectionElement = document.getElementById(`${type}-section`);
+
+      if (sectionElement) {
+        totalSections++;
+        let backendText = data[config.backendTextKey];
+        const backendStatus = data[config.backendStatusKey];
+
+        if (backendText) {
+          backendText = backendText.replace(/\\n/g, '\n');
         }
 
-        // NEU: Bilder-Grid zurücksetzen
-        const imageContainer = document.getElementById("image-selection-container");
-        if (imageContainer) imageContainer.style.display = "none";
-        const imageGrid = document.getElementById("image-selection-grid");
-        if (imageGrid) imageGrid.innerHTML = "";
+        const hasContent = backendText && backendText.trim() !== '';
+        if (hasContent) {
+          sectionsWithContent++;
+          hasGeneratedContent = true;
 
-        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+          const textField = document.getElementById(config.textField);
+          const statusField = document.getElementById(config.statusField);
 
-        try {
-          if (!silentMode) showProgressMessage("Lade Content...");
-          
-          console.log("🔍 === DEBUGGING loadReview ===");
-          console.log("Input ID:", inputIdValue);
-          console.log("Webhook URL:", webhookUrl);
-          
-          const response = await fetch(webhookUrl);
-          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-
-          const responseText = await response.text();
-          console.log("📥 Raw Response:", responseText);
-          
-          let data;
-         try {
-  data = JSON.parse(responseText);
-  console.log("📊 Parsed Data:", data);
-
-  // HIER IST DIE KORREKTE STELLE FÜR UNSEREN TEST
-  console.log("===== START DATENPAKET VOM SERVER =====");
-  console.log(data);
-  console.log("===== ENDE DATENPAKET VOM SERVER =====");
-
-} catch (parseError) {
-            console.error("❌ JSON Parse Error:", parseError);
-            console.log("🔧 Attempting to fix JSON...");
-            
-            // Versuche JSON zu reparieren
-            let fixedJson = responseText;
-            
-            // Häufige JSON-Fehler beheben
-            fixedJson = fixedJson.replace(/,(\s*[}\]])/g, '$1'); // Entferne trailing commas
-            fixedJson = fixedJson.replace(/([{,]\s*)(\w+):/g, '$1"$2":'); // Füge Anführungszeichen um Keys hinzu
-            fixedJson = fixedJson.replace(/:\s*'([^']*)'/g, ':"$1"'); // Ersetze single quotes mit double quotes
-            fixedJson = fixedJson.replace(/\\n/g, '\\\\n'); // Escape newlines properly
-            fixedJson = fixedJson.replace(/\\"/g, '\\\\"'); // Escape quotes properly
-            
-            try {
-              data = JSON.parse(fixedJson);
-              console.log("✅ JSON repariert:", data);
-            } catch (secondError) {
-              console.error("❌ JSON konnte nicht repariert werden:", secondError);
-              
-              // Fallback: Versuche Daten manuell zu extrahieren
-              const extractData = {};
-              Object.keys(CONTENT_TYPES).forEach(type => {
-                const config = CONTENT_TYPES[type];
-                
-                // Suche nach den Datenfeldern im Raw-Text
-                const textMatch = responseText.match(new RegExp(`"${config.backendTextKey}"\\s*:\\s*"([^"]*)"`, 'i'));
-                const statusMatch = responseText.match(new RegExp(`"${config.backendStatusKey}"\\s*:\\s*"([^"]*)"`, 'i'));
-                
-                if (textMatch) {
-                  extractData[config.backendTextKey] = textMatch[1];
-                }
-                if (statusMatch) {
-                  extractData[config.backendStatusKey] = statusMatch[1];
-                }
-              });
-              
-              if (Object.keys(extractData).length > 0) {
-                data = extractData;
-                console.log("🔧 Daten manuell extrahiert:", data);
-              } else {
-                if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
-                return false;
-              }
-            }
-           updateGlobalPostAllButton(); // <-- NEU
+          if (textField) {
+            textField.value = backendText || "";
+            autoResize(textField);
           }
+          if (statusField) statusField.value = backendStatus || "pending";
 
-// Bilder-Grid für Format 1_1 befüllen
-const format_1_1 = '1_1';
-const imageUrls_1_1 = [
-  data[`image_option_${format_1_1}_1_url`],
-  data[`image_option_${format_1_1}_2_url`],
-  data[`image_option_${format_1_1}_3_url`],
-  data[`image_option_${format_1_1}_4_url`]
-].filter(url => url && url.startsWith('http'));
-
-if (imageUrls_1_1.length > 0) {
-  populateImageGrid(format_1_1, imageUrls_1_1, data[`selected_image_url_${format_1_1}`]);
-}
-          
-          let hasGeneratedContent = false;
-          let sectionsWithContent = 0;
-          let totalSections = 0;
-          
-          Object.keys(CONTENT_TYPES).forEach(type => {
-            const config = CONTENT_TYPES[type];
-            const sectionElement = document.getElementById(`${type}-section`);
-            
-            console.log(`🔍 Checking ${type}:`, {
-              sectionExists: !!sectionElement,
-              backendTextKey: config.backendTextKey,
-              backendData: data[config.backendTextKey]
-            });
-            
-            if (sectionElement) {
-              totalSections++;
-              
-              let backendText = data[config.backendTextKey];
-              const backendStatus = data[config.backendStatusKey];
-              
-              console.log(`📝 ${type} Raw Text:`, backendText);
-              
-              if (backendText) {
-                backendText = decodeBase64Text(backendText);
-                console.log(`📝 ${type} Decoded Text:`, backendText);
-              }
-              
-              const hasContent = backendText && backendText.trim() !== '';
-              
-              if (hasContent) {
-                sectionsWithContent++;
-                hasGeneratedContent = true;
-                
-                const textField = document.getElementById(config.textField);
-                const statusField = document.getElementById(config.statusField);
-                
-                console.log(`✅ ${type} Content found:`, {
-                  textField: !!textField,
-                  statusField: !!statusField,
-                  content: backendText.substring(0, 100) + "..."
-                });
-                
-               if (textField) {
-    // Loggt den rohen Text, wie er vom Server kommt, in die Konsole
-    console.log("===== START ROHDATEN FÜR KANAL: " + type + " =====");
-    console.log(backendText);
-    console.log("===== ENDE ROHDATEN =====");
-
-    // Der alte Code wird vorübergehend auskommentiert
-    // let finalText = backendText || "";
-    // finalText = finalText.replace(/\\n/g, '\n');
-    // textField.value = finalText;
-
-    // Wir setzen den Wert erstmal direkt, um zu sehen, was passiert
-    textField.value = backendText || "";
-    autoResize(textField);
-}
-                
-                if (statusField) statusField.value = backendStatus || "pending";
-                
-                updateSectionStatus(sectionElement, backendStatus);
-                updatePostingButtons(type);
-              } else {
-                console.log(`⚠️ ${type} No content found`);
-              }
-            } else {
-              console.log(`❌ ${type} Section element not found!`);
-            }
-          });
-          
-          console.log("📊 Final Stats:", {
-            totalSections,
-            sectionsWithContent,
-            hasGeneratedContent,
-            allSectionsFilled: totalSections > 0 && sectionsWithContent === totalSections
-          });
-          
-          const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
-
-          
-          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
-          
-          if (allSectionsFilled) {
-            clearPersistentMessage();
-            if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
-            return true;
-          } else {
-            if (!silentMode) {
-              showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
-            }
-            return false;
-          }
-          
-        } catch (error) {
-          console.error("❌ Fehler beim Laden der Review-Daten", error);
-          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
-          return false;
+          updateSectionStatus(sectionElement, backendStatus);
+          updatePostingButtons(type);
         }
       }
+    });
+
+    updateGlobalPostAllButton();
+
+    const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+    document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+
+    if (allSectionsFilled) {
+      clearPersistentMessage();
+      if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
+      return true;
+    } else {
+      if (!silentMode) {
+        showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
+      }
+      return false;
+    }
+  } catch (error) {
+    console.error("❌ Fehler beim Laden der Review-Daten", error);
+    if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+    return false;
+  }
+}
 
       function updateSectionStatus(sectionDiv, status) {
         const statusBadge = sectionDiv.querySelector('.status-badge');
