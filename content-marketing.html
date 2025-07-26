@@ -449,18 +449,11 @@
       }
       
       .post-action-buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start; /* <-- NEU */
-}
-
-.action-btn {
-  padding: 8px 16px;
-  /* ... andere Zeilen ... */
-  flex: none; /* <-- GEÄNDERT */
-  min-width: 120px;
-}
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
       
       .action-btn {
         padding: 8px 16px;
@@ -475,11 +468,11 @@
         min-width: 120px;
       }
 
-        .action-btn:disabled {
-        background: #9ca3af; /* Ein neutrales Grau */
-        opacity: 0.6;         /* Leicht durchsichtig */
-        cursor: not-allowed;  /* Zeigt ein "Verboten"-Symbol mit der Maus */
-        transform: none;        /* Keine Hover-Effekte */
+      .action-btn:disabled {
+        background: #9ca3af;
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
       }
       
       .btn-post { 
@@ -491,32 +484,9 @@
         transform: translateY(-1px);
       }
       
-      .btn-schedule { 
-        background: #3b82f6; 
-        color: var(--any-ever-white); 
-      }
-      .btn-schedule:hover:not(:disabled) { 
-        background: #2563eb; 
-        transform: translateY(-1px);
-      }
-      
-      .btn-draft { 
-        background: var(--any-ever-light-grey); 
-        color: var(--any-ever-white); 
-      }
-      .btn-draft:hover:not(:disabled) { 
-        background: var(--any-ever-dark-grey); 
-        transform: translateY(-1px);
-      }
-      
       .submit-section {
-        text-align: right;
-        margin-top: 30px;
         padding-top: 20px;
         border-top: 1px solid var(--border-light);
-        display: flex;
-        justify-content: flex-end;
-        gap: 15px;
       }
       
       .anyever-footer {
@@ -543,12 +513,11 @@
         font-weight: var(--font-weight-medium);
       }
       
-     /* Styling für das Bilder-Auswahl-Grid */
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Zeigt genau 2 Bilder pro Zeile an */
-  gap: 15px;
-}
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
 
       .image-option {
         border: 3px solid transparent;
@@ -578,7 +547,6 @@
         display: block;
       }
 
-      /* Visuelles Feedback für die Auswahl */
       .image-option .selected-overlay {
         display: none;
         position: absolute;
@@ -692,122 +660,7 @@
         <div class="form-group">
           <label>Content-Kanäle auswählen (mindestens einen)</label>
           
-          <div style="margin-top: 25px; margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Business Content</h3>
-            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-              <div class="content-type-card" id="card-newsletter">
-                <label>
-                  <input type="checkbox" id="enable_newsletter" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Newsletter</div>
-                    <div style="font-size: 12px; color: #6b7280;">E-Mail Marketing</div>
-                    <span class="format-badge">E-Mail</span>
-                  </div>
-                </label>
-              </div>
-
-              <div class="content-type-card" id="card-blog">
-                <label>
-                  <input type="checkbox" id="enable_blog" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Blog Artikel</div>
-                    <div style="font-size: 12px; color: #6b7280;">Langform Content</div>
-                    <span class="format-badge">16:9</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Social Media</h3>
-            
-            <div class="content-type-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 15px;">
-              <div class="content-type-card" id="card-linkedin">
-                <label>
-                  <input type="checkbox" id="enable_linkedin" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">LinkedIn Post</div>
-                    <div style="font-size: 12px; color: #6b7280;">Business Content</div>
-                    <span class="format-badge">1:1</span>
-                  </div>
-                </label>
-              </div>
-
-              <div class="content-type-card" id="card-facebook">
-                <label>
-                  <input type="checkbox" id="enable_facebook" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Facebook Post</div>
-                    <div style="font-size: 12px; color: #6b7280;">Social Media</div>
-                    <span class="format-badge">1:1</span>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="content-type-grid" style="grid-template-columns: repeat(3, 1fr);">
-              <div class="content-type-card" id="card-instagram_feed">
-                <label>
-                  <input type="checkbox" id="enable_instagram_feed" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Instagram Feed</div>
-                    <div style="font-size: 12px; color: #6b7280;">Quadratisch</div>
-                    <span class="format-badge">1:1</span>
-                  </div>
-                </label>
-              </div>
-
-              <div class="content-type-card" id="card-instagram_story">
-                <label>
-                  <input type="checkbox" id="enable_instagram_story" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Instagram Story</div>
-                    <div style="font-size: 12px; color: #6b7280;">Hochformat</div>
-                    <span class="format-badge">9:16</span>
-                    </div>
-                </label>
-              </div>
-
-              <div class="content-type-card" id="card-instagram_reel">
-                <label>
-                  <input type="checkbox" id="enable_instagram_reel" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Instagram Reel</div>
-                    <div style="font-size: 12px; color: #6b7280;">Video Content</div>
-                    <span class="format-badge">9:16 Video</span>                   
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);">Sonderformate</h3>
-            <div class="content-type-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-              <div class="content-type-card" id="card-podcast">
-                <label>
-                  <input type="checkbox" id="enable_podcast" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Audio-Podcast</div>
-                    <div style="font-size: 12px; color: #6b7280;">Audio Content</div>
-                    <span class="format-badge">Text-to-Speech</span>
-                  </div>
-                </label>
-              </div>
-
-              <div class="content-type-card" id="card-avatar">
-                <label>
-                  <input type="checkbox" id="enable_avatar" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">Avatar Video</div>
-                    <div style="font-size: 12px; color: #6b7280;">AI Video</div>
-                    <span class="format-badge">Video Avatar</span>                    
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
+          <div id="channel-groups-container"></div>
         </div>
 
         <div class="submit-section">
@@ -826,54 +679,49 @@
       </div>
 
       <div class="review-section" style="padding: 40px;">
-        <div id="image-selection-container-1_1" style="display: none; margin-bottom: 40px;">
-  <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
-    Bildauswahl für Social Media (1:1 Format)
-  </h3>
-  <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">
-    Wählen Sie ein Bild aus. Es wird für LinkedIn, Facebook und den Instagram Feed verwendet.
-  </p>
-  <div id="image-selection-grid-1_1" class="image-grid">
-    </div>
-  <input type="hidden" id="selected_image_url_1_1" name="selected_image_url_1_1">
-</div>
-       
-        <div id="image-selection-container-16_9" style="display: none; margin-bottom: 40px;">
-  <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
-    Bildauswahl für Blog/Web (16:9 Format)
-  </h3>
-  <div id="image-selection-grid-16_9" class="image-grid"></div>
-  <input type="hidden" id="selected_image_url_16_9" name="selected_image_url_16_9">
-</div>
-<div id="image-selection-container-9_16" style="display: none; margin-bottom: 40px;">
-  <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
-    Bildauswahl für Storys (9:16 Format)
-  </h3>
-  <div id="image-selection-grid-9_16" class="image-grid"></div>
-  <input type="hidden" id="selected_image_url_9_16" name="selected_image_url_9_16">
-</div>
-        
-        
-        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly /><input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
 
         <div id="content-sections-container"></div>
 
+        <div id="image-selection-container-1_1" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Social Media (1:1 Format)
+          </h3>
+          <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">
+            Wählen Sie ein Bild aus. Es wird für LinkedIn, Facebook und den Instagram Feed verwendet.
+          </p>
+          <div id="image-selection-grid-1_1" class="image-grid">
+            </div>
+          <input type="hidden" id="selected_image_url_1_1" name="selected_image_url_1_1">
+        </div>
+        <div id="image-selection-container-16_9" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Blog/Web (16:9 Format)
+          </h3>
+          <div id="image-selection-grid-16_9" class="image-grid"></div>
+          <input type="hidden" id="selected_image_url_16_9" name="selected_image_url_16_9">
+        </div>
+        <div id="image-selection-container-9_16" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Storys (9:16 Format)
+          </h3>
+          <div id="image-selection-grid-9_16" class="image-grid"></div>
+          <input type="hidden" id="selected_image_url_9_16" name="selected_image_url_9_16">
+        </div>
         <div class="submit-section" style="display: flex; justify-content: space-between; align-items: center;">
-
-  <button id="post-all-btn" onclick="postAllChannels()" class="review-btn" style="background: #10b981; flex-grow: 0;">
-    🚀 Alle Freigaben posten
-  </button>
-
-  <div style="display: flex; gap: 15px;">
-    <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
-      🔄 Content aktualisieren
-    </button>
-    <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="flex-grow: 0;">
-      Freigaben speichern
-    </button>
-  </div>
-
-</div>
+          <button id="post-all-btn" onclick="postAllChannels()" class="review-btn" style="background: #10b981; flex-grow: 0;">
+            🚀 Alle Freigaben posten
+          </button>
+          <div style="display: flex; gap: 15px;">
+            <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+              🔄 Content aktualisieren
+            </button>
+            <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="flex-grow: 0;">
+              Freigaben speichern
+            </button>
+          </div>
+        </div>
+      </div>
       
       <div class="anyever-footer">
         <img 
@@ -882,143 +730,132 @@
           class="logo-footer"
         >
         <div class="tagline">ENJOY.AUDIO</div>
-        
         <div id="dynamic-timestamp" style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
-          </div>
+        </div>
       </div>
     </div>
 
     <script>
-      // Global Variables & Rate Limiting
       const inputId = Date.now().toString();
-      let isPolling = false;
       let rateLimitTimer = null;
-
-      // === CHANNEL CONFIG ===
-      // Hier einfach true/false ändern um Kanäle zu aktivieren/deaktivieren
-      const CHANNEL_CONFIG = {
-        linkedin: true,
-        facebook: true,
-        instagram_feed: true,
-        instagram_story: false,    
-        instagram_reel: false,    
-        newsletter: false,
-        blog: true,
-        podcast: true,
-        avatar: true,            
-      };
-      // === ENDE CONFIG ===
       
       const RATE_LIMITS = {
         DAILY_MAX: 20,
         COOLDOWN_MINUTES: 5,
         STORAGE_KEY: 'content_generation_rate_limit'
       };
-
-      // Updated Content Type Configuration
-      const CONTENT_TYPES = {
-  linkedin: {
-    id: 'linkedin',
-    label: 'LinkedIn Post',
-    textField: 'linkedin_text',
-    statusField: 'linkedin_status',
-    enableField: 'enable_linkedin',
-    backendTextKey: 'linkedin_text',
-    backendStatusKey: 'linkedin_status',
-    postingEnabled: true,
-    imageFormat: '1_1'
-  },
-  facebook: {
-    id: 'facebook',
-    label: 'Facebook Post',
-    textField: 'facebook_text',
-    statusField: 'facebook_status',
-    enableField: 'enable_facebook',
-    backendTextKey: 'facebook_text',
-    backendStatusKey: 'facebook_status',
-    postingEnabled: true,
-    imageFormat: '1_1'
-  },
-  instagram_feed: {
-    id: 'instagram_feed',
-    label: 'Instagram Feed',
-    textField: 'instagram_feed_text',
-    statusField: 'instagram_feed_status',
-    enableField: 'enable_instagram_feed',
-    backendTextKey: 'insta_feed_text',
-    backendStatusKey: 'insta_feed_status',
-    postingEnabled: false,
-    imageFormat: '1_1'
-  },
-  instagram_story: {
-    id: 'instagram_story',
-    label: 'Instagram Story',
-    textField: 'instagram_story_text',
-    statusField: 'instagram_story_status',
-    enableField: 'enable_instagram_story',
-    backendTextKey: 'insta_story_text',
-    backendStatusKey: 'insta_story_status',
-    postingEnabled: false,
-    imageFormat: '9_16'
-  },
-  instagram_reel: {
-    id: 'instagram_reel',
-    label: 'Instagram Reel',
-    textField: 'instagram_reel_text',
-    statusField: 'instagram_reel_status',
-    enableField: 'enable_instagram_reel',
-    backendTextKey: 'insta_reel_text',
-    backendStatusKey: 'insta_reel_status',
-    postingEnabled: false,
-    imageFormat: '9_16' // Reels verwenden ebenfalls Hochformat
-  },
-  blog: {
-    id: 'blog',
-    label: 'Blog Artikel',
-    textField: 'blog_text',
-    statusField: 'blog_status',
-    enableField: 'enable_blog',
-    backendTextKey: 'blog_text',
-    backendStatusKey: 'blog_status',
-    postingEnabled: false,
-    imageFormat: '16_9'
-  },
-  podcast: {
-    id: 'podcast',
-    label: 'Podcast Skript',
-    textField: 'podcast_text',
-    statusField: 'podcast_status',
-    enableField: 'enable_podcast',
-    backendTextKey: 'podcast_text',
-    backendStatusKey: 'podcast_status',
-    postingEnabled: true,
-    imageFormat: 'none' // Kein Bild benötigt
-  },
-  avatar: {
-    id: 'avatar',
-    label: 'Avatar Skript',
-    textField: 'avatar_text',
-    statusField: 'avatar_status',
-    enableField: 'enable_avatar',
-    backendTextKey: 'avatar_text',
-    backendStatusKey: 'avatar_status',
-    postingEnabled: false,
-    imageFormat: 'none' // Kein Bild benötigt
-  },
-  newsletter: {
-    id: 'newsletter',
-    label: 'Newsletter',
-    textField: 'newsletter_text',
-    statusField: 'newsletter_status',
-    enableField: 'enable_newsletter',
-    backendTextKey: 'newsletter_text',
-    backendStatusKey: 'newsletter_status',
-    postingEnabled: true,
-    imageFormat: 'none' // Kein Bild benötigt
-  }
-};
       
-      // Function to format the timestamp and update the footer
+      const CONTENT_TYPES = {
+          linkedin: {
+            id: 'linkedin',
+            label: 'LinkedIn Post',
+            group: 'Social Media',
+            textField: 'linkedin_text',
+            statusField: 'linkedin_status',
+            enableField: 'enable_linkedin',
+            backendTextKey: 'linkedin_text',
+            backendStatusKey: 'linkedin_status',
+            postingEnabled: true,
+            imageFormat: '1_1'
+          },
+          facebook: {
+            id: 'facebook',
+            label: 'Facebook Post',
+            group: 'Social Media',
+            textField: 'facebook_text',
+            statusField: 'facebook_status',
+            enableField: 'enable_facebook',
+            backendTextKey: 'facebook_text',
+            backendStatusKey: 'facebook_status',
+            postingEnabled: true,
+            imageFormat: '1_1'
+          },
+          instagram_feed: {
+            id: 'instagram_feed',
+            label: 'Instagram Feed',
+            group: 'Social Media',
+            textField: 'instagram_feed_text',
+            statusField: 'instagram_feed_status',
+            enableField: 'enable_instagram_feed',
+            backendTextKey: 'insta_feed_text',
+            backendStatusKey: 'insta_feed_status',
+            postingEnabled: false,
+            imageFormat: '1_1'
+          },
+          instagram_story: {
+            id: 'instagram_story',
+            label: 'Instagram Story',
+            group: 'Social Media',
+            textField: 'instagram_story_text',
+            statusField: 'instagram_story_status',
+            enableField: 'enable_instagram_story',
+            backendTextKey: 'insta_story_text',
+            backendStatusKey: 'insta_story_status',
+            postingEnabled: false,
+            imageFormat: '9_16'
+          },
+          instagram_reel: {
+            id: 'instagram_reel',
+            label: 'Instagram Reel',
+            group: 'Social Media',
+            textField: 'instagram_reel_text',
+            statusField: 'instagram_reel_status',
+            enableField: 'enable_instagram_reel',
+            backendTextKey: 'insta_reel_text',
+            backendStatusKey: 'insta_reel_status',
+            postingEnabled: false,
+            imageFormat: '9_16'
+          },
+          blog: {
+            id: 'blog',
+            label: 'Blog Artikel',
+            group: 'Business Content',
+            textField: 'blog_text',
+            statusField: 'blog_status',
+            enableField: 'enable_blog',
+            backendTextKey: 'blog_text',
+            backendStatusKey: 'blog_status',
+            postingEnabled: false,
+            imageFormat: '16_9'
+          },
+          podcast: {
+            id: 'podcast',
+            label: 'Podcast Skript',
+            group: 'Sonderformate',
+            textField: 'podcast_text',
+            statusField: 'podcast_status', 
+            enableField: 'enable_podcast',
+            backendTextKey: 'podcast_text',       
+            backendStatusKey: 'podcast_status',
+            postingEnabled: true,
+            imageFormat: 'none'
+          },
+          avatar: {
+            id: 'avatar',
+            label: 'Avatar Skript',
+            group: 'Sonderformate',
+            textField: 'avatar_text',
+            statusField: 'avatar_status',
+            enableField: 'enable_avatar', 
+            backendTextKey: 'avatar_text',        
+            backendStatusKey: 'avatar_status',
+            postingEnabled: false,
+            imageFormat: 'none'
+          },
+          newsletter: {
+            id: 'newsletter',
+            label: 'Newsletter',
+            group: 'Business Content',
+            textField: 'newsletter_text',
+            statusField: 'newsletter_status',
+            enableField: 'enable_newsletter', 
+            backendTextKey: 'newsletter_text',        
+            backendStatusKey: 'newsletter_status',
+            postingEnabled: true,
+            imageFormat: 'none'
+          }
+      };
+
       function updateTimestamp() {
         const pad = (num) => num.toString().padStart(2, '0');
         const now = new Date();
@@ -1029,37 +866,60 @@
         const minutes = pad(now.getMinutes());
         const seconds = pad(now.getSeconds());
         const timestampString = `Stand: ${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
-        
         const timestampContainer = document.getElementById('dynamic-timestamp');
         if (timestampContainer) {
             timestampContainer.textContent = timestampString;
         }
       }
 
-      // Initialize
+      function buildChannelSelector() {
+        const container = document.getElementById('channel-groups-container');
+        container.innerHTML = '';
+        const groups = {};
+
+        Object.keys(CONTENT_TYPES).forEach(channelId => {
+            const config = CONTENT_TYPES[channelId];
+            if (!groups[config.group]) {
+                groups[config.group] = [];
+            }
+            groups[config.group].push(config);
+        });
+
+        for (const groupName in groups) {
+            const groupContainer = document.createElement('div');
+            groupContainer.style.marginBottom = '20px';
+            
+            const title = document.createElement('h3');
+            title.style.cssText = "font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);";
+            title.textContent = groupName;
+            groupContainer.appendChild(title);
+
+            const grid = document.createElement('div');
+            grid.className = 'content-type-grid';
+            groups[groupName].forEach(config => {
+                const card = document.createElement('div');
+                card.className = 'content-type-card';
+                card.id = `card-${config.id}`;
+                card.innerHTML = `
+                    <label>
+                      <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
+                      <div>
+                        <div style="font-weight: 600;">${config.label}</div>
+                        <span class="format-badge">${config.imageFormat.replace('_', ':')}</span>
+                      </div>
+                    </label>
+                `;
+                grid.appendChild(card);
+            });
+            groupContainer.appendChild(grid);
+            container.appendChild(groupContainer);
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
-        console.log('🚀 DYNAMIC TIMESTAMP ENABLED');
-        updateTimestamp(); // Set timestamp on initial load
-        
+        updateTimestamp();
+        buildChannelSelector();
         document.getElementById("input_id").value = inputId;
-        
-        // Apply Channel Config
-Object.keys(CHANNEL_CONFIG).forEach(channel => {
-  const checkbox = document.getElementById(`enable_${channel}`);
-  const card = document.getElementById(`card-${channel}`);
-  
-  if (checkbox && card) {
-    checkbox.checked = false; // <-- HIER IST DIE ÄNDERUNG
-    
-    if (CHANNEL_CONFIG[channel]) {
-      card.classList.add('selected');
-    } else {
-      card.style.opacity = '0.5';
-      card.style.pointerEvents = 'none';
-    }
-  }
-});
-        
         updateRequestCounter();
         
         document.querySelectorAll('.content-checkbox').forEach(checkbox => {
@@ -1070,7 +930,6 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
         });
       });
 
-      // Rate Limiting Functions
       function getRateLimitData() {
         const stored = localStorage.getItem(RATE_LIMITS.STORAGE_KEY);
         if (!stored) return { requests: 0, lastReset: new Date().toDateString(), lastRequest: null };
@@ -1085,13 +944,10 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
           data.requests = 0;
           data.lastReset = today;
         }
-        
         data.requests++;
         data.lastRequest = Date.now();
-        
         localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(data));
         updateRequestCounter();
-        
         if (data.requests >= RATE_LIMITS.DAILY_MAX) {
           showRateLimitBanner();
         }
@@ -1100,14 +956,11 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
       function checkRateLimit() {
         const data = getRateLimitData();
         const today = new Date().toDateString();
-        
         if (data.lastReset !== today) return true;
-        
         if (data.requests >= RATE_LIMITS.DAILY_MAX) {
           if (data.lastRequest) {
             const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
             const now = Date.now();
-            
             if (now < cooldownEnd) {
               const remaining = Math.ceil((cooldownEnd - now) / 60000);
               showErrorMessage(`Rate Limit erreicht. Versuchen Sie es in ${remaining} Minuten erneut.`);
@@ -1120,7 +973,6 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
             }
           }
         }
-        
         return true;
       }
 
@@ -1134,16 +986,13 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
       function showRateLimitBanner() {
         const banner = document.getElementById("rate-limit-container");
         const data = getRateLimitData();
-        
         if (data.lastRequest) {
           const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
           const now = Date.now();
-          
           if (now < cooldownEnd) {
             const remaining = Math.ceil((cooldownEnd - now) / 60000);
             document.getElementById("rate-limit-text").textContent = `${remaining} Minuten`;
             banner.style.display = "block";
-            
             rateLimitTimer = setInterval(() => {
               const newRemaining = Math.ceil((cooldownEnd - Date.now()) / 60000);
               if (newRemaining <= 0) {
@@ -1164,48 +1013,13 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
         }
       }
 
-      // Base64 Utilities
-      function encodeToBase64(text) {
-        try {
-          const encoder = new TextEncoder();
-          const bytes = encoder.encode(text);
-          const binaryString = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
-          return btoa(binaryString);
-        } catch (error) {
-          console.error("❌ Base64 Encoding Fehler:", error);
-          return text;
-        }
-      }
-
-      function decodeBase64Text(base64String) {
-        try {
-          if (!base64String || base64String.trim() === '') return '';
-          const binaryString = atob(base64String);
-          const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-          }
-          return new TextDecoder('utf-8').decode(bytes);
-        } catch (error) {
-          console.error("❌ Base64 Decode Fehler:", error);
-          try {
-            return atob(base64String);
-          } catch (fallbackError) {
-            return base64String;
-          }
-        }
-      }
-
       function autoResize(textarea) {
         textarea.style.height = 'auto';
         textarea.style.height = Math.max(100, textarea.scrollHeight) + 'px';
       }
 
-      // Enhanced Validation & Submission
       async function submitForm() {
-        if (!checkRateLimit()) {
-          return;
-        }
+        if (!checkRateLimit()) return;
         
         const thema = document.getElementById("thema").value.trim();
         if (!thema) {
@@ -1229,7 +1043,6 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
           input_image_idea: document.getElementById("input_image_idea").value,
           selected_channels: selectedChannels
         };
-
         await executeSubmission(payload);
       }
 
@@ -1241,11 +1054,9 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
 
       async function executeSubmission(payload) {
         const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
-
         try {
           showLoadingState(true);
           showProgressMessage("Content wird generiert...");
-          
           const response = await fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -1255,20 +1066,15 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
           if (response.ok) {
             updateRateLimit();
             showSuccessMessage("Erfolgreich gestartet! ✅");
-            
-            // Show review container with animation
             const reviewContainer = document.getElementById('review-container');
             if (reviewContainer) {
               reviewContainer.classList.add('show');
             }
-            
             createContentSections(payload.selected_channels);
             showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
-            
             setTimeout(async () => {
               await startIntelligentPolling();
             }, 30000);
-            
           } else {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
@@ -1280,11 +1086,9 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
         }
       }
 
-      // Dynamic Content Sections with Posting Actions - KOMPLETT KORRIGIERT
       function createContentSections(selectedChannels) {
         const container = document.getElementById("content-sections-container");
         container.innerHTML = "";
-        
         selectedChannels.forEach(channel => {
           const config = CONTENT_TYPES[channel];
           const sectionDiv = document.createElement('div');
@@ -1292,25 +1096,23 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
           sectionDiv.className = 'content-section';
           
           const postingButtons = config.postingEnabled ?
-            `
-            <div class="post-action-buttons">
+            `<div class="post-action-buttons">
               <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
                 🚀 Sofort posten
               </button>
-              </div>
-          ` : `
-            <div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
-              Automatisches Posting für diesen Kanal nicht verfügbar
-            </div>
-          `;
+            </div>`
+             : 
+            `<div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
+              Automatisches Posting für diesen Kanal noch nicht verfügbar
+            </div>`;
           
           sectionDiv.innerHTML = `
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
               <label style="font-size: 18px; font-weight: 600; color: #1f2937; margin: 0;">${config.label}:</label>
               <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
                 <span style="font-size: 12px; color: #6b7280;">
-  ${config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : ''}
-</span>
+                  ${config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : ''}
+                </span>
                 <span class="status-badge" style="background: #dbeafe; color: #1e40af;">Wird generiert...</span>
               </div>
             </div>
@@ -1318,96 +1120,84 @@ Object.keys(CHANNEL_CONFIG).forEach(channel => {
                       placeholder="${config.label} Content wird generiert..."
                       oninput="autoResize(this); updatePostingButtons('${channel}')"></textarea>
             <select id="${config.statusField}" onchange="updatePostingButtons('${channel}')">
-                <option value="pending">Auswahl treffen</option>
-                <option value="yes">Freigeben</option>
-                <option value="no">Ablehnen</option>
+              <option value="pending">Auswahl treffen</option>
+              <option value="yes">Freigeben</option>
+              <option value="no">Ablehnen</option>
             </select>
             ${postingButtons}
           `;
-          
           container.appendChild(sectionDiv);
         });
       }
 
       function updatePostingButtons(channel) {
-  const config = CONTENT_TYPES[channel];
-  const statusField = document.getElementById(config.statusField);
-  const textField = document.getElementById(config.textField);
-  const section = document.getElementById(`${channel}-section`);
+        const config = CONTENT_TYPES[channel];
+        const statusField = document.getElementById(config.statusField);
+        const textField = document.getElementById(config.textField);
+        const section = document.getElementById(`${channel}-section`);
+        
+        if (!section) return;
+        
+        const postBtn = section.querySelector('.btn-post');
+        const isApproved = statusField.value === 'yes';
+        const hasContent = textField.value.trim() !== '';
+        let imageIsSelected = true;
 
-  if (!section) return;
+        if (config.imageFormat !== 'none') {
+          const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
+          imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+        }
 
-  const postBtn = section.querySelector('.btn-post');
-  const isApproved = statusField.value === 'yes';
-  const hasContent = textField.value.trim() !== '';
-  let imageIsSelected = true;
+        const isPostable = hasContent && isApproved && imageIsSelected;
 
-  if (config.imageFormat !== 'none') {
-    const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
-    imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
-  }
-
-  const isPostable = hasContent && isApproved && imageIsSelected;
-
-  if (postBtn && config.postingEnabled) {
-    postBtn.disabled = !isPostable;
-  }
-  updateGlobalPostAllButton(); // <-- NEU
-}
-
-function updateGlobalPostAllButton() {
-  const postAllBtn = document.getElementById('post-all-btn');
-  if (!postAllBtn) return;
-
-  let atLeastOnePostable = false;
-  Object.keys(CONTENT_TYPES).forEach(channel => {
-    const config = CONTENT_TYPES[channel];
-    const section = document.getElementById(`${channel}-section`);
-    if (section) { // Nur prüfen, wenn der Kanal-Abschnitt existiert
-      const statusField = document.getElementById(config.statusField);
-      const textField = document.getElementById(config.textField);
-      
-      const isApproved = statusField.value === 'yes';
-      const hasContent = textField.value.trim() !== '';
-      let imageIsSelected = true;
-
-      if (config.imageFormat !== 'none') {
-        const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
-        imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+        if (postBtn && config.postingEnabled) {
+          postBtn.disabled = !isPostable;
+        }
+        updateGlobalPostAllButton();
       }
 
-      if (isApproved && hasContent && imageIsSelected) {
-        atLeastOnePostable = true;
-      }
-    }
-  });
+      function updateGlobalPostAllButton() {
+        const postAllBtn = document.getElementById('post-all-btn');
+        if (!postAllBtn) return;
 
-  postAllBtn.disabled = !atLeastOnePostable;
-}
-      
-      // Polling System
+        let atLeastOnePostable = false;
+        Object.keys(CONTENT_TYPES).forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const section = document.getElementById(`${channel}-section`);
+          if (section) {
+            const statusField = document.getElementById(config.statusField);
+            const textField = document.getElementById(config.textField);
+            
+            const isApproved = statusField.value === 'yes';
+            const hasContent = textField.value.trim() !== '';
+            let imageIsSelected = true;
+
+            if (config.imageFormat !== 'none') {
+              const selectedImageInput = document.getElementById(`selected_image_url_${config.imageFormat}`);
+              imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+            }
+
+            if (isApproved && hasContent && imageIsSelected) {
+              atLeastOnePostable = true;
+            }
+          }
+        });
+        postAllBtn.disabled = !atLeastOnePostable;
+      }
+
       async function startIntelligentPolling() {
         let attempts = 0;
         const maxAttempts = 24;
-        
-        console.log("🚀 === POLLING GESTARTET ===");
-        
         const poll = async () => {
           attempts++;
-          console.log(`\n🔄 === POLLING VERSUCH ${attempts}/${maxAttempts} ===`);
-          
           showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
-          
           try {
             const success = await loadReview(true);
-            
             if (success) {
-              console.log("✅ === POLLING ERFOLGREICH BEENDET ===");
               clearPersistentMessage();
               showSuccessMessage("✅ Content ist da! Automatisch geladen.");
               return;
             }
-            
             if (attempts < maxAttempts) {
               setTimeout(() => poll(), 15000);
             } else {
@@ -1416,7 +1206,6 @@ function updateGlobalPostAllButton() {
               document.getElementById("manual-load-btn").style.display = "inline-block";
             }
           } catch (error) {
-            console.error(`❌ POLLING FEHLER:`, error);
             if (attempts < maxAttempts) {
               setTimeout(() => poll(), 15000);
             } else {
@@ -1426,131 +1215,123 @@ function updateGlobalPostAllButton() {
             }
           }
         };
-        
         poll();
       }
 
       async function loadReview(silentMode = false) {
-  const inputIdValue = document.getElementById("input_id").value;
-  if (!inputIdValue) {
-    if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
-    return false;
-  }
-
-  // Hide all image containers initially
-  ['1_1', '16_9', '9_16'].forEach(format => {
-    const container = document.getElementById(`image-selection-container-${format}`);
-    if (container) container.style.display = "none";
-  });
-
-  const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
-
-  try {
-    if (!silentMode) showProgressMessage("Lade Content...");
-
-    const response = await fetch(webhookUrl);
-    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-
-    const responseText = await response.text();
-
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (parseError) {
-      console.error("JSON Parse Error:", parseError, responseText);
-      if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
-      return false;
-    }
-
-    console.log("===== START DATENPAKET VOM SERVER =====");
-    console.log(data);
-    console.log("===== ENDE DATENPAKET VOM SERVER =====");
-
-    // Bilder-Grids für alle Formate befüllen
-    const formats = ['1_1', '16_9', '9_16'];
-    formats.forEach(format => {
-      const imageUrls = [
-        data[`image_option_${format}_1_url`],
-        data[`image_option_${format}_2_url`],
-        data[`image_option_${format}_3_url`],
-        data[`image_option_${format}_4_url`]
-      ].filter(url => url && url.startsWith('http'));
-
-      if (imageUrls.length > 0) {
-        populateImageGrid(format, imageUrls, data[`selected_image_url_${format}`]);
-      }
-    });
-
-    let hasGeneratedContent = false;
-    let sectionsWithContent = 0;
-    let totalSections = 0;
-
-    Object.keys(CONTENT_TYPES).forEach(type => {
-      const config = CONTENT_TYPES[type];
-      const sectionElement = document.getElementById(`${type}-section`);
-
-      if (sectionElement) {
-        totalSections++;
-        let backendText = data[config.backendTextKey];
-        const backendStatus = data[config.backendStatusKey];
-
-        if (backendText) {
-          backendText = backendText.replace(/\\n/g, '\n');
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) {
+          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+          return false;
         }
 
-        const hasContent = backendText && backendText.trim() !== '';
-        if (hasContent) {
-          sectionsWithContent++;
-          hasGeneratedContent = true;
+        ['1_1', '16_9', '9_16'].forEach(format => {
+          const container = document.getElementById(`image-selection-container-${format}`);
+          if (container) container.style.display = "none";
+        });
 
-          const textField = document.getElementById(config.textField);
-          const statusField = document.getElementById(config.statusField);
+        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
 
-          if (textField) {
-            textField.value = backendText || "";
-            autoResize(textField);
+        try {
+          if (!silentMode) showProgressMessage("Lade Content...");
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+          const responseText = await response.text();
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error("JSON Parse Error:", parseError, responseText);
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+            return false;
           }
-          if (statusField) statusField.value = backendStatus || "pending";
+          
+          console.log("===== START DATENPAKET VOM SERVER =====");
+          console.log(data);
+          console.log("===== ENDE DATENPAKET VOM SERVER =====");
 
-          updateSectionStatus(sectionElement, backendStatus);
-          updatePostingButtons(type);
+          const formats = ['1_1', '16_9', '9_16'];
+          formats.forEach(format => {
+            const imageUrls = [
+              data[`image_option_${format}_1_url`],
+              data[`image_option_${format}_2_url`],
+              data[`image_option_${format}_3_url`],
+              data[`image_option_${format}_4_url`]
+            ].filter(url => url && url.startsWith('http'));
+
+            if (imageUrls.length > 0) {
+              populateImageGrid(format, imageUrls, data[`selected_image_url_${format}`]);
+            }
+          });
+
+          let hasGeneratedContent = false;
+          let sectionsWithContent = 0;
+          let totalSections = 0;
+          
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const config = CONTENT_TYPES[type];
+            const sectionElement = document.getElementById(`${type}-section`);
+            
+            if (sectionElement) {
+              totalSections++;
+              let backendText = data[config.backendTextKey];
+              const backendStatus = data[config.backendStatusKey];
+              
+              if (backendText) {
+                backendText = backendText.replace(/\\n/g, '\n');
+              }
+              
+              const hasContent = backendText && backendText.trim() !== '';
+              if (hasContent) {
+                sectionsWithContent++;
+                hasGeneratedContent = true;
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                
+                if (textField) {
+                  textField.value = backendText || "";
+                  autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+              }
+            }
+          });
+          
+          updateGlobalPostAllButton();
+          
+          const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+          
+          if (allSectionsFilled) {
+            clearPersistentMessage();
+            if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
+            return true;
+          } else {
+            if (!silentMode) {
+              showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} fertig)`);
+            }
+            return false;
+          }
+        } catch (error) {
+          console.error("❌ Fehler beim Laden der Review-Daten", error);
+          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+          return false;
         }
       }
-    });
-
-    updateGlobalPostAllButton();
-
-    const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
-    document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
-
-    if (allSectionsFilled) {
-      clearPersistentMessage();
-      if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
-      return true;
-    } else {
-      if (!silentMode) {
-        showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} Kanäle fertig)`);
-      }
-      return false;
-    }
-  } catch (error) {
-    console.error("❌ Fehler beim Laden der Review-Daten", error);
-    if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
-    return false;
-  }
-}
 
       function updateSectionStatus(sectionDiv, status) {
         const statusBadge = sectionDiv.querySelector('.status-badge');
         if (statusBadge) {
           const statusConfig = {
-              'pending': { text: 'Ausstehend', class: 'background: #fef3c7; color: #92400e;' },
-              'draft': { text: 'Entwurf', class: 'background: #e5e7eb; color: #4b5563;' }, // <-- NEUE ZEILE
-              'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
-              'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
-              'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
+            'pending': { text: 'Ausstehend', class: 'background: #fef3c7; color: #92400e;' },
+            'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
+            'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
+            'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
           };
-          
           const config = statusConfig[status] || statusConfig['pending'];
           statusBadge.textContent = config.text;
           statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
@@ -1558,257 +1339,203 @@ function updateGlobalPostAllButton() {
       }
 
       function populateImageGrid(format, urls, selectedUrl) {
-  const container = document.getElementById(`image-selection-container-${format}`);
-  const grid = document.getElementById(`image-selection-grid-${format}`);
-  const hiddenInput = document.getElementById(`selected_image_url_${format}`);
-
-  if (!grid || !container || !hiddenInput) return;
-
-  grid.innerHTML = "";
-
-  urls.forEach((url, index) => {
-    const isSelected = url === selectedUrl;
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'image-option';
-    if (isSelected) optionDiv.classList.add('selected');
-    optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
-    optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
-    grid.appendChild(optionDiv);
-  });
-
-  hiddenInput.value = selectedUrl || "";
-  container.style.display = "block";
-}
+        const container = document.getElementById(`image-selection-container-${format}`);
+        const grid = document.getElementById(`image-selection-grid-${format}`);
+        const hiddenInput = document.getElementById(`selected_image_url_${format}`);
+        
+        if (!grid || !container || !hiddenInput) return;
+        
+        grid.innerHTML = "";
+        
+        urls.forEach((url, index) => {
+          const isSelected = url === selectedUrl;
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'image-option';
+          if (isSelected) optionDiv.classList.add('selected');
+          optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
+          optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
+          grid.appendChild(optionDiv);
+        });
+        
+        hiddenInput.value = selectedUrl || "";
+        container.style.display = "block";
+      }
 
       function selectImage(format, element, imageUrl) {
-  const grid = document.getElementById(`image-selection-grid-${format}`);
-  const allOptions = grid.querySelectorAll('.image-option');
-  allOptions.forEach(opt => opt.classList.remove('selected'));
-
-  element.classList.add('selected');
-  document.getElementById(`selected_image_url_${format}`).value = imageUrl;
-
-  Object.keys(CONTENT_TYPES).forEach(channel => {
-    if (CONTENT_TYPES[channel].imageFormat === format) {
-      updatePostingButtons(channel);
-    }
-  });
-  updateGlobalPostAllButton(); // <-- NEU
-}
-
-      // Posting Functions
-async function postContent(channel) {
-  const config = CONTENT_TYPES[channel];
-  const inputIdValue = document.getElementById("input_id").value;
-
-  if (!confirm(`${config.label} sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.`)) return;
-
-  try {
-    // --- SCHRITT 1: AKTUELLEN STAND SPEICHERN (wie submitReview) ---
-    showProgressMessage("Speichere finalen Stand...");
-    const savePayload = {
-      input_id: inputIdValue,
-      mode: "save",
-      selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
-    };
-
-    // Alle Texte und Status aus dem Formular sammeln
-    Object.keys(CONTENT_TYPES).forEach(type => {
-      const typeConfig = CONTENT_TYPES[type];
-      const textElement = document.getElementById(typeConfig.textField);
-      const statusElement = document.getElementById(typeConfig.statusField);
-      if (textElement && textElement.value) {
-          savePayload[typeConfig.textField] = textElement.value;
+        const grid = document.getElementById(`image-selection-grid-${format}`);
+        const allOptions = grid.querySelectorAll('.image-option');
+        allOptions.forEach(opt => opt.classList.remove('selected'));
+        
+        element.classList.add('selected');
+        document.getElementById(`selected_image_url_${format}`).value = imageUrl;
+        
+        Object.keys(CONTENT_TYPES).forEach(channel => {
+          if (CONTENT_TYPES[channel].imageFormat === format) {
+            updatePostingButtons(channel);
+          }
+        });
+        updateGlobalPostAllButton();
       }
-      if (statusElement && statusElement.value) {
-          savePayload[typeConfig.statusField] = statusElement.value;
-      }
-    });
 
-    const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm"; // Szenario 2 (Save) URL
-    const saveResponse = await fetch(saveWebhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(savePayload),
-    });
-
-    if (!saveResponse.ok) {
-      throw new Error("Fehler beim Speichern des finalen Stands vor dem Posten.");
-    }
-
-    showProgressMessage(`Finaler Stand gespeichert. Starte Post für ${config.label}...`);
-
-    // --- SCHRITT 2: POST-BEFEHL SENDEN ---
-    const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt"; // Szenario 3 (Post) URL
-    const postResponse = await fetch(postWebhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input_id: inputIdValue,
-        channel: channel
-      }),
-    });
-
-    if (postResponse.ok) {
-      showSuccessMessage(`✅ Post-Auftrag für ${config.label} erfolgreich gesendet!`);
-      setTimeout(() => loadReview(false), 3000);
-    } else {
-      throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
-    }
-  } catch (error) {
-    showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
-  }
-}
-
-async function postAllChannels() {
-  const inputIdValue = document.getElementById("input_id").value;
-
-  if (!confirm("Alle freigegebenen Kanäle sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.")) return;
-
-  try {
-    // SCHRITT 1: AKTUELLEN STAND SPEICHERN (identisch zu postContent)
-    showProgressMessage("Speichere finalen Stand...");
-    const savePayload = {
-      input_id: inputIdValue,
-      mode: "save",
-      selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
-    };
-    Object.keys(CONTENT_TYPES).forEach(type => {
-      const typeConfig = CONTENT_TYPES[type];
-      const textElement = document.getElementById(typeConfig.textField);
-      const statusElement = document.getElementById(typeConfig.statusField);
-      if (textElement && textElement.value) savePayload[typeConfig.textField] = textElement.value;
-      if (statusElement && statusElement.value) savePayload[typeConfig.statusField] = statusElement.value;
-    });
-    const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm"; // Szenario 2 (Save)
-    const saveResponse = await fetch(saveWebhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(savePayload),
-    });
-    if (!saveResponse.ok) throw new Error("Fehler beim Speichern des finalen Stands.");
-    
-    showProgressMessage("Finaler Stand gespeichert. Starte Post für alle Kanäle...");
-
-    // SCHRITT 2: "ALLE POSTEN"-BEFEHL SENDEN
-    const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt"; // Szenario 3 (Post)
-    const postResponse = await fetch(postWebhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input_id: inputIdValue,
-        channel: "all_approved" // Der spezielle Befehl
-      }),
-    });
-
-    if (postResponse.ok) {
-      showSuccessMessage("✅ Post-Auftrag für alle Kanäle erfolgreich gesendet!");
-      setTimeout(() => loadReview(false), 3000);
-    } else {
-      throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
-    }
-  } catch (error) {
-    showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
-  }
-}
-      
-      async function scheduleContent(channel) {
+      async function postContent(channel) {
         const config = CONTENT_TYPES[channel];
-        const scheduleTime = prompt("Wann soll gepostet werden? (Format: YYYY-MM-DD HH:MM)");
-        
-        if (!scheduleTime) return;
-        
-        showInfoMessage(`⏰ ${config.label} für ${scheduleTime} geplant (Feature in Entwicklung)`);
+        const inputIdValue = document.getElementById("input_id").value;
+
+        if (!confirm(`${config.label} sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.`)) return;
+
+        try {
+          showProgressMessage("Speichere finalen Stand...");
+          const savePayload = {
+            input_id: inputIdValue,
+            mode: "save",
+            selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
+            selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
+            selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+          };
+
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const typeConfig = CONTENT_TYPES[type];
+            const textElement = document.getElementById(typeConfig.textField);
+            const statusElement = document.getElementById(typeConfig.statusField);
+            if (textElement && textElement.value) {
+                savePayload[typeConfig.textField] = textElement.value;
+            }
+            if (statusElement && statusElement.value) {
+                savePayload[typeConfig.statusField] = statusElement.value;
+            }
+          });
+
+          const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const saveResponse = await fetch(saveWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(savePayload),
+          });
+
+          if (!saveResponse.ok) {
+            throw new Error("Fehler beim Speichern des finalen Stands vor dem Posten.");
+          }
+          
+          showProgressMessage(`Finaler Stand gespeichert. Starte Post für ${config.label}...`);
+
+          const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+          const postResponse = await fetch(postWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              channel: channel
+            }),
+          });
+
+          if (postResponse.ok) {
+            showSuccessMessage(`✅ Post-Auftrag für ${config.label} erfolgreich gesendet!`);
+            setTimeout(() => loadReview(false), 3000);
+          } else {
+            throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
+        }
       }
 
-      async function saveDraft(channel) {
-  const config = CONTENT_TYPES[channel];
-  const content = document.getElementById(config.textField).value;
-  const inputIdValue = document.getElementById("input_id").value;
-  const selectedImage = document.getElementById("selected_image_url").value;
+      async function postAllChannels() {
+        const inputIdValue = document.getElementById("input_id").value;
 
-  if (content.trim() === '') {
-    showErrorMessage("Es gibt keinen Entwurf zum Speichern.");
-    return;
-  }
+        if (!confirm("Alle freigegebenen Kanäle sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.")) return;
 
-  const payload = {
-    input_id: inputIdValue,
-    mode: "save",
-    selected_image_url: selectedImage,
-    [config.textField]: content,
-    [config.statusField]: 'draft' // Wir setzen den Status hart auf 'draft'
-  };
+        try {
+          showProgressMessage("Speichere finalen Stand...");
+          const savePayload = {
+            input_id: inputIdValue,
+            mode: "save",
+            selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
+            selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
+            selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+          };
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const typeConfig = CONTENT_TYPES[type];
+            const textElement = document.getElementById(typeConfig.textField);
+            const statusElement = document.getElementById(typeConfig.statusField);
+            if (textElement && textElement.value) savePayload[typeConfig.textField] = textElement.value;
+            if (statusElement && statusElement.value) savePayload[typeConfig.statusField] = statusElement.value;
+          });
+          const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const saveResponse = await fetch(saveWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(savePayload),
+          });
+          if (!saveResponse.ok) throw new Error("Fehler beim Speichern des finalen Stands.");
+          
+          showProgressMessage("Finaler Stand gespeichert. Starte Post für alle Kanäle...");
 
-  const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+          const postResponse = await fetch(postWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              channel: "all_approved"
+            }),
+          });
 
-  try {
-    showProgressMessage(`Speichere Entwurf für ${config.label}...`);
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
-      showSuccessMessage(`✅ Entwurf für ${config.label} gespeichert!`);
-      loadReview(false); // Daten neu laden, um den "Entwurf"-Status anzuzeigen
-    } else {
-      throw new Error(`HTTP ${response.status}`);
-    }
-  } catch (error) {
-    showErrorMessage(`Fehler beim Speichern des Entwurfs: ${error.message}`);
-  }
-}
-
+          if (postResponse.ok) {
+            showSuccessMessage("✅ Post-Auftrag für alle Kanäle erfolgreich gesendet!");
+            setTimeout(() => loadReview(false), 3000);
+          } else {
+            throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
+        }
+      }
+      
       async function submitReview() {
-  const payload = {
-    input_id: document.getElementById("input_id").value,
-    mode: "save",
-    selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
-    selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
-    selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
-  };
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save",
+          selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
+          selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
+          selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+        };
 
-  Object.keys(CONTENT_TYPES).forEach(type => {
-    const config = CONTENT_TYPES[type];
-    const textElement = document.getElementById(config.textField);
-    const statusElement = document.getElementById(config.statusField);
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const config = CONTENT_TYPES[type];
+          const textElement = document.getElementById(config.textField);
+          const statusElement = document.getElementById(config.statusField);
+          
+          if (textElement && textElement.value.trim() !== '') {
+            payload[config.textField] = textElement.value;
+            payload[config.statusField] = statusElement.value;
+          }
+        });
 
-    if (textElement && textElement.value.trim() !== '') {
-      payload[config.textField] = textElement.value;
-      payload[config.statusField] = statusElement.value;
-    }
-  });
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
 
-  const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+        try {
+          showLoadingState(true, "review-submit-btn");
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-  try {
-    showLoadingState(true, "review-submit-btn");
+          if (response.ok) {
+            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+            loadReview(false);
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+        } finally {
+          showLoadingState(false, "review-submit-btn");
+        }
+      }
 
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (response.ok) {
-      showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
-      loadReview(false);
-    } else {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-  } catch (error) {
-    showErrorMessage(`Fehler beim Speichern: ${error.message}`);
-  } finally {
-    showLoadingState(false, "review-submit-btn");
-  }
-}
-
-      // Status Message System
       function showStatusMessage(message, type, persistent = false) {
         const container = document.getElementById("status-container");
-        
         if (!persistent) {
           const existing = container.querySelector('.status-message:not(.persistent)');
           if (existing) existing.remove();
@@ -1829,7 +1556,6 @@ async function postAllChannels() {
         
         messageDiv.setAttribute('style', styles[type] || styles.info);
         messageDiv.textContent = message;
-        
         container.appendChild(messageDiv);
         
         if ((type === 'success' || type === 'info') && !persistent) {
