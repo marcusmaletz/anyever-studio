@@ -1258,10 +1258,7 @@
               <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
                 🚀 Sofort posten
               </button>
-              <button class="action-btn btn-draft" onclick="saveDraft('${channel}')" disabled>
-                📝 Als Entwurf
-              </button>
-            </div>
+              </div>
           ` : `
             <div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
               Automatisches Posting für diesen Kanal noch nicht verfügbar
@@ -1280,9 +1277,9 @@
                       placeholder="${config.label} Content wird generiert..."
                       oninput="autoResize(this); updatePostingButtons('${channel}')"></textarea>
             <select id="${config.statusField}" onchange="updatePostingButtons('${channel}')">
-              <option value="pending">Auswahl treffen</option>
-              <option value="yes">Freigeben</option>
-              <option value="no">Ablehnen</option>
+                <option value="pending">Auswahl treffen</option>
+                <option value="yes">Freigeben</option>
+                <option value="no">Ablehnen</option>
             </select>
             ${postingButtons}
           `;
@@ -1292,21 +1289,27 @@
       }
 
       function updatePostingButtons(channel) {
-        const config = CONTENT_TYPES[channel];
-        const statusField = document.getElementById(config.statusField);
-        const textField = document.getElementById(config.textField);
-        const section = document.getElementById(`${channel}-section`);
-        
-        if (!section || !config.postingEnabled) return;
-        
-        const buttons = section.querySelectorAll('.action-btn');
-        const isApproved = statusField.value === 'yes';
-        const hasContent = textField.value.trim() !== '';
-        
-        buttons.forEach(btn => {
-          btn.disabled = !(isApproved && hasContent);
-        });
-      }
+  const config = CONTENT_TYPES[channel];
+  const statusField = document.getElementById(config.statusField);
+  const textField = document.getElementById(config.textField);
+  const section = document.getElementById(`${channel}-section`);
+  
+  if (!section) return;
+  
+  const postBtn = section.querySelector('.btn-post');
+  const draftBtn = section.querySelector('.btn-draft');
+  
+  const isApproved = statusField.value === 'yes';
+  const hasContent = textField.value.trim() !== '';
+  
+  if (postBtn && config.postingEnabled) {
+    postBtn.disabled = !(isApproved && hasContent);
+  }
+
+  if (draftBtn) {
+    draftBtn.disabled = !hasContent;
+  }
+}
 
       // Polling System
       async function startIntelligentPolling() {
@@ -1547,10 +1550,11 @@
         const statusBadge = sectionDiv.querySelector('.status-badge');
         if (statusBadge) {
           const statusConfig = {
-            'pending': { text: 'Ausstehend', class: 'background: #fef3c7; color: #92400e;' },
-            'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
-            'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
-            'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
+              'pending': { text: 'Ausstehend', class: 'background: #fef3c7; color: #92400e;' },
+              'draft': { text: 'Entwurf', class: 'background: #e5e7eb; color: #4b5563;' }, // <-- NEUE ZEILE
+              'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
+              'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
+              'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
           };
           
           const config = statusConfig[status] || statusConfig['pending'];
@@ -1605,39 +1609,37 @@
 
       // Posting Functions
       async function postContent(channel) {
-        const config = CONTENT_TYPES[channel];
-        const content = document.getElementById(config.textField).value;
-        const inputIdValue = document.getElementById("input_id").value;
-        
-        if (!confirm(`${config.label} sofort veröffentlichen?`)) return;
-        
-        try {
-          showProgressMessage(`Veröffentliche ${config.label}...`);
-          
-          const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
-          const response = await fetch(webhookUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              input_id: inputIdValue,
-              mode: "post",
-              channel: channel,
-              content: escapeJsonString(content),
-              action: "immediate"
-            }),
-          });
-          
-          if (response.ok) {
-            showSuccessMessage(`✅ ${config.label} erfolgreich veröffentlicht!`);
-            updateSectionStatus(document.getElementById(`${channel}-section`), 'posted');
-          } else {
-            throw new Error(`HTTP ${response.status}`);
-          }
-        } catch (error) {
-          showErrorMessage(`Fehler beim Veröffentlichen: ${error.message}`);
-        }
-      }
+  const config = CONTENT_TYPES[channel];
+  const inputIdValue = document.getElementById("input_id").value;
 
+  if (!confirm(`${config.label} sofort veröffentlichen? Dieser Vorgang kann nicht rückgängig gemacht werden.`)) return;
+
+  // Ihre Webhook-URL für Szenario 3
+  const webhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+
+  try {
+    showProgressMessage(`Veröffentliche ${config.label}...`);
+
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input_id: inputIdValue,
+        channel: channel // Sendet den spezifischen Kanal, z.B. "linkedin"
+      }),
+    });
+
+    if (response.ok) {
+      showSuccessMessage(`✅ Post-Auftrag für ${config.label} erfolgreich gesendet!`);
+      // Lade die Daten neu, um den neuen "Veröffentlicht"-Status anzuzeigen
+      setTimeout(() => loadReview(false), 3000); 
+    } else {
+      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+    }
+  } catch (error) {
+    showErrorMessage(`Fehler beim Posten: ${error.message}`);
+  }
+}
       async function scheduleContent(channel) {
         const config = CONTENT_TYPES[channel];
         const scheduleTime = prompt("Wann soll gepostet werden? (Format: YYYY-MM-DD HH:MM)");
@@ -1648,9 +1650,44 @@
       }
 
       async function saveDraft(channel) {
-        const config = CONTENT_TYPES[channel];
-        showInfoMessage(`📝 ${config.label} als Entwurf gespeichert (Feature in Entwicklung)`);
-      }
+  const config = CONTENT_TYPES[channel];
+  const content = document.getElementById(config.textField).value;
+  const inputIdValue = document.getElementById("input_id").value;
+  const selectedImage = document.getElementById("selected_image_url").value;
+
+  if (content.trim() === '') {
+    showErrorMessage("Es gibt keinen Entwurf zum Speichern.");
+    return;
+  }
+
+  const payload = {
+    input_id: inputIdValue,
+    mode: "save",
+    selected_image_url: selectedImage,
+    [config.textField]: content,
+    [config.statusField]: 'draft' // Wir setzen den Status hart auf 'draft'
+  };
+
+  const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+
+  try {
+    showProgressMessage(`Speichere Entwurf für ${config.label}...`);
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      showSuccessMessage(`✅ Entwurf für ${config.label} gespeichert!`);
+      loadReview(false); // Daten neu laden, um den "Entwurf"-Status anzuzeigen
+    } else {
+      throw new Error(`HTTP ${response.status}`);
+    }
+  } catch (error) {
+    showErrorMessage(`Fehler beim Speichern des Entwurfs: ${error.message}`);
+  }
+}
 
       async function submitReview() {
         const payload = {
