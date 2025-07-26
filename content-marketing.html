@@ -1694,6 +1694,58 @@ async function postContent(channel) {
     showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
   }
 }
+
+async function postAllChannels() {
+  const inputIdValue = document.getElementById("input_id").value;
+
+  if (!confirm("Alle freigegebenen Kanäle sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.")) return;
+
+  try {
+    // SCHRITT 1: AKTUELLEN STAND SPEICHERN (identisch zu postContent)
+    showProgressMessage("Speichere finalen Stand...");
+    const savePayload = {
+      input_id: inputIdValue,
+      mode: "save",
+      selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
+    };
+    Object.keys(CONTENT_TYPES).forEach(type => {
+      const typeConfig = CONTENT_TYPES[type];
+      const textElement = document.getElementById(typeConfig.textField);
+      const statusElement = document.getElementById(typeConfig.statusField);
+      if (textElement && textElement.value) savePayload[typeConfig.textField] = textElement.value;
+      if (statusElement && statusElement.value) savePayload[typeConfig.statusField] = statusElement.value;
+    });
+    const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm"; // Szenario 2 (Save)
+    const saveResponse = await fetch(saveWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(savePayload),
+    });
+    if (!saveResponse.ok) throw new Error("Fehler beim Speichern des finalen Stands.");
+    
+    showProgressMessage("Finaler Stand gespeichert. Starte Post für alle Kanäle...");
+
+    // SCHRITT 2: "ALLE POSTEN"-BEFEHL SENDEN
+    const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt"; // Szenario 3 (Post)
+    const postResponse = await fetch(postWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input_id: inputIdValue,
+        channel: "all_approved" // Der spezielle Befehl
+      }),
+    });
+
+    if (postResponse.ok) {
+      showSuccessMessage("✅ Post-Auftrag für alle Kanäle erfolgreich gesendet!");
+      setTimeout(() => loadReview(false), 3000);
+    } else {
+      throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
+    }
+  } catch (error) {
+    showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
+  }
+}
       
       async function scheduleContent(channel) {
         const config = CONTENT_TYPES[channel];
