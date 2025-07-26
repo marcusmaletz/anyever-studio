@@ -1514,17 +1514,18 @@
           
           const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
           
-          // NEU: Bilder-Grid befüllen, wenn Bild-URLs vorhanden sind
-          const imageUrls = [
-            data.image_option_1_url,
-            data.image_option_2_url,
-            data.image_option_3_url,
-            data.image_option_4_url
-          ].filter(url => url && url.startsWith('http')); // Nur gültige URLs nehmen
+          // Bilder-Grid für Format 1_1 befüllen
+const format_1_1 = '1_1';
+const imageUrls_1_1 = [
+  data[`image_option_${format_1_1}_1_url`],
+  data[`image_option_${format_1_1}_2_url`],
+  data[`image_option_${format_1_1}_3_url`],
+  data[`image_option_${format_1_1}_4_url`]
+].filter(url => url && url.startsWith('http'));
 
-          if (imageUrls.length > 0) {
-            populateImageGrid(imageUrls, data.selected_image_url);
-          }
+if (imageUrls_1_1.length > 0) {
+  populateImageGrid(format_1_1, imageUrls_1_1, data[`selected_image_url_${format_1_1}`]);
+}
 
           document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
           
