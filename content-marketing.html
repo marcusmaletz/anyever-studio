@@ -1626,32 +1626,62 @@ if (imageUrls_1_1.length > 0) {
   const config = CONTENT_TYPES[channel];
   const inputIdValue = document.getElementById("input_id").value;
 
-  if (!confirm(`${config.label} sofort veröffentlichen? Dieser Vorgang kann nicht rückgängig gemacht werden.`)) return;
-
-  // Ihre Webhook-URL für Szenario 3
-  const webhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+  if (!confirm(`${config.label} sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.`)) return;
 
   try {
-    showProgressMessage(`Veröffentliche ${config.label}...`);
+    // --- SCHRITT 1: AKTUELLEN STAND SPEICHERN (wie submitReview) ---
+    showProgressMessage("Speichere finalen Stand...");
+    const savePayload = {
+      input_id: inputIdValue,
+      mode: "save",
+      selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value
+    };
 
-    const response = await fetch(webhookUrl, {
+    // Alle Texte und Status aus dem Formular sammeln
+    Object.keys(CONTENT_TYPES).forEach(type => {
+      const typeConfig = CONTENT_TYPES[type];
+      const textElement = document.getElementById(typeConfig.textField);
+      const statusElement = document.getElementById(typeConfig.statusField);
+      if (textElement && textElement.value) {
+          savePayload[typeConfig.textField] = textElement.value;
+      }
+      if (statusElement && statusElement.value) {
+          savePayload[typeConfig.statusField] = statusElement.value;
+      }
+    });
+
+    const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm"; // Szenario 2 (Save) URL
+    const saveResponse = await fetch(saveWebhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(savePayload),
+    });
+
+    if (!saveResponse.ok) {
+      throw new Error("Fehler beim Speichern des finalen Stands vor dem Posten.");
+    }
+    
+    showProgressMessage(`Finaler Stand gespeichert. Starte Post für ${config.label}...`);
+
+    // --- SCHRITT 2: POST-BEFEHL SENDEN (wie bisher) ---
+    const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt"; // Szenario 3 (Post) URL
+    const postResponse = await fetch(postWebhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         input_id: inputIdValue,
-        channel: channel // Sendet den spezifischen Kanal, z.B. "linkedin"
+        channel: channel
       }),
     });
 
-    if (response.ok) {
+    if (postResponse.ok) {
       showSuccessMessage(`✅ Post-Auftrag für ${config.label} erfolgreich gesendet!`);
-      // Lade die Daten neu, um den neuen "Veröffentlicht"-Status anzuzeigen
-      setTimeout(() => loadReview(false), 3000); 
+      setTimeout(() => loadReview(false), 3000);
     } else {
-      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+      throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
     }
   } catch (error) {
-    showErrorMessage(`Fehler beim Posten: ${error.message}`);
+    showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
   }
 }
       async function scheduleContent(channel) {
