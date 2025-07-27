@@ -1146,7 +1146,7 @@
 
       async function startIntelligentPolling() {
         let attempts = 0;
-        const maxAttempts = 24;
+        const maxAttempts = 20;
         const poll = async () => {
           attempts++;
           showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
@@ -1158,7 +1158,7 @@
               return;
             }
             if (attempts < maxAttempts) {
-              setTimeout(() => poll(), 15000);
+              setTimeout(() => poll(), 6000);
             } else {
               clearPersistentMessage();
               showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
