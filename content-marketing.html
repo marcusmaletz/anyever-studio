@@ -1506,36 +1506,44 @@
       }
 
       function showStatusMessage(message, type, persistent = false) {
-        const container = document.getElementById("status-container");
-        if (!persistent) {
-          const existing = container.querySelector('.status-message:not(.persistent)');
-          if (existing) existing.remove();
-        } else {
-          const existing = container.querySelector('.status-message');
-          if (existing) existing.remove();
-        }
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
-        
-        const styles = {
-          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
-          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
-          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
-          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
-        };
-        
-        messageDiv.setAttribute('style', styles[type] || styles.info);
-        messageDiv.textContent = message;
-        container.appendChild(messageDiv);
-        
-        if ((type === 'success' || type === 'info') && !persistent) {
-          setTimeout(() => {
-            messageDiv.style.opacity = '0';
-            setTimeout(() => messageDiv.remove(), 300);
-          }, 8000);
-        }
-      }
+  const container = document.getElementById("status-container");
+  if (!persistent) {
+    const existing = container.querySelector('.status-message:not(.persistent)');
+    if (existing) existing.remove();
+  } else {
+    const existing = container.querySelector('.status-message');
+    if (existing) existing.remove();
+  }
+
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
+
+  const styles = {
+    info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
+    success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
+    error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
+    warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
+  };
+
+  messageDiv.setAttribute('style', styles[type] || styles.info);
+  messageDiv.textContent = message;
+  container.appendChild(messageDiv);
+
+  // NEUE LOGIK ZUM AUSBLENDEN
+  let autoHideDelay = 0;
+  if (type === 'success' || type === 'info') {
+      autoHideDelay = 8000; // 8 Sekunden für Erfolg/Info
+  } else if (type === 'warning') {
+      autoHideDelay = 10000; // 10 Sekunden für Warnungen
+  }
+
+  if (autoHideDelay > 0 && !persistent) {
+    setTimeout(() => {
+      messageDiv.style.opacity = '0';
+      setTimeout(() => messageDiv.remove(), 300);
+    }, autoHideDelay);
+  }
+}
 
       function clearPersistentMessage() {
         const container = document.getElementById("status-container");
