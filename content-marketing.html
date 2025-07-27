@@ -851,11 +851,14 @@
             card.id = `card-${config.id}`;
             
             let formatText = config.imageFormat.replace('_', ':');
-            if (config.id === 'instagram_reel') formatText = '9:16 Video';
-            if (config.id === 'podcast') formatText = 'Text to speech';
-            if (config.id === 'avatar') formatText = 'Video Avatar';
-            if (config.id === 'newsletter') formatText = 'E-Mail';
-            if (config.imageFormat === 'none') formatText = 'Text';
+              // ZUERST DIE ALLGEMEINE REGEL
+              if (config.imageFormat === 'none') formatText = 'Text'; 
+              
+              // DANACH DIE SPEZIFISCHEN ÜBERSCHREIBUNGEN
+              if (config.id === 'instagram_reel') formatText = '9:16 Video';
+              if (config.id === 'podcast') formatText = 'Text-to-Speech';
+              if (config.id === 'avatar') formatText = 'Video Avatar';
+              if (config.id === 'newsletter') formatText = 'E-Mail';
 
 
             card.innerHTML = `
