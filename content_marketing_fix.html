@@ -1374,7 +1374,7 @@
 
         try {
           showProgressMessage("Speichere finalen Stand...");
-          // KORRIGIERTE PAYLOAD STRUKTUR für Save-Modus
+          // KORRIGIERTE PAYLOAD STRUKTUR für Save-Modus mit SHEET-SPALTENNAMEN
           const savePayload = {
             input_id: inputIdValue,
             mode: "save",
@@ -1433,7 +1433,7 @@
 
         try {
           showProgressMessage("Speichere finalen Stand...");
-          // KORRIGIERTE PAYLOAD STRUKTUR
+          // KORRIGIERTE PAYLOAD STRUKTUR mit SHEET-SPALTENNAMEN
           const savePayload = {
             input_id: inputIdValue,
             mode: "save",
@@ -1485,7 +1485,7 @@
       }
       
       async function submitReview() {
-        // KORRIGIERTE PAYLOAD STRUKTUR
+        // KORRIGIERTE PAYLOAD STRUKTUR mit SHEET-SPALTENNAMEN
         const payload = {
           input_id: document.getElementById("input_id").value,
           mode: "save",
