@@ -1060,7 +1060,7 @@
             </div>`
              : 
             `<div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
-              Automatisches Posting für diesen Kanal nicht verfügbar
+              Automatisches Posting für diesen Kanal noch nicht verfügbar
             </div>`;
           
           let formatTextDisplay = config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : '';
@@ -1204,18 +1204,17 @@
             return false;
           }
           
-          // Bilder-Grids für alle Formate befüllen
           const formats = ['1_1', '16_9', '9_16'];
           formats.forEach(format => {
             const imageUrls = [
-              data[`image_option_${format}_1_url`],
-              data[`image_option_${format}_2_url`],
-              data[`image_option_${format}_3_url`],
-              data[`image_option_${format}_4_url`]
+              data[`img_${format}_1_url`],
+              data[`img_${format}_2_url`],
+              data[`img_${format}_3_url`],
+              data[`img_${format}_4_url`]
             ].filter(url => url && url.startsWith('http'));
 
             if (imageUrls.length > 0) {
-              populateImageGrid(format, imageUrls, data[`selected_image_url_${format}`]);
+              populateImageGrid(format, imageUrls, data[`sel_img_${format}_url`]);
             }
           });
 
@@ -1294,54 +1293,30 @@
       }
 
       function populateImageGrid(format, urls, selectedUrl) {
-  console.log(`[DEBUG] Versuche, das Bilder-Grid für das Format '${format}' zu erstellen.`);
-
-  const containerId = `image-selection-container_${format}`;
-  const gridId = `image-selection-grid_${format}`;
-  const hiddenInputId = `selected_image_url_${format}`;
-
-  console.log(`[DEBUG] Suche nach Container-Element mit der ID: #${containerId}`);
-  const container = document.getElementById(containerId);
-
-  console.log(`[DEBUG] Suche nach Grid-Element mit der ID: #${gridId}`);
-  const grid = document.getElementById(gridId);
-
-  console.log(`[DEBUG] Suche nach Input-Element mit der ID: #${hiddenInputId}`);
-  const hiddenInput = document.getElementById(hiddenInputId);
-
-  if (!container) {
-    console.error(`[FEHLER] Container-Element #${containerId} wurde nicht im HTML gefunden!`);
-  }
-  if (!grid) {
-    console.error(`[FEHLER] Grid-Element #${gridId} wurde nicht im HTML gefunden!`);
-  }
-  if (!hiddenInput) {
-    console.error(`[FEHLER] Input-Element #${hiddenInputId} wurde nicht im HTML gefunden!`);
-  }
-
-  if (!grid || !container || !hiddenInput) {
-    console.error(`[ABBRUCH] Funktion wird beendet, da mindestens ein HTML-Element fehlt.`);
-    return;
-  }
-
-  console.log(`[ERFOLG] Alle 3 HTML-Elemente für '${format}' wurden gefunden. Füge ${urls.length} Bilder hinzu.`);
-
-  grid.innerHTML = "";
-
-  urls.forEach((url, index) => {
-    const isSelected = url === selectedUrl;
-    const optionDiv = document.createElement('div');
-    optionDiv.className = 'image-option';
-    if (isSelected) optionDiv.classList.add('selected');
-    optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
-    optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
-    grid.appendChild(optionDiv);
-  });
-
-  hiddenInput.value = selectedUrl || "";
-  container.style.display = "block";
-  console.log(`[FERTIG] Bilder-Grid für '${format}' wurde erfolgreich erstellt und sichtbar gemacht.`);
-}
+        const container = document.getElementById(`image-selection-container_${format}`);
+        const grid = document.getElementById(`image-selection-grid_${format}`);
+        const hiddenInput = document.getElementById(`selected_image_url_${format}`);
+        
+        if (!grid || !container || !hiddenInput) {
+          console.error(`Ein oder mehrere HTML-Elemente für das Format ${format} wurden nicht gefunden.`);
+          return;
+        }
+        
+        grid.innerHTML = "";
+        
+        urls.forEach((url, index) => {
+          const isSelected = url === selectedUrl;
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'image-option';
+          if (isSelected) optionDiv.classList.add('selected');
+          optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
+          optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
+          grid.appendChild(optionDiv);
+        });
+        
+        hiddenInput.value = selectedUrl || "";
+        container.style.display = "block";
+      }
 
       function selectImage(format, element, imageUrl) {
         const grid = document.getElementById(`image-selection-grid_${format}`);
@@ -1370,9 +1345,9 @@
           const savePayload = {
             input_id: inputIdValue,
             mode: "save",
-            selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
-            selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
-            selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+            sel_img_11_url: document.getElementById("selected_image_url_1_1").value,
+            sel_img_169_url: document.getElementById("selected_image_url_16_9").value,
+            sel_img_916_url: document.getElementById("selected_image_url_9_16").value
           };
 
           Object.keys(CONTENT_TYPES).forEach(type => {
@@ -1431,9 +1406,9 @@
           const savePayload = {
             input_id: inputIdValue,
             mode: "save",
-            selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
-            selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
-            selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+            sel_img_11_url: document.getElementById("selected_image_url_1_1").value,
+            sel_img_169_url: document.getElementById("selected_image_url_16_9").value,
+            sel_img_916_url: document.getElementById("selected_image_url_9_16").value
           };
           Object.keys(CONTENT_TYPES).forEach(type => {
             const typeConfig = CONTENT_TYPES[type];
@@ -1477,9 +1452,9 @@
         const payload = {
           input_id: document.getElementById("input_id").value,
           mode: "save",
-          selected_image_url_1_1: document.getElementById("selected_image_url_1_1").value,
-          selected_image_url_16_9: document.getElementById("selected_image_url_16_9").value,
-          selected_image_url_9_16: document.getElementById("selected_image_url_9_16").value
+          sel_img_11_url: document.getElementById("selected_image_url_1_1").value,
+          sel_img_169_url: document.getElementById("selected_image_url_16_9").value,
+          sel_img_916_url: document.getElementById("selected_image_url_9_16").value
         };
 
         Object.keys(CONTENT_TYPES).forEach(type => {
