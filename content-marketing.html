@@ -706,7 +706,7 @@
             enableField: 'enable_instagram_story',
             backendTextKey: 'insta_story_text',
             backendStatusKey: 'insta_story_status',
-            postingEnabled: false,
+            postingEnabled: true,
             imageFormat: '9_16',
             enabled: false
           },
@@ -1060,7 +1060,7 @@
             </div>`
              : 
             `<div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
-              Automatisches Posting für diesen Kanal noch nicht verfügbar
+              Automatisches Posting für diesen Kanal nicht verfügbar
             </div>`;
           
           let formatTextDisplay = config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : '';
