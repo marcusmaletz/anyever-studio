@@ -407,17 +407,18 @@
       }
       
       .action-btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        font-family: var(--font-primary);
-        font-size: 12px;
-        font-weight: var(--font-weight-medium);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        flex: none;
-        min-width: 120px;
-      }
+  padding: 12px 24px; /* Geändert: Größerer Innenabstand */
+  border: none;
+  border-radius: 8px; /* Geändert: Gleicher Radius wie Haupt-Button */
+  font-family: var(--font-primary);
+  font-size: 14px; /* Geändert: Größere Schrift */
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase; /* NEU: Text in Großbuchstaben */
+  letter-spacing: var(--letter-spacing-normal); /* NEU: Gleicher Buchstabenabstand */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: none;
+}
 
       .action-btn:disabled {
         background: #9ca3af;
