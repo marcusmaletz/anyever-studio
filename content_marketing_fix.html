@@ -1202,18 +1202,49 @@
             return false;
           }
           
-          // KORRIGIERTE BILDFELD-ZUORDNUNG basierend auf Make JSON
+          // DEBUG: Zeige alle verfügbaren Datenfelder
+          console.log("=== ALLE BACKEND-DATEN ===");
+          Object.keys(data).forEach(key => {
+            if (key.includes('img') || key.includes('url')) {
+              console.log(`${key}: ${data[key]}`);
+            }
+          });
+          
+          // KORRIGIERTE BILDFELD-ZUORDNUNG basierend auf Make JSON Interface
           const formats = ['1_1', '16_9', '9_16'];
           formats.forEach(format => {
-            const imageUrls = [
-              data[`img_${format}_1_url`],
-              data[`img_${format}_2_url`],
-              data[`img_${format}_3_url`],
-              data[`img_${format}_4_url`]
-            ].filter(url => url && url.startsWith('http'));
+            let imageUrls = [];
+            let selectedUrl = '';
+            
+            // Korrekte Feld-Namen je Format
+            if (format === '1_1') {
+              imageUrls = [
+                data['img_11_1_url'],
+                data['img_11_2_url'], 
+                data['img_11_3_url'],
+                data['img_11_4_url']
+              ].filter(url => url && url.startsWith('http'));
+              selectedUrl = data['sel_img_11_url'];
+            } else if (format === '9_16') {
+              imageUrls = [
+                data['img_916_1_url'],
+                data['img_916_2_url'],
+                data['img_916_3_url'], 
+                data['img_916_4_url']
+              ].filter(url => url && url.startsWith('http'));
+              selectedUrl = data['sel_img_916_url'];
+            } else if (format === '16_9') {
+              imageUrls = [
+                data['img_169_1_url'],
+                data['img_169_2_url'],
+                data['img_169_3_url'],
+                data['img_169_4_url']
+              ].filter(url => url && url.startsWith('http'));
+              selectedUrl = data['sel_img_169_url'];
+            }
 
             if (imageUrls.length > 0) {
-              populateImageGrid(format, imageUrls, data[`sel_img_${format}_url`]);
+              populateImageGrid(format, imageUrls, selectedUrl);
             }
           });
 
