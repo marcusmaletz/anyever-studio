@@ -1204,42 +1204,20 @@
             return false;
           }
           
-         const formats = ['1_1', '16_9', '9_16'];
-formats.forEach(format => {
-  let imageUrls = [];
-  let selectedUrl = '';
-  
-  if (format === '1_1') {
-    imageUrls = [
-      data['img_11_1_url'],
-      data['img_11_2_url'], 
-      data['img_11_3_url'],
-      data['img_11_4_url']
-    ];
-    selectedUrl = data['sel_img_11_url'];
-  } else if (format === '9_16') {
-    imageUrls = [
-      data['img_916_1_url'],
-      data['img_916_2_url'],
-      data['img_916_3_url'], 
-      data['img_916_4_url']
-    ];
-    selectedUrl = data['sel_img_916_url'];
-  } else if (format === '16_9') {
-    imageUrls = [
-      data['img_169_1_url'],
-      data['img_169_2_url'],
-      data['img_169_3_url'],
-      data['img_169_4_url']
-    ];
-    selectedUrl = data['sel_img_169_url'];
-  }
+          // Bilder-Grids für alle Formate befüllen
+          const formats = ['1_1', '16_9', '9_16'];
+          formats.forEach(format => {
+            const imageUrls = [
+              data[`image_option_${format}_1_url`],
+              data[`image_option_${format}_2_url`],
+              data[`image_option_${format}_3_url`],
+              data[`image_option_${format}_4_url`]
+            ].filter(url => url && url.startsWith('http'));
 
-  const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
-  if (validUrls.length > 0) {
-    populateImageGrid(format, validUrls, selectedUrl);
-  }
-});
+            if (imageUrls.length > 0) {
+              populateImageGrid(format, imageUrls, data[`selected_image_url_${format}`]);
+            }
+          });
 
           let hasGeneratedContent = false;
           let sectionsWithContent = 0;
