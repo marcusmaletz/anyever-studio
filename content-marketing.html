@@ -708,7 +708,7 @@
             backendStatusKey: 'insta_story_status',
             postingEnabled: false,
             imageFormat: '9_16',
-            enabled: false
+            enabled: true
           },
           instagram_reel: {
             id: 'instagram_reel',
@@ -732,7 +732,7 @@
             enableField: 'enable_blog',
             backendTextKey: 'blog_text',
             backendStatusKey: 'blog_status',
-            postingEnabled: false,
+            postingEnabled: true,
             imageFormat: '16_9',
             enabled: true
           },
@@ -1060,7 +1060,7 @@
             </div>`
              : 
             `<div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
-              Automatisches Posting für diesen Kanal noch nicht verfügbar
+              Automatisches Posting für diesen Kanal nicht verfügbar
             </div>`;
           
           let formatTextDisplay = config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : '';
