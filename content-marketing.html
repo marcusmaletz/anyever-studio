@@ -1,1 +1,1562 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Marketing | ANY EVER</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
+    <style>
+      /* ... (alle CSS-Regeln bleiben unverändert) ... */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: var(--font-primary);
+        line-height: 1.6;
+        color: var(--any-ever-black);
+        background: var(--background-main);
+        padding: 24px;
+        font-weight: var(--font-weight-normal);
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: var(--background-content);
+        box-shadow: var(--shadow-gold);
+        border-radius: 16px;
+        margin-bottom: 30px;
+      }
+      
+      .header {
+        background: var(--background-content);
+        padding: 40px 40px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px 16px 0 0;
+        border-bottom: 2px solid var(--any-ever-gold);
+      }
+      
+      .request-counter {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        font-size: 14px;
+        color: var(--any-ever-light-grey);
+        background: var(--any-ever-bright-grey);
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid var(--border-light);
+        z-index: 10;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-medium);
+      }
+      
+      .back-button {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        background: var(--any-ever-bright-grey);
+        border: 1px solid var(--border-light);
+        color: var(--any-ever-black);
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: var(--font-weight-medium);
+        transition: all 0.3s ease;
+        z-index: 10;
+        font-family: var(--font-primary);
+      }
+      
+      .back-button:hover {
+        background: var(--any-ever-stone-grey);
+        border-color: var(--border-medium);
+        transform: translateY(-1px);
+      }
+      
+      .logo-container a {
+        text-decoration: none;
+      }
+      
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
+        background-size: cover;
+        z-index: 1;
+      }
+      
+      .header-content {
+        position: relative;
+        z-index: 2;
+      }
+      
+      .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      
+      .logo-anyever {
+        width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+        opacity: 0.95;
+      }
+      
+      .enjoy-audio {
+        font-size: 14px;
+        font-weight: var(--font-weight-medium);
+        letter-spacing: var(--letter-spacing-medium);
+        color: var(--any-ever-black);
+        text-transform: uppercase;
+        margin-top: 5px;
+        font-family: var(--font-primary);
+      }
+      
+      .header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-wide);
+        color: var(--any-ever-black);
+        font-family: var(--font-primary);
+      }
+      
+      .form-content {
+        padding: 40px;
+        background: var(--background-content);
+      }
+      
+      .section-title {
+        font-size: 24px;
+        color: var(--any-ever-black);
+        margin-bottom: 25px;
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-wide);
+        font-family: var(--font-primary);
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      label {
+        display: block;
+        font-weight: var(--font-weight-medium);
+        color: var(--any-ever-black);
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-medium);
+        font-family: var(--font-primary);
+      }
+      
+      input[type="text"], 
+      input[type="url"], 
+      textarea {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
+        font-size: 16px;
+        background: var(--background-content);
+        color: var(--any-ever-black);
+        transition: all 0.3s ease;
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-normal);
+      }
+      
+      input[type="text"]:focus, 
+      input[type="url"]:focus, 
+      textarea:focus {
+        outline: none;
+        border-color: var(--any-ever-gold);
+        background: var(--any-ever-white);
+        box-shadow: var(--focus-gold);
+        transform: translateY(-2px);
+      }
+      
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      
+      .auto-resize {
+        resize: vertical;
+        overflow: hidden;
+        min-height: 100px;
+      }
+      
+      .status-message {
+        transition: opacity 0.3s ease;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: var(--font-weight-medium);
+        text-align: center;
+        font-family: var(--font-primary);
+      }
+      
+      .loading-spinner {
+        border: 2px solid var(--any-ever-bright-grey);
+        border-top: 2px solid var(--any-ever-gold);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .rate-limit-timer {
+        background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+        color: var(--any-ever-white);
+        padding: 15px 20px;
+        border-radius: 8px;
+        font-weight: var(--font-weight-medium);
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: var(--font-primary);
+      }
+      
+      .content-type-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      
+      .content-type-card {
+        background: var(--background-content);
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        padding: 15px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .content-type-card:hover {
+        border-color: rgba(192, 174, 102, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(192, 174, 102, 0.1);
+      }
+      
+      .content-type-card.selected {
+        border-color: var(--any-ever-gold);
+        background: #fafafa;
+        box-shadow: var(--focus-gold);
+        transform: translateY(-1px);
+      }
+      
+      .content-type-card input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+        accent-color: var(--any-ever-gold);
+        cursor: pointer;
+      }
+      
+      .content-type-card label {
+        margin: 0;
+        color: var(--any-ever-black);
+        font-size: 14px;
+        text-transform: none;
+        letter-spacing: normal;
+        cursor: pointer;
+        font-weight: var(--font-weight-medium);
+        display: flex;
+        align-items: center;
+        font-family: var(--font-primary);
+        width: 100%;
+      }
+      
+      .format-badge {
+        display: inline-block;
+        background: var(--any-ever-gold);
+        color: var(--any-ever-white);
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        margin-left: auto;
+        font-weight: var(--font-weight-medium);
+        font-family: var(--font-primary);
+        letter-spacing: 0.5px;
+      }
+      
+      .submit-btn, .review-btn, .manual-btn {
+        background: var(--gradient-gold);
+        color: var(--any-ever-white);
+        padding: 15px 40px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: var(--font-weight-medium);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-normal);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-gold);
+        font-family: var(--font-primary);
+      }
+      
+      .submit-btn:hover, .review-btn:hover, .manual-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px -5px rgba(192, 174, 102, 0.5);
+      }
+      
+      .submit-btn:disabled, .review-btn:disabled, .manual-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .review-container {
+        display: none;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s ease-in-out;
+      }
+      
+      .review-container.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .review-section {
+        padding: 40px;
+        background: var(--background-content);
+      }
+      
+      .content-section {
+        background: var(--background-content);
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .content-section:hover {
+        border-color: rgba(192, 174, 102, 0.3);
+        box-shadow: 0 2px 8px rgba(192, 174, 102, 0.1);
+      }
+      
+      .content-section textarea {
+        width: 100%;
+        min-height: 120px;
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
+        font-family: var(--font-primary);
+        font-size: 14px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+      }
+      
+      .content-section textarea:focus {
+        border-color: var(--any-ever-gold);
+        outline: none;
+        box-shadow: var(--focus-gold);
+      }
+      
+      .content-section select {
+        padding: 10px 15px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
+        font-family: var(--font-primary);
+        font-size: 14px;
+        background: var(--background-content);
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+        margin-bottom: 15px;
+      }
+      
+      .content-section select:focus {
+        border-color: var(--any-ever-gold);
+        outline: none;
+      }
+      
+      .post-action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+      
+      .action-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-family: var(--font-primary);
+        font-size: 12px;
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: none;
+        min-width: 120px;
+      }
 
+      .action-btn:disabled {
+        background: #9ca3af;
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .btn-post { 
+        background: #10b981; 
+        color: var(--any-ever-white); 
+      }
+      .btn-post:hover:not(:disabled) { 
+        background: #059669; 
+        transform: translateY(-1px);
+      }
+      
+      .submit-section {
+        padding-top: 20px;
+        border-top: 1px solid var(--border-light);
+      }
+      
+      .anyever-footer {
+        background: var(--any-ever-black);
+        padding: 25px 40px;
+        text-align: center;
+        border-top: 2px solid var(--any-ever-gold);
+        border-radius: 0 0 16px 16px;
+        position: relative;
+      }
+      
+      .anyever-footer .logo-footer {
+        width: 100px;
+        height: auto;
+        margin-bottom: 8px;
+      }
+      
+      .anyever-footer .tagline {
+        color: var(--any-ever-stone-grey);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-normal);
+        font-family: var(--font-primary);
+        font-weight: var(--font-weight-medium);
+      }
+      
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .image-option {
+        border: 3px solid transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      }
+
+      .image-option:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      }
+
+      .image-option.selected {
+        border-color: var(--any-ever-gold);
+        box-shadow: 0 0 0 4px rgba(192, 174, 102, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .image-option img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .image-option .selected-overlay {
+        display: none;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(192, 174, 102, 0.6);
+        color: white;
+        font-size: 36px;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(2px);
+      }
+
+      .image-option.selected .selected-overlay {
+        display: flex;
+      }
+
+      @media (max-width: 768px) {
+        body { padding: 12px; }
+        .container { margin-bottom: 20px; }
+        .header { padding: 30px 20px 20px; }
+        .logo-anyever { width: 160px; }
+        .header h1 { font-size: 24px; }
+        .form-content, .review-section { padding: 30px 20px; }
+        .request-counter { position: static; text-align: center; margin-bottom: 15px; display: block; }
+        .content-type-grid { grid-template-columns: 1fr; gap: 12px; }
+        .post-action-buttons { flex-direction: column; }
+        .submit-section { text-align: center; }
+        .submit-btn, .review-btn, .manual-btn { width: 100%; margin: 5px 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status-container"></div>
+
+    <div id="rate-limit-container" style="display: none;">
+      <div class="rate-limit-timer">
+        <span>⏱️ <strong>Rate Limit erreicht:</strong> Noch <span id="rate-limit-text"></span>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <div class="request-counter">
+          Requests heute: <span id="daily-request-count">0</span>/20
+        </div>
+        <a href="index.html" class="back-button">← ANY EVER Studio</a>
+        <div class="header-content">
+          <div class="logo-container">
+            <a href="index.html">
+              <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="logo-anyever" />
+            </a>
+            <div class="enjoy-audio">ENJOY.AUDIO</div>
+          </div>
+          <h1>Content Marketing</h1>
+        </div>
+      </div>
+
+      <div class="form-content">
+        <div class="form-group">
+          <label for="thema">Thema (Pflichtfeld)</label>
+          <textarea id="thema" class="auto-resize" placeholder="Beschreiben Sie Ihr Thema" required rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="subline">Subline (optional)</label>
+          <textarea id="subline" class="auto-resize" placeholder="Zusätzliche Informationen oder Untertitel" rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input_image_idea">Bildidee (optional)</label>
+          <textarea id="input_image_idea" class="auto-resize" placeholder="Beschreiben Sie Ihre Bildvorstellung für die Social Media Posts" rows="2" oninput="autoResize(this)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Content-Kanäle auswählen (mindestens einen)</label>
+          <div id="channel-groups-container"></div>
+        </div>
+
+        <div class="submit-section">
+          <button id="submit-btn" onclick="submitForm()" class="submit-btn">
+            Inhalt übermitteln
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container review-container" id="review-container">
+      <div class="header">
+        <div class="header-content">
+          <h1 style="font-size: 28px;">Content Review & Veröffentlichung</h1>
+        </div>
+      </div>
+
+      <div class="review-section" style="padding: 40px;">
+        <input type="text" id="input_id" style="position: absolute; left: -9999px; opacity: 0;" readonly />
+
+        <div id="content-sections-container"></div>
+
+        <div id="image-selection-container_1_1" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Social Media (1:1 Format)
+          </h3>
+          <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">
+            Wählen Sie ein Bild aus. Es wird für LinkedIn, Facebook und den Instagram Feed verwendet.
+          </p>
+          <div id="image-selection-grid_1_1" class="image-grid"></div>
+          <input type="hidden" id="sel_img_11_url" name="sel_img_11_url">
+        </div>
+        <div id="image-selection-container_16_9" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Blog/Web (16:9 Format)
+          </h3>
+          <div id="image-selection-grid_16_9" class="image-grid"></div>
+          <input type="hidden" id="sel_img_169_url" name="sel_img_169_url">
+        </div>
+        <div id="image-selection-container_9_16" style="display: none; margin-bottom: 40px;">
+          <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">
+            Bildauswahl für Storys (9:16 Format)
+          </h3>
+          <div id="image-selection-grid_9_16" class="image-grid"></div>
+          <input type="hidden" id="sel_img_916_url" name="sel_img_916_url">
+        </div>
+        <div class="submit-section" style="display: flex; justify-content: space-between; align-items: center;">
+          <button id="post-all-btn" onclick="postAllChannels()" class="review-btn" style="background: #10b981; flex-grow: 0;">
+            🚀 Alle Freigaben posten
+          </button>
+          <div style="display: flex; gap: 15px;">
+            <button id="manual-load-btn" onclick="loadReview(false)" class="manual-btn" style="display: none;">
+              🔄 Content aktualisieren
+            </button>
+            <button id="review-submit-btn" onclick="submitReview()" class="review-btn" style="flex-grow: 0;">
+              Freigaben speichern
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="anyever-footer">
+        <img 
+          src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+          alt="ANY EVER Logo" 
+          class="logo-footer"
+        >
+        <div class="tagline">ENJOY.AUDIO</div>
+        <div id="dynamic-timestamp" style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: rgba(192, 174, 102, 0.6); font-family: 'Courier New', monospace; letter-spacing: 0.5px;">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const inputId = Date.now().toString();
+      let rateLimitTimer = null;
+      
+      const RATE_LIMITS = {
+        DAILY_MAX: 20,
+        COOLDOWN_MINUTES: 5,
+        STORAGE_KEY: 'content_generation_rate_limit'
+      };
+      
+      const CONTENT_TYPES = {
+          linkedin: {
+            id: 'linkedin',
+            label: 'LinkedIn Post',
+            group: 'Social Media',
+            textField: 'linkedin_text',
+            statusField: 'linkedin_status',
+            enableField: 'enable_linkedin',
+            backendTextKey: 'linkedin_text',
+            backendStatusKey: 'linkedin_status',
+            postingEnabled: true,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          facebook: {
+            id: 'facebook',
+            label: 'Facebook Post',
+            group: 'Social Media',
+            textField: 'facebook_text',
+            statusField: 'facebook_status',
+            enableField: 'enable_facebook',
+            backendTextKey: 'facebook_text',
+            backendStatusKey: 'facebook_status',
+            postingEnabled: true,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          instagram_feed: {
+            id: 'instagram_feed',
+            label: 'Instagram Feed',
+            group: 'Social Media',
+            textField: 'instagram_feed_text',
+            statusField: 'instagram_feed_status',
+            enableField: 'enable_instagram_feed',
+            backendTextKey: 'insta_feed_text',
+            backendStatusKey: 'insta_feed_status',
+            postingEnabled: false,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          instagram_story: {
+            id: 'instagram_story',
+            label: 'Instagram Story',
+            group: 'Social Media',
+            textField: 'instagram_story_text',
+            statusField: 'instagram_story_status',
+            enableField: 'enable_instagram_story',
+            backendTextKey: 'insta_story_text',
+            backendStatusKey: 'insta_story_status',
+            postingEnabled: false,
+            imageFormat: '9_16',
+            enabled: false
+          },
+          instagram_reel: {
+            id: 'instagram_reel',
+            label: 'Instagram Reel',
+            group: 'Social Media',
+            textField: 'instagram_reel_text',
+            statusField: 'instagram_reel_status',
+            enableField: 'enable_instagram_reel',
+            backendTextKey: 'insta_reel_text',
+            backendStatusKey: 'insta_reel_status',
+            postingEnabled: false,
+            imageFormat: '9_16',
+            enabled: false
+          },
+          blog: {
+            id: 'blog',
+            label: 'Blog Artikel',
+            group: 'Business Content',
+            textField: 'blog_text',
+            statusField: 'blog_status',
+            enableField: 'enable_blog',
+            backendTextKey: 'blog_text',
+            backendStatusKey: 'blog_status',
+            postingEnabled: false,
+            imageFormat: '16_9',
+            enabled: true
+          },
+          podcast: {
+            id: 'podcast',
+            label: 'Podcast Skript',
+            group: 'Sonderformate',
+            textField: 'podcast_text',
+            statusField: 'podcast_status', 
+            enableField: 'enable_podcast',
+            backendTextKey: 'podcast_text',       
+            backendStatusKey: 'podcast_status',
+            postingEnabled: true,
+            imageFormat: 'none',
+            enabled: true
+          },
+          avatar: {
+            id: 'avatar',
+            label: 'Avatar Skript',
+            group: 'Sonderformate',
+            textField: 'avatar_text',
+            statusField: 'avatar_status',
+            enableField: 'enable_avatar', 
+            backendTextKey: 'avatar_text',        
+            backendStatusKey: 'avatar_status',
+            postingEnabled: false,
+            imageFormat: 'none',
+            enabled: false
+          },
+          newsletter: {
+            id: 'newsletter',
+            label: 'Newsletter',
+            group: 'Business Content',
+            textField: 'newsletter_text',
+            statusField: 'newsletter_status',
+            enableField: 'enable_newsletter', 
+            backendTextKey: 'newsletter_text',        
+            backendStatusKey: 'newsletter_status',
+            postingEnabled: true,
+            imageFormat: 'none',
+            enabled: true
+          }
+      };
+
+      function updateTimestamp() {
+        const pad = (num) => num.toString().padStart(2, '0');
+        const now = new Date();
+        const day = pad(now.getDate());
+        const month = pad(now.getMonth() + 1);
+        const year = now.getFullYear();
+        const hours = pad(now.getHours());
+        const minutes = pad(now.getMinutes());
+        const seconds = pad(now.getSeconds());
+        const timestampString = `Stand: ${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+        const timestampContainer = document.getElementById('dynamic-timestamp');
+        if (timestampContainer) {
+            timestampContainer.textContent = timestampString;
+        }
+      }
+
+      function buildChannelSelector() {
+        const container = document.getElementById('channel-groups-container');
+        container.innerHTML = '';
+        const groups = {};
+        const groupOrder = ['Business Content', 'Social Media', 'Sonderformate'];
+
+        Object.keys(CONTENT_TYPES).forEach(channelId => {
+            const config = CONTENT_TYPES[channelId];
+            if (!groups[config.group]) {
+                groups[config.group] = [];
+            }
+            groups[config.group].push(config);
+        });
+
+        groupOrder.forEach(groupName => {
+            if (groups[groupName]) {
+                const groupContainer = document.createElement('div');
+                groupContainer.style.marginBottom = '20px';
+                
+                const title = document.createElement('h3');
+                title.style.cssText = "font-size: 16px; font-weight: var(--font-weight-medium); color: var(--any-ever-black); margin-bottom: 15px; text-transform: uppercase; letter-spacing: var(--letter-spacing-medium); font-family: var(--font-primary);";
+                title.textContent = groupName;
+                groupContainer.appendChild(title);
+
+                const parentGrid = document.createElement('div');
+                groupContainer.appendChild(parentGrid);
+
+                if (groupName === 'Social Media') {
+                   const mainGrid = document.createElement('div');
+                   mainGrid.className = 'content-type-grid';
+                   mainGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                   groups[groupName].filter(c => !c.id.startsWith('instagram')).forEach(config => buildCard(config, mainGrid));
+                   parentGrid.appendChild(mainGrid);
+
+                   const instaGrid = document.createElement('div');
+                   instaGrid.className = 'content-type-grid';
+                   instaGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                   instaGrid.style.marginTop = '15px';
+                   groups[groupName].filter(c => c.id.startsWith('instagram')).forEach(config => buildCard(config, instaGrid));
+                   parentGrid.appendChild(instaGrid);
+                } else {
+                    parentGrid.className = 'content-type-grid';
+                    groups[groupName].forEach(config => buildCard(config, parentGrid));
+                }
+                container.appendChild(groupContainer);
+            }
+        });
+        
+        function buildCard(config, parent) {
+            const card = document.createElement('div');
+            card.className = 'content-type-card';
+            card.id = `card-${config.id}`;
+            
+            let formatText = config.imageFormat.replace('_', ':');
+            if (config.id === 'instagram_reel') formatText = '9:16 Video';
+            if (config.id === 'podcast') formatText = 'Text-to-Speech';
+            if (config.id === 'avatar') formatText = 'Video Avatar';
+            if (config.id === 'newsletter') formatText = 'E-Mail';
+            if (config.imageFormat === 'none') formatText = 'Text';
+
+
+            card.innerHTML = `
+                <label>
+                  <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">${config.label}</div>
+                  </div>
+                  <span class="format-badge">${formatText}</span>
+                </label>
+            `;
+            if (!config.enabled) {
+                card.style.opacity = '0.5';
+                card.style.pointerEvents = 'none';
+                card.title = 'Dieser Kanal ist derzeit deaktiviert.';
+            }
+            parent.appendChild(card);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateTimestamp();
+        buildChannelSelector();
+        document.getElementById("input_id").value = inputId;
+        updateRequestCounter();
+        
+        document.querySelectorAll('.content-checkbox').forEach(checkbox => {
+          checkbox.checked = false;
+          checkbox.addEventListener('change', function() {
+            const card = this.closest('.content-type-card');
+            card.classList.toggle('selected', this.checked);
+          });
+        });
+      });
+
+      function getRateLimitData() {
+        const stored = localStorage.getItem(RATE_LIMITS.STORAGE_KEY);
+        if (!stored) return { requests: 0, lastReset: new Date().toDateString(), lastRequest: null };
+        return JSON.parse(stored);
+      }
+
+      function updateRateLimit() {
+        const data = getRateLimitData();
+        const today = new Date().toDateString();
+        
+        if (data.lastReset !== today) {
+          data.requests = 0;
+          data.lastReset = today;
+        }
+        data.requests++;
+        data.lastRequest = Date.now();
+        localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(data));
+        updateRequestCounter();
+        if (data.requests >= RATE_LIMITS.DAILY_MAX) {
+          showRateLimitBanner();
+        }
+      }
+
+      function checkRateLimit() {
+        const data = getRateLimitData();
+        const today = new Date().toDateString();
+        if (data.lastReset !== today) return true;
+        if (data.requests >= RATE_LIMITS.DAILY_MAX) {
+          if (data.lastRequest) {
+            const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
+            const now = Date.now();
+            if (now < cooldownEnd) {
+              const remaining = Math.ceil((cooldownEnd - now) / 60000);
+              showErrorMessage(`Rate Limit erreicht. Versuchen Sie es in ${remaining} Minuten erneut.`);
+              return false;
+            } else {
+              data.requests = 0;
+              localStorage.setItem(RATE_LIMITS.STORAGE_KEY, JSON.stringify(data));
+              updateRequestCounter();
+              hideRateLimitBanner();
+            }
+          }
+        }
+        return true;
+      }
+
+      function updateRequestCounter() {
+        const data = getRateLimitData();
+        const today = new Date().toDateString();
+        const requests = data.lastReset === today ? data.requests : 0;
+        document.getElementById("daily-request-count").textContent = requests;
+      }
+
+      function showRateLimitBanner() {
+        const banner = document.getElementById("rate-limit-container");
+        const data = getRateLimitData();
+        if (data.lastRequest) {
+          const cooldownEnd = data.lastRequest + (RATE_LIMITS.COOLDOWN_MINUTES * 60 * 1000);
+          const now = Date.now();
+          if (now < cooldownEnd) {
+            const remaining = Math.ceil((cooldownEnd - now) / 60000);
+            document.getElementById("rate-limit-text").textContent = `${remaining} Minuten`;
+            banner.style.display = "block";
+            rateLimitTimer = setInterval(() => {
+              const newRemaining = Math.ceil((cooldownEnd - Date.now()) / 60000);
+              if (newRemaining <= 0) {
+                hideRateLimitBanner();
+              } else {
+                document.getElementById("rate-limit-text").textContent = `${newRemaining} Minuten`;
+              }
+            }, 60000);
+          }
+        }
+      }
+
+      function hideRateLimitBanner() {
+        document.getElementById("rate-limit-container").style.display = "none";
+        if (rateLimitTimer) {
+          clearInterval(rateLimitTimer);
+          rateLimitTimer = null;
+        }
+      }
+
+      function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.max(100, textarea.scrollHeight) + 'px';
+      }
+
+      async function submitForm() {
+        if (!checkRateLimit()) return;
+        
+        const thema = document.getElementById("thema").value.trim();
+        if (!thema) {
+          showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
+          return;
+        }
+
+        const selectedChannels = getSelectedChannels();
+        if (selectedChannels.length === 0) {
+          showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
+          return;
+        }
+
+        const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
+        if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
+
+        const payload = {
+          input_id: inputId,
+          thema: thema,
+          subline: document.getElementById("subline").value,
+          input_image_idea: document.getElementById("input_image_idea").value,
+          selected_channels: selectedChannels
+        };
+        await executeSubmission(payload);
+      }
+
+      function getSelectedChannels() {
+        return Object.keys(CONTENT_TYPES).filter(type => 
+          document.getElementById(CONTENT_TYPES[type].enableField).checked
+        );
+      }
+
+      async function executeSubmission(payload) {
+        const webhookUrl = "https://hook.eu2.make.com/cv9u4q1t3exjr6wz196owrm4ud6atahl";
+        try {
+          showLoadingState(true);
+          showProgressMessage("Content wird generiert...");
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            updateRateLimit();
+            showSuccessMessage("Erfolgreich gestartet! ✅");
+            const reviewContainer = document.getElementById('review-container');
+            if (reviewContainer) {
+              reviewContainer.classList.add('show');
+            }
+            createContentSections(payload.selected_channels);
+            showInfoMessage("⏱️ Generation läuft ca. 2-3 Minuten...", true);
+            setTimeout(async () => {
+              await startIntelligentPolling();
+            }, 30000);
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error("Submission error:", error);
+          showErrorMessage(`Fehler beim Übertragen: ${error.message}`);
+        } finally {
+          showLoadingState(false);
+        }
+      }
+
+      function createContentSections(selectedChannels) {
+        const container = document.getElementById("content-sections-container");
+        container.innerHTML = "";
+        selectedChannels.forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const sectionDiv = document.createElement('div');
+          sectionDiv.id = `${channel}-section`;
+          sectionDiv.className = 'content-section';
+          
+          const postingButtons = config.postingEnabled ?
+            `<div class="post-action-buttons">
+              <button class="action-btn btn-post" onclick="postContent('${channel}')" disabled>
+                🚀 Sofort posten
+              </button>
+            </div>`
+             : 
+            `<div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
+              Automatisches Posting für diesen Kanal noch nicht verfügbar
+            </div>`;
+          
+          let formatTextDisplay = config.imageFormat !== 'none' ? `Format: ${config.imageFormat.replace('_', ':')}` : '';
+
+          sectionDiv.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+              <label style="font-size: 18px; font-weight: 600; color: #1f2937; margin: 0;">${config.label}:</label>
+              <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
+                <span style="font-size: 12px; color: #6b7280;">${formatTextDisplay}</span>
+                <span class="status-badge" style="background: #dbeafe; color: #1e40af;">Wird generiert...</span>
+              </div>
+            </div>
+            <textarea id="${config.textField}" class="auto-resize" 
+                      placeholder="${config.label} Content wird generiert..."
+                      oninput="autoResize(this); updatePostingButtons('${channel}')"></textarea>
+            <select id="${config.statusField}" onchange="updatePostingButtons('${channel}')">
+              <option value="pending">Auswahl treffen</option>
+              <option value="yes">Freigeben</option>
+              <option value="no">Ablehnen</option>
+            </select>
+            ${postingButtons}
+          `;
+          container.appendChild(sectionDiv);
+        });
+      }
+
+      function updatePostingButtons(channel) {
+        const config = CONTENT_TYPES[channel];
+        const statusField = document.getElementById(config.statusField);
+        const textField = document.getElementById(config.textField);
+        const section = document.getElementById(`${channel}-section`);
+        
+        if (!section) return;
+        
+        const postBtn = section.querySelector('.btn-post');
+        const isApproved = statusField.value === 'yes';
+        const hasContent = textField.value.trim() !== '';
+        let imageIsSelected = true;
+
+        if (config.imageFormat !== 'none') {
+          const formatId = config.imageFormat.replace('_', '');
+          const selectedImageInput = document.getElementById(`sel_img_${formatId}_url`);
+          imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+        }
+
+        const isPostable = hasContent && isApproved && imageIsSelected;
+
+        if (postBtn && config.postingEnabled) {
+          postBtn.disabled = !isPostable;
+        }
+        updateGlobalPostAllButton();
+      }
+
+      function updateGlobalPostAllButton() {
+        const postAllBtn = document.getElementById('post-all-btn');
+        if (!postAllBtn) return;
+
+        let atLeastOnePostable = false;
+        Object.keys(CONTENT_TYPES).forEach(channel => {
+          const config = CONTENT_TYPES[channel];
+          const section = document.getElementById(`${channel}-section`);
+          if (section) {
+            const statusField = document.getElementById(config.statusField);
+            const textField = document.getElementById(config.textField);
+            
+            const isApproved = statusField.value === 'yes';
+            const hasContent = textField.value.trim() !== '';
+            let imageIsSelected = true;
+
+            if (config.imageFormat !== 'none') {
+              const formatId = config.imageFormat.replace('_', '');
+              const selectedImageInput = document.getElementById(`sel_img_${formatId}_url`);
+              imageIsSelected = selectedImageInput && selectedImageInput.value.trim() !== '';
+            }
+
+            if (isApproved && hasContent && imageIsSelected) {
+              atLeastOnePostable = true;
+            }
+          }
+        });
+        postAllBtn.disabled = !atLeastOnePostable;
+      }
+
+      async function startIntelligentPolling() {
+        let attempts = 0;
+        const maxAttempts = 24;
+        const poll = async () => {
+          attempts++;
+          showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
+          try {
+            const success = await loadReview(true);
+            if (success) {
+              clearPersistentMessage();
+              showSuccessMessage("✅ Content ist da! Automatisch geladen.");
+              return;
+            }
+            if (attempts < maxAttempts) {
+              setTimeout(() => poll(), 15000);
+            } else {
+              clearPersistentMessage();
+              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie den 'Content aktualisieren' Button.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            }
+          } catch (error) {
+            if (attempts < maxAttempts) {
+              setTimeout(() => poll(), 15000);
+            } else {
+              clearPersistentMessage();
+              showErrorMessage("❌ Fehler beim automatischen Laden.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            }
+          }
+        };
+        poll();
+      }
+
+      async function loadReview(silentMode = false) {
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) {
+          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+          return false;
+        }
+
+        ['1_1', '16_9', '9_16'].forEach(format => {
+          const container = document.getElementById(`image-selection-container_${format}`);
+          if (container) container.style.display = "none";
+        });
+
+        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+
+        try {
+          if (!silentMode) showProgressMessage("Lade Content...");
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+          const responseText = await response.text();
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error("JSON Parse Error:", parseError, responseText);
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+            return false;
+          }
+          
+         const formats = ['1_1', '16_9', '9_16'];
+          formats.forEach(format => {
+            let imageUrls = [];
+            let selectedUrl = '';
+            
+            const formatId = format.replace('_', '');
+
+            imageUrls = [
+              data[`img_${formatId}_1_url`],
+              data[`img_${formatId}_2_url`], 
+              data[`img_${formatId}_3_url`],
+              data[`img_${formatId}_4_url`]
+            ];
+            selectedUrl = data[`sel_img_${formatId}_url`];
+
+            const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
+            if (validUrls.length > 0) {
+              populateImageGrid(format, validUrls, selectedUrl);
+            }
+          });
+
+          let hasGeneratedContent = false;
+          let sectionsWithContent = 0;
+          let totalSections = 0;
+          
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const config = CONTENT_TYPES[type];
+            const sectionElement = document.getElementById(`${type}-section`);
+            
+            if (sectionElement) {
+              totalSections++;
+              let backendText = data[config.backendTextKey];
+              const backendStatus = data[config.backendStatusKey];
+              
+              if (backendText) {
+                backendText = backendText.replace(/\\n/g, '\n');
+              }
+              
+              const hasContent = backendText && backendText.trim() !== '';
+              if (hasContent) {
+                sectionsWithContent++;
+                hasGeneratedContent = true;
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                
+                if (textField) {
+                  textField.value = backendText || "";
+                  autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+              }
+            }
+          });
+          
+          updateGlobalPostAllButton();
+          
+          const allSectionsFilled = totalSections > 0 && sectionsWithContent === totalSections;
+          document.getElementById("review-submit-btn").style.display = hasGeneratedContent ? "block" : "none";
+          
+          if (allSectionsFilled) {
+            clearPersistentMessage();
+            if (!silentMode) showSuccessMessage("✅ Content erfolgreich geladen!");
+            return true;
+          } else {
+            if (!silentMode) {
+              showWarningMessage(`⚠️ Content wird noch generiert... (${sectionsWithContent}/${totalSections} fertig)`);
+            }
+            return false;
+          }
+        } catch (error) {
+          console.error("❌ Fehler beim Laden der Review-Daten", error);
+          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+          return false;
+        }
+      }
+
+      function updateSectionStatus(sectionDiv, status) {
+        const statusBadge = sectionDiv.querySelector('.status-badge');
+        if (statusBadge) {
+          const statusConfig = {
+            'pending': { text: 'Ausstehend', class: 'background: #fef3c7; color: #92400e;' },
+            'draft': { text: 'Entwurf', class: 'background: #e5e7eb; color: #4b5563;'},
+            'yes': { text: 'Freigegeben', class: 'background: #d1fae5; color: #065f46;' },
+            'no': { text: 'Abgelehnt', class: 'background: #fee2e2; color: #991b1b;' },
+            'posted': { text: 'Veröffentlicht', class: 'background: #e0e7ff; color: #3730a3;' }
+          };
+          const config = statusConfig[status] || statusConfig['pending'];
+          statusBadge.textContent = config.text;
+          statusBadge.setAttribute('style', `padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${config.class}`);
+        }
+      }
+
+      function populateImageGrid(format, urls, selectedUrl) {
+        const container = document.getElementById(`image-selection-container_${format}`);
+        const grid = document.getElementById(`image-selection-grid_${format}`);
+        const formatId = format.replace('_','');
+        const hiddenInput = document.getElementById(`sel_img_${formatId}_url`);
+        
+        if (!grid || !container || !hiddenInput) {
+          console.error(`Ein oder mehrere HTML-Elemente für das Format ${format} wurden nicht gefunden.`);
+          return;
+        }
+        
+        grid.innerHTML = "";
+        
+        urls.forEach((url, index) => {
+          const isSelected = url === selectedUrl;
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'image-option';
+          if (isSelected) optionDiv.classList.add('selected');
+          optionDiv.setAttribute('onclick', `selectImage('${format}', this, '${url}')`);
+          optionDiv.innerHTML = `<img src="${url}" alt="Bildvariante ${index + 1}"><div class="selected-overlay">✔</div>`;
+          grid.appendChild(optionDiv);
+        });
+        
+        hiddenInput.value = selectedUrl || "";
+        container.style.display = "block";
+      }
+
+      function selectImage(format, element, imageUrl) {
+        const grid = document.getElementById(`image-selection-grid_${format}`);
+        const allOptions = grid.querySelectorAll('.image-option');
+        allOptions.forEach(opt => opt.classList.remove('selected'));
+        
+        element.classList.add('selected');
+        const formatId = format.replace('_','');
+        document.getElementById(`sel_img_${formatId}_url`).value = imageUrl;
+        
+        Object.keys(CONTENT_TYPES).forEach(channel => {
+          if (CONTENT_TYPES[channel].imageFormat === format) {
+            updatePostingButtons(channel);
+          }
+        });
+        updateGlobalPostAllButton();
+      }
+
+      async function postContent(channel) {
+        const config = CONTENT_TYPES[channel];
+        const inputIdValue = document.getElementById("input_id").value;
+
+        if (!confirm(`${config.label} sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.`)) return;
+
+        try {
+          showProgressMessage("Speichere finalen Stand...");
+          const savePayload = {
+            input_id: inputIdValue,
+            mode: "save",
+            sel_img_11_url: document.getElementById("sel_img_11_url").value,
+            sel_img_169_url: document.getElementById("sel_img_169_url").value,
+            sel_img_916_url: document.getElementById("sel_img_916_url").value
+          };
+
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const typeConfig = CONTENT_TYPES[type];
+            const textElement = document.getElementById(typeConfig.textField);
+            const statusElement = document.getElementById(typeConfig.statusField);
+            if (textElement && textElement.value) {
+                savePayload[typeConfig.textField] = textElement.value;
+            }
+            if (statusElement && statusElement.value) {
+                savePayload[typeConfig.statusField] = statusElement.value;
+            }
+          });
+
+          const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const saveResponse = await fetch(saveWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(savePayload),
+          });
+
+          if (!saveResponse.ok) {
+            throw new Error("Fehler beim Speichern des finalen Stands vor dem Posten.");
+          }
+          
+          showProgressMessage(`Finaler Stand gespeichert. Starte Post für ${config.label}...`);
+
+          const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+          const postResponse = await fetch(postWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              channel: channel
+            }),
+          });
+
+          if (postResponse.ok) {
+            showSuccessMessage(`✅ Post-Auftrag für ${config.label} erfolgreich gesendet!`);
+            setTimeout(() => loadReview(false), 3000);
+          } else {
+            throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
+        }
+      }
+
+      async function postAllChannels() {
+        const inputIdValue = document.getElementById("input_id").value;
+
+        if (!confirm("Alle freigegebenen Kanäle sofort veröffentlichen? Der aktuelle Stand wird zuerst gespeichert.")) return;
+
+        try {
+          showProgressMessage("Speichere finalen Stand...");
+          const savePayload = {
+            input_id: inputIdValue,
+            mode: "save",
+            sel_img_11_url: document.getElementById("sel_img_11_url").value,
+            sel_img_169_url: document.getElementById("sel_img_169_url").value,
+            sel_img_916_url: document.getElementById("sel_img_916_url").value
+          };
+          Object.keys(CONTENT_TYPES).forEach(type => {
+            const typeConfig = CONTENT_TYPES[type];
+            const textElement = document.getElementById(typeConfig.textField);
+            const statusElement = document.getElementById(typeConfig.statusField);
+            if (textElement && textElement.value) savePayload[typeConfig.textField] = textElement.value;
+            if (statusElement && statusElement.value) savePayload[typeConfig.statusField] = statusElement.value;
+          });
+          const saveWebhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+          const saveResponse = await fetch(saveWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(savePayload),
+          });
+          if (!saveResponse.ok) throw new Error("Fehler beim Speichern des finalen Stands.");
+          
+          showProgressMessage("Finaler Stand gespeichert. Starte Post für alle Kanäle...");
+
+          const postWebhookUrl = "https://hook.eu2.make.com/luc6xxk5k23r1e2kk1pb6wx8z6e3b8rt";
+          const postResponse = await fetch(postWebhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input_id: inputIdValue,
+              channel: "all_approved"
+            }),
+          });
+
+          if (postResponse.ok) {
+            showSuccessMessage("✅ Post-Auftrag für alle Kanäle erfolgreich gesendet!");
+            setTimeout(() => loadReview(false), 3000);
+          } else {
+            throw new Error(`HTTP ${postResponse.status}: ${await postResponse.text()}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler im Post-Prozess: ${error.message}`);
+        }
+      }
+      
+      async function submitReview() {
+        const payload = {
+          input_id: document.getElementById("input_id").value,
+          mode: "save",
+          sel_img_11_url: document.getElementById("sel_img_11_url").value,
+          sel_img_169_url: document.getElementById("sel_img_169_url").value,
+          sel_img_916_url: document.getElementById("sel_img_916_url").value
+        };
+
+        Object.keys(CONTENT_TYPES).forEach(type => {
+          const config = CONTENT_TYPES[type];
+          const textElement = document.getElementById(config.textField);
+          const statusElement = document.getElementById(config.statusField);
+          
+          if (textElement && textElement.value.trim() !== '') {
+            payload[config.textField] = textElement.value;
+            payload[config.statusField] = statusElement.value;
+          }
+        });
+
+        const webhookUrl = "https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm";
+
+        try {
+          showLoadingState(true, "review-submit-btn");
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccessMessage("Freigaben erfolgreich gespeichert ✅");
+            loadReview(false);
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (error) {
+          showErrorMessage(`Fehler beim Speichern: ${error.message}`);
+        } finally {
+          showLoadingState(false, "review-submit-btn");
+        }
+      }
+
+      function showStatusMessage(message, type, persistent = false) {
+        const container = document.getElementById("status-container");
+        if (!persistent) {
+          const existing = container.querySelector('.status-message:not(.persistent)');
+          if (existing) existing.remove();
+        } else {
+          const existing = container.querySelector('.status-message');
+          if (existing) existing.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `status-message ${persistent ? 'persistent' : ''}`;
+        
+        const styles = {
+          info: 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;',
+          success: 'background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7;',
+          error: 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;',
+          warning: 'background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;'
+        };
+        
+        messageDiv.setAttribute('style', styles[type] || styles.info);
+        messageDiv.textContent = message;
+        container.appendChild(messageDiv);
+        
+        if ((type === 'success' || type === 'info') && !persistent) {
+          setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+          }, 8000);
+        }
+      }
+
+      function clearPersistentMessage() {
+        const container = document.getElementById("status-container");
+        const existing = container.querySelector('.status-message.persistent');
+        if (existing) existing.remove();
+      }
+
+      function showProgressMessage(message) { showStatusMessage(message, 'info'); }
+      function showSuccessMessage(message) { showStatusMessage(message, 'success'); }
+      function showErrorMessage(message) { showStatusMessage(message, 'error'); }
+      function showWarningMessage(message) { showStatusMessage(message, 'warning'); }
+      function showInfoMessage(message, persistent = false) { showStatusMessage(message, 'info', persistent); }
+
+      function showLoadingState(isLoading, buttonId = "submit-btn") {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = isLoading;
+          if (isLoading) {
+            button.innerHTML = '<div class="loading-spinner"></div>Wird verarbeitet...';
+          } else {
+            button.innerHTML = buttonId === "submit-btn" ? "Inhalt übermitteln" : "Freigaben speichern";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
