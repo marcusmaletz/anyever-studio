@@ -663,31 +663,121 @@
       
       const CONTENT_TYPES = {
   linkedin: {
-    id: 'linkedin', label: 'LinkedIn Post', group: 'Social Media', textField: 'linkedin_text', statusField: 'linkedin_status', enableField: 'enable_linkedin', backendTextKey: 'linkedin_text', backendStatusKey: 'linkedin_status', postingEnabled: true, imageFormat: '1_1', displayState: 'active'
+    id: 'linkedin',
+    label: 'LinkedIn Post',
+    group: 'Social Media',
+    textField: 'linkedin_text',
+    statusField: 'linkedin_status',
+    enableField: 'enable_linkedin',
+    backendTextKey: 'linkedin_text',
+    backendStatusKey: 'linkedin_status',
+    postingEnabled: true,
+    imageFormat: '1_1',
+    displayState: 'active'
   },
   facebook: {
-    id: 'facebook', label: 'Facebook Post', group: 'Social Media', textField: 'facebook_text', statusField: 'facebook_status', enableField: 'enable_facebook', backendTextKey: 'facebook_text', backendStatusKey: 'facebook_status', postingEnabled: true, imageFormat: '1_1', displayState: 'active'
+    id: 'facebook',
+    label: 'Facebook Post',
+    group: 'Social Media',
+    textField: 'facebook_text',
+    statusField: 'facebook_status',
+    enableField: 'enable_facebook',
+    backendTextKey: 'facebook_text',
+    backendStatusKey: 'facebook_status',
+    postingEnabled: true,
+    imageFormat: '1_1',
+    displayState: 'active'
   },
   instagram_feed: {
-    id: 'instagram_feed', label: 'Instagram Feed', group: 'Social Media', textField: 'instagram_feed_text', statusField: 'instagram_feed_status', enableField: 'enable_instagram_feed', backendTextKey: 'insta_feed_text', backendStatusKey: 'insta_feed_status', postingEnabled: false, imageFormat: '1_1', displayState: 'active'
+    id: 'instagram_feed',
+    label: 'Instagram Feed',
+    group: 'Social Media',
+    textField: 'instagram_feed_text',
+    statusField: 'instagram_feed_status',
+    enableField: 'enable_instagram_feed',
+    backendTextKey: 'insta_feed_text',
+    backendStatusKey: 'insta_feed_status',
+    postingEnabled: false,
+    imageFormat: '1_1',
+    displayState: 'active'
   },
   instagram_story: {
-    id: 'instagram_story', label: 'Instagram Story', group: 'Social Media', textField: 'instagram_story_text', statusField: 'instagram_story_status', enableField: 'enable_instagram_story', backendTextKey: 'insta_story_text', backendStatusKey: 'insta_story_status', postingEnabled: false, imageFormat: '9_16', displayState: 'disabled'
+    id: 'instagram_story',
+    label: 'Instagram Story',
+    group: 'Social Media',
+    textField: 'instagram_story_text',
+    statusField: 'instagram_story_status',
+    enableField: 'enable_instagram_story',
+    backendTextKey: 'insta_story_text',
+    backendStatusKey: 'insta_story_status',
+    postingEnabled: false,
+    imageFormat: '9_16',
+    displayState: 'disabled'
   },
   instagram_reel: {
-    id: 'instagram_reel', label: 'Instagram Reel', group: 'Social Media', textField: 'instagram_reel_text', statusField: 'instagram_reel_status', enableField: 'enable_instagram_reel', backendTextKey: 'insta_reel_text', backendStatusKey: 'insta_reel_status', postingEnabled: false, imageFormat: '9_16', displayState: 'disabled'
+    id: 'instagram_reel',
+    label: 'Instagram Reel',
+    group: 'Social Media',
+    textField: 'instagram_reel_text',
+    statusField: 'instagram_reel_status',
+    enableField: 'enable_instagram_reel',
+    backendTextKey: 'insta_reel_text',
+    backendStatusKey: 'insta_reel_status',
+    postingEnabled: false,
+    imageFormat: '9_16',
+    displayState: 'disabled'
   },
   blog: {
-    id: 'blog', label: 'Blog Artikel', group: 'Business Content', textField: 'blog_text', statusField: 'blog_status', enableField: 'enable_blog', backendTextKey: 'blog_text', backendStatusKey: 'blog_status', postingEnabled: false, imageFormat: '16_9', displayState: 'active'
+    id: 'blog',
+    label: 'Blog Artikel',
+    group: 'Business Content',
+    textField: 'blog_text',
+    statusField: 'blog_status',
+    enableField: 'enable_blog',
+    backendTextKey: 'blog_text',
+    backendStatusKey: 'blog_status',
+    postingEnabled: false,
+    imageFormat: '16_9',
+    displayState: 'active'
   },
   podcast: {
-    id: 'podcast', label: 'Podcast Skript', group: 'Sonderformate', textField: 'podcast_text', statusField: 'podcast_status', enableField: 'enable_podcast', backendTextKey: 'podcast_text', backendStatusKey: 'podcast_status', postingEnabled: true, imageFormat: 'none', displayState: 'active'
+    id: 'podcast',
+    label: 'Podcast Skript',
+    group: 'Sonderformate',
+    textField: 'podcast_text',
+    statusField: 'podcast_status',
+    enableField: 'enable_podcast',
+    backendTextKey: 'podcast_text',
+    backendStatusKey: 'podcast_status',
+    postingEnabled: true,
+    imageFormat: 'none',
+    displayState: 'active'
   },
   avatar: {
-    id: 'avatar', label: 'Avatar Skript', group: 'Sonderformate', textField: 'avatar_text', statusField: 'avatar_status', enableField: 'enable_avatar', backendTextKey: 'avatar_text', backendStatusKey: 'avatar_status', postingEnabled: false, imageFormat: 'none', displayState: 'hidden'
+    id: 'avatar',
+    label: 'Avatar Skript',
+    group: 'Sonderformate',
+    textField: 'avatar_text',
+    statusField: 'avatar_status',
+    enableField: 'enable_avatar',
+    backendTextKey: 'avatar_text',
+    backendStatusKey: 'avatar_status',
+    postingEnabled: false,
+    imageFormat: 'none',
+    displayState: 'hidden'
   },
   newsletter: {
-    id: 'newsletter', label: 'Newsletter', group: 'Business Content', textField: 'newsletter_text', statusField: 'newsletter_status', enableField: 'enable_newsletter', backendTextKey: 'newsletter_text', backendStatusKey: 'newsletter_status', postingEnabled: true, imageFormat: 'none', displayState: 'active'
+    id: 'newsletter',
+    label: 'Newsletter',
+    group: 'Business Content',
+    textField: 'newsletter_text',
+    statusField: 'newsletter_status',
+    enableField: 'enable_newsletter',
+    backendTextKey: 'newsletter_text',
+    backendStatusKey: 'newsletter_status',
+    postingEnabled: true,
+    imageFormat: 'none',
+    displayState: 'active'
   }
 };
 
