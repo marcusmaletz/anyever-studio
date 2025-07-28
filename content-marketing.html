@@ -674,6 +674,7 @@
             postingEnabled: true,
             imageFormat: '1_1',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           facebook: {
             id: 'facebook',
@@ -687,6 +688,7 @@
             postingEnabled: true,
             imageFormat: '1_1',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           instagram_feed: {
             id: 'instagram_feed',
@@ -700,6 +702,7 @@
             postingEnabled: true,
             imageFormat: '1_1',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           instagram_story: {
             id: 'instagram_story',
@@ -713,6 +716,7 @@
             postingEnabled: true,
             imageFormat: '9_16',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           instagram_reel: {
             id: 'instagram_reel',
@@ -726,6 +730,7 @@
             postingEnabled: false,
             imageFormat: '9_16',
             enabled: false
+            displayState: 'active' // active, disabled, oder hidden
           },
           blog: {
             id: 'blog',
@@ -739,6 +744,7 @@
             postingEnabled: true,
             imageFormat: '16_9',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           podcast: {
             id: 'podcast',
@@ -752,6 +758,7 @@
             postingEnabled: true,
             imageFormat: 'none',
             enabled: true
+            displayState: 'active' // active, disabled, oder hidden
           },
           avatar: {
             id: 'avatar',
@@ -765,6 +772,7 @@
             postingEnabled: false,
             imageFormat: 'none',
             enabled: false
+            displayState: 'active' // active, disabled, oder hidden
           },
           newsletter: {
             id: 'newsletter',
@@ -778,6 +786,7 @@
             postingEnabled: true,
             imageFormat: 'none',
             enabled: false
+            displayState: 'active' // active, disabled, oder hidden
           }
       };
 
@@ -846,38 +855,41 @@
         });
         
         function buildCard(config, parent) {
-            const card = document.createElement('div');
-            card.className = 'content-type-card';
-            card.id = `card-${config.id}`;
-            
-            let formatText = config.imageFormat.replace('_', ':');
-              // ZUERST DIE ALLGEMEINE REGEL
-              if (config.imageFormat === 'none') formatText = 'Text'; 
-              
-              // DANACH DIE SPEZIFISCHEN ÜBERSCHREIBUNGEN
-              if (config.id === 'instagram_reel') formatText = '9:16 Video';
-              if (config.id === 'podcast') formatText = 'Text-to-Speech';
-              if (config.id === 'avatar') formatText = 'Video Avatar';
-              if (config.id === 'newsletter') formatText = 'E-Mail';
+    // Kachel wird nicht erstellt, wenn sie ausgeblendet ist
+    if (config.displayState === 'hidden') {
+        return; 
+    }
 
+    const card = document.createElement('div');
+    card.className = 'content-type-card';
+    card.id = `card-${config.id}`;
 
-            card.innerHTML = `
-                <label>
-                  <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
-                  <div>
-                    <div style="font-weight: 600;">${config.label}</div>
-                  </div>
-                  <span class="format-badge">${formatText}</span>
-                </label>
-            `;
-            if (!config.enabled) {
-                card.style.opacity = '0.5';
-                card.style.pointerEvents = 'none';
-                card.title = 'Dieser Kanal ist derzeit deaktiviert.';
-            }
-            parent.appendChild(card);
-        }
-      }
+    let formatText = config.imageFormat.replace('_', ':');
+    if (config.id === 'instagram_reel') formatText = '9:16 Video';
+    if (config.id === 'podcast') formatText = 'Text-to-Speech';
+    if (config.id === 'avatar') formatText = 'Video Avatar';
+    if (config.id === 'newsletter') formatText = 'E-Mail';
+    if (config.imageFormat === 'none') formatText = 'Text';
+
+    card.innerHTML = `
+        <label>
+          <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
+          <div>
+            <div style="font-weight: 600;">${config.label}</div>
+          </div>
+          <span class="format-badge">${formatText}</span>
+        </label>
+    `;
+
+    // Logik für deaktivierte Kacheln
+    if (config.displayState === 'disabled') {
+        card.style.opacity = '0.5';
+        card.style.pointerEvents = 'none';
+        card.title = 'Dieser Kanal ist derzeit deaktiviert.';
+    }
+
+    parent.appendChild(card);
+}
 
       document.addEventListener("DOMContentLoaded", () => {
         updateTimestamp();
