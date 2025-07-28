@@ -662,124 +662,125 @@
       };
       
       const CONTENT_TYPES = {
-  linkedin: {
-    id: 'linkedin',
-    label: 'LinkedIn Post',
-    group: 'Social Media',
-    textField: 'linkedin_text',
-    statusField: 'linkedin_status',
-    enableField: 'enable_linkedin',
-    backendTextKey: 'linkedin_text',
-    backendStatusKey: 'linkedin_status',
-    postingEnabled: true,
-    imageFormat: '1_1',
-    displayState: 'active' // active, disabled, oder hidden
-  },
-  facebook: {
-    id: 'facebook',
-    label: 'Facebook Post',
-    group: 'Social Media',
-    textField: 'facebook_text',
-    statusField: 'facebook_status',
-    enableField: 'enable_facebook',
-    backendTextKey: 'facebook_text',
-    backendStatusKey: 'facebook_status',
-    postingEnabled: true,
-    imageFormat: '1_1',
-    displayState: 'active'
-  },
-  instagram_feed: {
-    id: 'instagram_feed',
-    label: 'Instagram Feed',
-    group: 'Social Media',
-    textField: 'instagram_feed_text',
-    statusField: 'instagram_feed_status',
-    enableField: 'enable_instagram_feed',
-    backendTextKey: 'insta_feed_text',
-    backendStatusKey: 'insta_feed_status',
-    postingEnabled: false,
-    imageFormat: '1_1',
-    displayState: 'active'
-  },
-  instagram_story: {
-    id: 'instagram_story',
-    label: 'Instagram Story',
-    group: 'Social Media',
-    textField: 'instagram_story_text',
-    statusField: 'instagram_story_status',
-    enableField: 'enable_instagram_story',
-    backendTextKey: 'insta_story_text',
-    backendStatusKey: 'insta_story_status',
-    postingEnabled: false,
-    imageFormat: '9_16',
-    displayState: 'disabled' // Beispiel: Deaktiviert anzeigen
-  },
-  instagram_reel: {
-    id: 'instagram_reel',
-    label: 'Instagram Reel',
-    group: 'Social Media',
-    textField: 'instagram_reel_text',
-    statusField: 'instagram_reel_status',
-    enableField: 'enable_instagram_reel',
-    backendTextKey: 'insta_reel_text',
-    backendStatusKey: 'insta_reel_status',
-    postingEnabled: false,
-    imageFormat: '9_16',
-    displayState: 'disabled'
-  },
-  blog: {
-    id: 'blog',
-    label: 'Blog Artikel',
-    group: 'Business Content',
-    textField: 'blog_text',
-    statusField: 'blog_status',
-    enableField: 'enable_blog',
-    backendTextKey: 'blog_text',
-    backendStatusKey: 'blog_status',
-    postingEnabled: false,
-    imageFormat: '16_9',
-    displayState: 'active'
-  },
-  podcast: {
-    id: 'podcast',
-    label: 'Podcast Skript',
-    group: 'Sonderformate',
-    textField: 'podcast_text',
-    statusField: 'podcast_status',
-    enableField: 'enable_podcast',
-    backendTextKey: 'podcast_text',
-    backendStatusKey: 'podcast_status',
-    postingEnabled: true,
-    imageFormat: 'none',
-    displayState: 'active'
-  },
-  avatar: {
-    id: 'avatar',
-    label: 'Avatar Skript',
-    group: 'Sonderformate',
-    textField: 'avatar_text',
-    statusField: 'avatar_status',
-    enableField: 'enable_avatar',
-    backendTextKey: 'avatar_text',
-    backendStatusKey: 'avatar_status',
-    postingEnabled: false,
-    imageFormat: 'none',
-    displayState: 'hidden' // Beispiel: Komplett ausblenden
-  },
-  newsletter: {
-    id: 'newsletter',
-    label: 'Newsletter',
-    group: 'Business Content',
-    textField: 'newsletter_text',
-    statusField: 'newsletter_status',
-    enableField: 'enable_newsletter',
-    backendTextKey: 'newsletter_text',
-    backendStatusKey: 'newsletter_status',
-    postingEnabled: true,
-    imageFormat: 'none',
-    displayState: 'active'
-  }
-};
+          linkedin: {
+            id: 'linkedin',
+            label: 'LinkedIn Post',
+            group: 'Social Media',
+            textField: 'linkedin_text',
+            statusField: 'linkedin_status',
+            enableField: 'enable_linkedin',
+            backendTextKey: 'linkedin_text',
+            backendStatusKey: 'linkedin_status',
+            postingEnabled: true,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          facebook: {
+            id: 'facebook',
+            label: 'Facebook Post',
+            group: 'Social Media',
+            textField: 'facebook_text',
+            statusField: 'facebook_status',
+            enableField: 'enable_facebook',
+            backendTextKey: 'facebook_text',
+            backendStatusKey: 'facebook_status',
+            postingEnabled: true,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          instagram_feed: {
+            id: 'instagram_feed',
+            label: 'Instagram Feed',
+            group: 'Social Media',
+            textField: 'instagram_feed_text',
+            statusField: 'instagram_feed_status',
+            enableField: 'enable_instagram_feed',
+            backendTextKey: 'insta_feed_text',
+            backendStatusKey: 'insta_feed_status',
+            postingEnabled: true,
+            imageFormat: '1_1',
+            enabled: true
+          },
+          instagram_story: {
+            id: 'instagram_story',
+            label: 'Instagram Story',
+            group: 'Social Media',
+            textField: 'instagram_story_text',
+            statusField: 'instagram_story_status',
+            enableField: 'enable_instagram_story',
+            backendTextKey: 'insta_story_text',
+            backendStatusKey: 'insta_story_status',
+            postingEnabled: true,
+            imageFormat: '9_16',
+            enabled: true
+          },
+          instagram_reel: {
+            id: 'instagram_reel',
+            label: 'Instagram Reel',
+            group: 'Social Media',
+            textField: 'instagram_reel_text',
+            statusField: 'instagram_reel_status',
+            enableField: 'enable_instagram_reel',
+            backendTextKey: 'insta_reel_text',
+            backendStatusKey: 'insta_reel_status',
+            postingEnabled: false,
+            imageFormat: '9_16',
+            enabled: false
+          },
+          blog: {
+            id: 'blog',
+            label: 'Blog Artikel',
+            group: 'Business Content',
+            textField: 'blog_text',
+            statusField: 'blog_status',
+            enableField: 'enable_blog',
+            backendTextKey: 'blog_text',
+            backendStatusKey: 'blog_status',
+            postingEnabled: true,
+            imageFormat: '16_9',
+            enabled: true
+          },
+          podcast: {
+            id: 'podcast',
+            label: 'Podcast Skript & Audio',
+            group: 'Sonderformate',
+            textField: 'podcast_text',
+            statusField: 'podcast_status', 
+            enableField: 'enable_podcast',
+            backendTextKey: 'podcast_text',       
+            backendStatusKey: 'podcast_status',
+            postingEnabled: true,
+            imageFormat: 'none',
+            enabled: true
+          },
+          avatar: {
+            id: 'avatar',
+            label: 'Avatar Skript',
+            group: 'Sonderformate',
+            textField: 'avatar_text',
+            statusField: 'avatar_status',
+            enableField: 'enable_avatar', 
+            backendTextKey: 'avatar_text',        
+            backendStatusKey: 'avatar_status',
+            postingEnabled: false,
+            imageFormat: 'none',
+            enabled: false
+          },
+          newsletter: {
+            id: 'newsletter',
+            label: 'Newsletter',
+            group: 'Business Content',
+            textField: 'newsletter_text',
+            statusField: 'newsletter_status',
+            enableField: 'enable_newsletter', 
+            backendTextKey: 'newsletter_text',        
+            backendStatusKey: 'newsletter_status',
+            postingEnabled: true,
+            imageFormat: 'none',
+            enabled: false
+          }
+      };
+
       function updateTimestamp() {
         const pad = (num) => num.toString().padStart(2, '0');
         const now = new Date();
@@ -845,42 +846,38 @@
         });
         
         function buildCard(config, parent) {
-  // Schritt 1: Kachel überspringen, wenn sie ausgeblendet sein soll
-  if (config.displayState === 'hidden') {
-    return;
-  }
+            const card = document.createElement('div');
+            card.className = 'content-type-card';
+            card.id = `card-${config.id}`;
+            
+            let formatText = config.imageFormat.replace('_', ':');
+              // ZUERST DIE ALLGEMEINE REGEL
+              if (config.imageFormat === 'none') formatText = 'Text'; 
+              
+              // DANACH DIE SPEZIFISCHEN ÜBERSCHREIBUNGEN
+              if (config.id === 'instagram_reel') formatText = '9:16 Video';
+              if (config.id === 'podcast') formatText = 'Text-to-Speech';
+              if (config.id === 'avatar') formatText = 'Video Avatar';
+              if (config.id === 'newsletter') formatText = 'E-Mail';
 
-  const card = document.createElement('div');
-  card.className = 'content-type-card';
-  card.id = `card-${config.id}`;
 
-  let formatText = config.imageFormat.replace('_', ':');
-  if (config.id === 'instagram_reel') formatText = '9:16 Video';
-  if (config.id === 'podcast') formatText = 'Text-to-Speech';
-  if (config.id === 'avatar') formatText = 'Video Avatar';
-  if (config.id === 'newsletter') formatText = 'E-Mail';
-  if (config.imageFormat === 'none') formatText = 'Text';
-
-  card.innerHTML = `
-      <label>
-        <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
-        <div>
-          <div style="font-weight: 600;">${config.label}</div>
-        </div>
-        <span class="format-badge">${formatText}</span>
-      </label>
-  `;
-
-  // Schritt 2: Kachel ausgrauen, wenn sie deaktiviert ist
-  if (config.displayState === 'disabled') {
-      card.style.opacity = '0.5';
-      card.style.pointerEvents = 'none';
-      card.title = 'Dieser Kanal ist derzeit deaktiviert.';
-  }
-
-  // Schritt 3: Kachel zur Ansicht hinzufügen
-  parent.appendChild(card);
-}
+            card.innerHTML = `
+                <label>
+                  <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
+                  <div>
+                    <div style="font-weight: 600;">${config.label}</div>
+                  </div>
+                  <span class="format-badge">${formatText}</span>
+                </label>
+            `;
+            if (!config.enabled) {
+                card.style.opacity = '0.5';
+                card.style.pointerEvents = 'none';
+                card.title = 'Dieser Kanal ist derzeit deaktiviert.';
+            }
+            parent.appendChild(card);
+        }
+      }
 
       document.addEventListener("DOMContentLoaded", () => {
         updateTimestamp();
@@ -1194,12 +1191,6 @@
     return false;
   }
 
-  // Hide all image containers initially
-  ['1_1', '16_9', '9_16'].forEach(format => {
-    const container = document.getElementById(`image-selection-container_${format}`);
-    if (container) container.style.display = "none";
-  });
-
   const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
 
   try {
@@ -1217,56 +1208,83 @@
       return false;
     }
 
-    // KORRIGIERTE LOGIK ZUM LADEN DER BILDER
+    // NEUE, INTELLIGENTERE LOGIK:
+    // Prüft für jedes Format, ob Bilder da sind oder nicht, und blendet Grids nur bei Bedarf ein oder aus.
     const formats = ['1_1', '16_9', '9_16'];
     formats.forEach(format => {
-        let imageUrls = [];
-        let selectedUrl = '';
+      const formatId = format.replace('_', '');
+      const imageUrls = [
+        data[`img_${formatId}_1_url`],
+        data[`img_${formatId}_2_url`],
+        data[`img_${formatId}_3_url`],
+        data[`img_${formatId}_4_url`]
+      ];
+      const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
 
-        if (format === '1_1') {
-            imageUrls = [data['img_11_1_url'], data['img_11_2_url'], data['img_11_3_url'], data['img_11_4_url']];
-            selectedUrl = data['sel_img_11_url'];
-        } else if (format === '16_9') {
-            imageUrls = [data['img_169_1_url'], data['img_169_2_url'], data['img_169_3_url'], data['img_169_4_url']];
-            selectedUrl = data['sel_img_169_url'];
-        } else if (format === '9_16') {
-            imageUrls = [data['img_916_1_url'], data['img_916_2_url'], data['img_916_3_url'], data['img_916_4_url']];
-            selectedUrl = data['sel_img_916_url'];
-        }
-
-        const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
-        if (validUrls.length > 0) {
-            populateImageGrid(format, validUrls, selectedUrl);
-        }
-    });
-
-    // Der restliche Teil der Funktion bleibt unverändert und verarbeitet die Texte
-    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || getSelectedChannels();
-    let sectionsWithContent = 0;
-
-    Object.keys(CONTENT_TYPES).forEach(type => {
-      const config = CONTENT_TYPES[type];
-      const sectionElement = document.getElementById(`${type}-section`);
-      if (sectionElement) {
-        let backendText = data[config.backendTextKey];
-        const backendStatus = data[config.backendStatusKey];
-        if (backendText && backendText.trim() !== '') {
-          sectionsWithContent++;
-          const textField = document.getElementById(config.textField);
-          const statusField = document.getElementById(config.statusField);
-          if (textField) {
-            textField.value = backendText.replace(/\\n/g, '\n') || "";
-            autoResize(textField);
-          }
-          if (statusField) statusField.value = backendStatus || "pending";
-          updateSectionStatus(sectionElement, backendStatus);
-          updatePostingButtons(type);
-        }
+      if (validUrls.length > 0) {
+        populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
+      } else {
+        const container = document.getElementById(`image-selection-container_${format}`);
+        if (container) container.style.display = "none";
       }
     });
 
-    // ... (der Rest der Logik zur Erfolgsprüfung und UI-Updates)
+    // Der restliche Teil der Funktion bleibt weitgehend gleich...
+    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || [];
+    let sectionsWithContent = 0;
+    expectedChannels.forEach(channelId => {
+        const config = CONTENT_TYPES[channelId];
+        if (data[config.backendTextKey] && data[config.backendTextKey].trim() !== '') {
+            sectionsWithContent++;
+        }
+    });
+    const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
 
+    let allImagesPresent = true;
+    const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
+    for (const format of expectedFormats) {
+        const formatId = format.replace('_', '');
+        const firstImageUrl = data[`img_${formatId}_1_url`];
+        if (!firstImageUrl || !firstImageUrl.startsWith('http')) {
+            allImagesPresent = false;
+            break;
+        }
+    }
+    const isSuccess = allTextsPresent && allImagesPresent;
+
+    Object.keys(CONTENT_TYPES).forEach(type => {
+        const config = CONTENT_TYPES[type];
+        const sectionElement = document.getElementById(`${type}-section`);
+        if(sectionElement){
+            let backendText = data[config.backendTextKey];
+            const backendStatus = data[config.backendStatusKey];
+            if(backendText){
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                if (textField) {
+                  textField.value = backendText.replace(/\\n/g, '\n') || "";
+                  autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+            }
+        }
+    });
+
+    document.getElementById("review-submit-btn").style.display = (sectionsWithContent > 0) ? "block" : "none";
+    updateGlobalPostAllButton();
+
+    if (isSuccess) {
+      clearPersistentMessage();
+      if (!silentMode) showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+      return true;
+    } else {
+      if (!silentMode) {
+        showWarningMessage(`⚠️ Inhalte werden noch generiert...`);
+      }
+      return false;
+    }
   } catch (error) {
     console.error("❌ Fehler beim Laden der Review-Daten", error);
     if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
