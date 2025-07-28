@@ -673,7 +673,7 @@
     backendStatusKey: 'linkedin_status',
     postingEnabled: true,
     imageFormat: '1_1',
-    displayState: 'active'
+    displayState: 'active' // active, disabled, oder hidden
   },
   facebook: {
     id: 'facebook',
@@ -712,7 +712,7 @@
     backendStatusKey: 'insta_story_status',
     postingEnabled: false,
     imageFormat: '9_16',
-    displayState: 'disabled'
+    displayState: 'disabled' // Beispiel: Deaktiviert anzeigen
   },
   instagram_reel: {
     id: 'instagram_reel',
@@ -764,7 +764,7 @@
     backendStatusKey: 'avatar_status',
     postingEnabled: false,
     imageFormat: 'none',
-    displayState: 'hidden'
+    displayState: 'hidden' // Beispiel: Komplett ausblenden
   },
   newsletter: {
     id: 'newsletter',
@@ -845,7 +845,7 @@
             }
         });
         
-    function buildCard(config, parent) {
+        function buildCard(config, parent) {
   // Schritt 1: Kachel überspringen, wenn sie ausgeblendet sein soll
   if (config.displayState === 'hidden') {
     return;
