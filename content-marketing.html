@@ -566,12 +566,12 @@
         </div>
 
         <div class="form-group">
-          <label for="subline">Subline</label>
+          <label for="subline">Subline (optional)</label>
           <textarea id="subline" class="auto-resize" placeholder="Zusätzliche Informationen oder Untertitel" rows="2" oninput="autoResize(this)"></textarea>
         </div>
 
         <div class="form-group">
-          <label for="input_image_idea">Bildidee</label>
+          <label for="input_image_idea">Bildidee (optional)</label>
           <textarea id="input_image_idea" class="auto-resize" placeholder="Beschreiben Sie Ihre Bildvorstellung für die Social Media Posts" rows="2" oninput="autoResize(this)"></textarea>
         </div>
 
@@ -755,16 +755,16 @@
           },
           avatar: {
             id: 'avatar',
-            label: 'Avatar Skript & Video',
+            label: 'Avatar Skript',
             group: 'Sonderformate',
             textField: 'avatar_text',
             statusField: 'avatar_status',
             enableField: 'enable_avatar', 
             backendTextKey: 'avatar_text',        
             backendStatusKey: 'avatar_status',
-            postingEnabled: true,
+            postingEnabled: false,
             imageFormat: 'none',
-            enabled: true
+            enabled: false
           },
           newsletter: {
             id: 'newsletter',
