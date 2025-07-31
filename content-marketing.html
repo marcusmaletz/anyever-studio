@@ -1253,24 +1253,34 @@
     const isSuccess = allTextsPresent && allImagesPresent;
 
     Object.keys(CONTENT_TYPES).forEach(type => {
-        const config = CONTENT_TYPES[type];
-        const sectionElement = document.getElementById(`${type}-section`);
-        if(sectionElement){
-            let backendText = data[config.backendTextKey];
-            const backendStatus = data[config.backendStatusKey];
-            if(backendText){
-                const textField = document.getElementById(config.textField);
-                const statusField = document.getElementById(config.statusField);
-                if (textField) {
-                  textField.value = backendText.replace(/\\n/g, '\n') || "";
-                  autoResize(textField);
-                }
-                if (statusField) statusField.value = backendStatus || "pending";
-                updateSectionStatus(sectionElement, backendStatus);
-                updatePostingButtons(type);
-            }
+  const config = CONTENT_TYPES[type];
+  const sectionElement = document.getElementById(`${type}-section`);
+  if(sectionElement){
+
+    // --- HIER IST DIE KORRIGIERTE LOGIK ---
+    const reviewTextKey = `${config.id}_review`;
+    const originalTextKey = config.backendTextKey;
+
+    // Priorisiere den Review-Text, wenn er existiert, ansonsten nimm den Original-Text
+    let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') 
+                        ? data[reviewTextKey] 
+                        : data[originalTextKey];
+
+    const backendStatus = data[config.backendStatusKey];
+
+    if(backendText){
+        const textField = document.getElementById(config.textField);
+        const statusField = document.getElementById(config.statusField);
+        if (textField) {
+          textField.value = backendText.replace(/\\n/g, '\n') || "";
+          autoResize(textField);
         }
-    });
+        if (statusField) statusField.value = backendStatus || "pending";
+        updateSectionStatus(sectionElement, backendStatus);
+        updatePostingButtons(type);
+    }
+  }
+});
 
     document.getElementById("review-submit-btn").style.display = (sectionsWithContent > 0) ? "block" : "none";
     updateGlobalPostAllButton();
