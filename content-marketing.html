@@ -1243,18 +1243,22 @@
 
         const backendStatus = data[config.backendStatusKey];
 
-        if (backendText && backendText.trim() !== '') {
-          sectionsWithContent++;
-          const textField = document.getElementById(config.textField);
-          const statusField = document.getElementById(config.statusField);
-          if (textField) {
-            textField.value = backendText.replace(/\\n/g, '\n') || "";
-            autoResize(textField);
-          }
-          if (statusField) statusField.value = backendStatus || "pending";
-          updateSectionStatus(sectionElement, backendStatus);
-          updatePostingButtons(type);
-        }
+        if(backendText){
+    const textField = document.getElementById(config.textField);
+    const statusField = document.getElementById(config.statusField);
+
+    // NEUE PRÜFUNG: Nur befüllen, wenn das Textfeld noch leer ist.
+    if (textField && textField.value.trim() === '') {
+      textField.value = backendText.replace(/\\n/g, '\n') || "";
+      autoResize(textField);
+    }
+
+    if (statusField) {
+      statusField.value = backendStatus || "pending";
+    }
+    updateSectionStatus(sectionElement, backendStatus);
+    updatePostingButtons(type);
+}
       }
     });
 
