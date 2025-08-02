@@ -1134,38 +1134,53 @@
         postAllBtn.disabled = !atLeastOnePostable;
       }
 
-      async function startIntelligentPolling() {
-        let attempts = 0;
-        const maxAttempts = 20;
-        const poll = async () => {
-          attempts++;
-          showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
-          try {
-            const success = await loadReview(true);
-            if (success) {
-              clearPersistentMessage();
-              showSuccessMessage("✅ Content ist da! Automatisch geladen.");
-              return;
-            }
-            if (attempts < maxAttempts) {
-              setTimeout(() => poll(), 6000);
-            } else {
-              clearPersistentMessage();
-              showWarningMessage("⏱️ Automatische Suche beendet. Nutzen Sie ggf. den 'Content aktualisieren' Button.");
-              document.getElementById("manual-load-btn").style.display = "inline-block";
-            }
-          } catch (error) {
-            if (attempts < maxAttempts) {
-              setTimeout(() => poll(), 15000);
-            } else {
-              clearPersistentMessage();
-              showErrorMessage("❌ Fehler beim automatischen Laden.");
-              document.getElementById("manual-load-btn").style.display = "inline-block";
-            }
-          }
-        };
-        poll();
+     async function startIntelligentPolling() {
+  let attempts = 0;
+  const maxAttempts = 20; // Sie können dies bei Bedarf anpassen
+  let pollingInterval = 7000; // 7 Sekunden
+
+  const poll = async () => {
+    attempts++;
+
+    // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll (nicht im silentMode)
+    const reviewContainer = document.getElementById('review-container');
+    if (reviewContainer.classList.contains('show')) {
+        showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
+    }
+
+    try {
+      const success = await loadReview(true); // Ruft loadReview immer im silentMode auf
+
+      if (success) {
+        clearPersistentMessage();
+        showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+        document.getElementById("manual-load-btn").style.display = "none"; // Button ausblenden bei Erfolg
+        return; // Polling beenden
       }
+
+      if (attempts < maxAttempts) {
+        setTimeout(poll, pollingInterval);
+      } else {
+        // NEUE LOGIK: Button wird nach max. Versuchen immer angezeigt
+        clearPersistentMessage();
+        showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
+        document.getElementById("manual-load-btn").style.display = "inline-block";
+      }
+    } catch (error) {
+      console.error("Polling-Fehler:", error);
+      if (attempts >= maxAttempts) {
+        clearPersistentMessage();
+        showErrorMessage("❌ Fehler beim automatischen Laden.");
+        document.getElementById("manual-load-btn").style.display = "inline-block";
+      } else {
+        setTimeout(poll, pollingInterval);
+      }
+    }
+  };
+
+  // Startet den ersten Poll nach einer kurzen Verzögerung
+  setTimeout(poll, 30000);
+}
 
       async function loadReview(silentMode = false) {
   const inputIdValue = document.getElementById("input_id").value;
