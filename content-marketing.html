@@ -1191,8 +1191,6 @@
       return false;
     }
 
-    // NEUE, INTELLIGENTERE LOGIK:
-    // Prüft für jedes Format, ob Bilder da sind oder nicht, und blendet Grids nur bei Bedarf ein oder aus.
     const formats = ['1_1', '16_9', '9_16'];
     formats.forEach(format => {
       const formatId = format.replace('_', '');
@@ -1203,7 +1201,6 @@
         data[`img_${formatId}_4_url`]
       ];
       const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
-
       if (validUrls.length > 0) {
         populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
       } else {
@@ -1212,17 +1209,41 @@
       }
     });
 
-    // Der restliche Teil der Funktion bleibt weitgehend gleich...
-    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || [];
+    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || getSelectedChannels();
     let sectionsWithContent = 0;
-    expectedChannels.forEach(channelId => {
-        const config = CONTENT_TYPES[channelId];
-        if (data[config.backendTextKey] && data[config.backendTextKey].trim() !== '') {
-            sectionsWithContent++;
-        }
-    });
-    const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
 
+    Object.keys(CONTENT_TYPES).forEach(type => {
+      const config = CONTENT_TYPES[type];
+      const sectionElement = document.getElementById(`${type}-section`);
+      if (sectionElement) {
+
+        // --- HIER IST DIE KORRIGIERTE LOGIK ---
+        const reviewTextKey = `${config.id}_review`;
+        const originalTextKey = config.backendTextKey;
+
+        // Priorisiere den Review-Text, wenn er existiert, ansonsten nimm den Original-Text
+        let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') 
+                            ? data[reviewTextKey] 
+                            : data[originalTextKey];
+
+        const backendStatus = data[config.backendStatusKey];
+
+        if (backendText && backendText.trim() !== '') {
+          sectionsWithContent++;
+          const textField = document.getElementById(config.textField);
+          const statusField = document.getElementById(config.statusField);
+          if (textField) {
+            textField.value = backendText.replace(/\\n/g, '\n') || "";
+            autoResize(textField);
+          }
+          if (statusField) statusField.value = backendStatus || "pending";
+          updateSectionStatus(sectionElement, backendStatus);
+          updatePostingButtons(type);
+        }
+      }
+    });
+
+    const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
     let allImagesPresent = true;
     const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
     for (const format of expectedFormats) {
@@ -1234,36 +1255,6 @@
         }
     }
     const isSuccess = allTextsPresent && allImagesPresent;
-
-    Object.keys(CONTENT_TYPES).forEach(type => {
-  const config = CONTENT_TYPES[type];
-  const sectionElement = document.getElementById(`${type}-section`);
-  if(sectionElement){
-
-    // --- HIER IST DIE KORRIGIERTE LOGIK ---
-    const reviewTextKey = `${config.id}_review`;
-    const originalTextKey = config.backendTextKey;
-
-    // Priorisiere den Review-Text, wenn er existiert, ansonsten nimm den Original-Text
-    let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') 
-                        ? data[reviewTextKey] 
-                        : data[originalTextKey];
-
-    const backendStatus = data[config.backendStatusKey];
-
-    if(backendText){
-        const textField = document.getElementById(config.textField);
-        const statusField = document.getElementById(config.statusField);
-        if (textField) {
-          textField.value = backendText.replace(/\\n/g, '\n') || "";
-          autoResize(textField);
-        }
-        if (statusField) statusField.value = backendStatus || "pending";
-        updateSectionStatus(sectionElement, backendStatus);
-        updatePostingButtons(type);
-    }
-  }
-});
 
     document.getElementById("review-submit-btn").style.display = (sectionsWithContent > 0) ? "block" : "none";
     updateGlobalPostAllButton();
