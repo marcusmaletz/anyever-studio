@@ -1233,8 +1233,8 @@
       if (sectionElement) {
 
         // --- HIER IST DIE KORRIGIERTE LOGIK ---
-        const reviewTextKey = `${config.id}_review`;
-        const originalTextKey = config.backendTextKey;
+        const reviewTextKey = `${config.id}_review`; // z.B. linkedin_review
+        const originalTextKey = config.backendTextKey; // z.B. linkedin_text
 
         // Priorisiere den Review-Text, wenn er existiert, ansonsten nimm den Original-Text
         let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') 
