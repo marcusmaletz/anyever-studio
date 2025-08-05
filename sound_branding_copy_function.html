@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Branding Briefing | ANY EVER</title>
+    <link rel="stylesheet" href="any-ever-brand.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--any-ever-dark-grey);
+            background: var(--background-main);
+            padding: 24px;
+            overflow-x: hidden;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--background-content);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            background: var(--background-content);
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 2px solid var(--any-ever-gold);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
+            color: var(--any-ever-dark-grey);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-button:hover {
+            background: var(--background-main);
+            border-color: var(--border-medium);
+            transform: translateY(-1px);
+        }
+        
+        .logo-container a {
+            text-decoration: none;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
+            background-size: cover;
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-anyever {
+            width: 280px;
+            height: auto;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        .enjoy-audio {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--any-ever-black);
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-ultra);
+            color: var(--any-ever-black);
+            font-family: var(--font-primary);
+        }
+        
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            color: var(--any-ever-light-grey);
+            font-weight: var(--font-weight-normal);
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: var(--font-primary);
+        }
+        
+        .form-content {
+            padding: 60px 40px;
+            background: var(--background-content);
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(192, 174, 102, 0.3) 50%, transparent 100%);
+        }
+        
+        .section:last-child::after {
+            display: none;
+        }
+        
+        .section-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: var(--font-weight-bold);
+            font-size: 18px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: var(--any-ever-black);
+            margin-bottom: 30px;
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            display: flex;
+            align-items: center;
+            font-family: var(--font-primary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-dark-grey);
+            margin-bottom: 10px;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-medium);
+            font-family: var(--font-primary);
+        }
+        
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-medium);
+            border-radius: 8px;
+            font-size: 16px;
+            background: var(--background-content);
+            color: var(--any-ever-dark-grey);
+            transition: all 0.3s ease;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+        }
+        
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="date"]:focus, 
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: var(--any-ever-gold);
+            background: #fefefe;
+            box-shadow: var(--focus-gold);
+            transform: translateY(-2px);
+        }
+        
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .textarea-large {
+            min-height: 140px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover {
+            background: var(--any-ever-bright-grey);
+            border-color: var(--any-ever-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: var(--any-ever-gold);
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            color: var(--any-ever-dark-grey);
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            font-weight: var(--font-weight-normal);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--background-content);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .radio-item:hover {
+            background: var(--any-ever-bright-grey);
+            border-color: var(--any-ever-gold);
+        }
+        
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: var(--any-ever-gold);
+            cursor: pointer;
+        }
+        
+        .radio-item label {
+            margin: 0;
+            color: var(--any-ever-dark-grey);
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            font-weight: var(--font-weight-normal);
+        }
+        
+        .submit-section {
+            background: var(--any-ever-bright-grey);
+            padding: 50px 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-light);
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .submit-btn {
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
+            padding: 18px 50px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-medium);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-gold);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -5px rgba(192, 174, 102, 0.5);
+            background: linear-gradient(135deg, #a58f4a 0%, var(--any-ever-gold) 100%);
+        }
+        
+        .submit-text {
+            margin-top: 20px;
+            color: var(--any-ever-light-grey);
+            font-size: 16px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-saved-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            color: #000000;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.3);
+        }
+        
+        .form-saved-indicator.show {
+            opacity: 1;
+        }
+        
+        .anyever-footer {
+            background: var(--any-ever-black);
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 2px solid var(--any-ever-gold);
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .anyever-footer .logo-footer {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .anyever-footer .tagline {
+            color: var(--any-ever-light-grey);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .logo-anyever {
+                width: 220px;
+                margin-bottom: 10px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .form-content {
+                padding: 40px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .submit-section {
+                padding: 40px 20px;
+            }
+            
+            .submit-section div {
+                flex-direction: column !important;
+                align-items: center;
+            }
+            
+            .submit-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-saved-indicator" id="savedIndicator">Automatisch gespeichert ✓</div>
+    
+    <div class="container">
+        <div class="header">
+            <a href="advertising.html" class="back-button">← Advertising</a>
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="index.html">
+                        <img 
+                            src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+                            alt="ANY EVER Logo" 
+                            class="logo-anyever"
+                        >
+                    </a>
+                    <div class="enjoy-audio">ENJOY.AUDIO</div>
+                </div>
+                <h1>Creative Briefing<br>Sound Branding</h1>
+                <p class="subtitle">Damit wir Ihr perfektes Soundlogo entwickeln können.<br>
+                <strong>Vom ersten "Hallo" bis zum "Wir sind happy".</strong></p>
+            </div>
+        </div>
+        
+        <form id="briefingForm" class="form-content">
+            <!-- Abschnitt 1: Unternehmensdetails -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">01</span>
+                    Unternehmensdetails
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company-name">Unternehmensname *</label>
+                        <input type="text" id="company-name" name="company-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Branche *</label>
+                        <input type="text" id="industry" name="industry" placeholder="z.B. Automotive, Fintech, Retail" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="target-audience">Zielgruppe *</label>
+                    <textarea id="target-audience" name="target-audience" placeholder="Beschreiben Sie Ihre Hauptzielgruppe (Alter, Interessen, demografische Merkmale)" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brand-values">Markenwerte</label>
+                    <textarea id="brand-values" name="brand-values" placeholder="z.B. modern, nachhaltig, vertrauenswürdig, innovativ"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 2: Projektziele -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">02</span>
+                    Projektziele
+                </h2>
+                
+                <div class="form-group">
+                    <label for="project-goals">Ziele des Soundlogos/Jingles *</label>
+                    <textarea id="project-goals" name="project-goals" placeholder="z.B. Markenbekanntheit steigern, Emotionen auslösen, Wiedererkennung schaffen" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Gewünschte Emotionen und Botschaften</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-trust" name="emotions" value="vertrauensvoll">
+                            <label for="emotion-trust">Vertrauensvoll</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-dynamic" name="emotions" value="dynamisch">
+                            <label for="emotion-dynamic">Dynamisch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-calm" name="emotions" value="beruhigend">
+                            <label for="emotion-calm">Beruhigend</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-innovative" name="emotions" value="innovativ">
+                            <label for="emotion-innovative">Innovativ</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-premium" name="emotions" value="premium">
+                            <label for="emotion-premium">Premium</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emotion-friendly" name="emotions" value="freundlich">
+                            <label for="emotion-friendly">Freundlich</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-emotions">Weitere gewünschte Emotionen</label>
+                    <textarea id="additional-emotions" name="additional-emotions" placeholder="Beschreiben Sie weitere spezifische Emotionen oder Botschaften"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 3: Klangpräferenzen -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">03</span>
+                    Klangpräferenzen
+                </h2>
+                
+                <div class="form-group">
+                    <label>Bevorzugte Musikstile</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-pop" name="music-styles" value="pop">
+                            <label for="style-pop">Pop</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-electronic" name="music-styles" value="elektronisch">
+                            <label for="style-electronic">Elektronisch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-jazz" name="music-styles" value="jazz">
+                            <label for="style-jazz">Jazz</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-classical" name="music-styles" value="klassisch">
+                            <label for="style-classical">Klassisch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-ambient" name="music-styles" value="ambient">
+                            <label for="style-ambient">Ambient</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-rock" name="music-styles" value="rock">
+                            <label for="style-rock">Rock</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-minimalist" name="music-styles" value="minimalistisch">
+                            <label for="style-minimalist">Minimalistisch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="style-world" name="music-styles" value="world">
+                            <label for="style-world">World Music</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preferred-instruments">Bevorzugte Instrumente oder Klänge</label>
+                    <textarea id="preferred-instruments" name="preferred-instruments" placeholder="z.B. Piano, Synthesizer, natürliche Klänge, Streicher, Percussion"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="examples-inspiration">Beispiele & Inspirationen</label>
+                    <textarea id="examples-inspiration" name="examples-inspiration" class="textarea-large" placeholder="z.B. 'Klingt wie Marke X', 'Ähnlich wie Jingle Y', Links zu Referenzen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 4: Wettbewerb -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">04</span>
+                    Wettbewerbsumfeld
+                </h2>
+                
+                <div class="form-group">
+                    <label for="competitors-audio">Wettbewerber mit Klangidentität</label>
+                    <textarea id="competitors-audio" name="competitors-audio" placeholder="Nennen Sie Konkurrenten, die bereits ein prägnantes Soundlogo oder Audio-Branding haben"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="differentiation">Gewünschte Abgrenzung</label>
+                    <textarea id="differentiation" name="differentiation" placeholder="Wie soll sich Ihr Soundlogo vom Wettbewerb unterscheiden? Was soll es einzigartig machen?"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 5: Anwendungsbereiche -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">05</span>
+                    Anwendungsbereiche
+                </h2>
+                
+                <div class="form-group">
+                    <label>Geplante Einsatzorte *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-tv" name="usage-areas" value="tv">
+                            <label for="usage-tv">TV-Werbung</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-radio" name="usage-areas" value="radio">
+                            <label for="usage-radio">Radio</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-social" name="usage-areas" value="social-media">
+                            <label for="usage-social">Social Media</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-website" name="usage-areas" value="website">
+                            <label for="usage-website">Website</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-podcast" name="usage-areas" value="podcast">
+                            <label for="usage-podcast">Podcast</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-events" name="usage-areas" value="events">
+                            <label for="usage-events">Events</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-pos" name="usage-areas" value="pos">
+                            <label for="usage-pos">Point of Sale</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="usage-ingame" name="usage-areas" value="ingame">
+                            <label for="usage-ingame">In-Game Audio</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="platform-requirements">Plattform-spezifische Anforderungen</label>
+                    <textarea id="platform-requirements" name="platform-requirements" placeholder="Besondere Anforderungen für bestimmte Kanäle (z.B. kurze Version für Social Media, längere für Events)"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 6: Technische Anforderungen -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">06</span>
+                    Technische Anforderungen
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="duration">Gewünschte Länge *</label>
+                        <select id="duration" name="duration" required>
+                            <option value="">Bitte wählen</option>
+                            <option value="3s">3 Sekunden</option>
+                            <option value="5s">5 Sekunden</option>
+                            <option value="10s">10 Sekunden</option>
+                            <option value="15s">15 Sekunden</option>
+                            <option value="30s">30 Sekunden</option>
+                            <option value="custom">Individuelle Länge</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="custom-duration">Individuelle Länge</label>
+                        <input type="text" id="custom-duration" name="custom-duration" placeholder="z.B. 8 Sekunden">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Benötigte Dateiformate *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="format-wav" name="formats" value="wav">
+                            <label for="format-wav">WAV (unkomprimiert)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="format-mp3" name="formats" value="mp3">
+                            <label for="format-mp3">MP3</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="format-aac" name="formats" value="aac">
+                            <label for="format-aac">AAC</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="format-flac" name="formats" value="flac">
+                            <label for="format-flac">FLAC</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="technical-specs">Weitere technische Anforderungen</label>
+                    <textarea id="technical-specs" name="technical-specs" placeholder="z.B. Samplerate, Bitrate, Stereo/Mono, besondere Qualitätsanforderungen"></textarea>
+                </div>
+            </div>
+
+            <!-- Abschnitt 7: Zeitplan -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">07</span>
+                    Zeitplan
+                </h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deadline">Gewünschte Deadline *</label>
+                        <input type="date" id="deadline" name="deadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="urgency">Priorität</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="urgency-normal" name="urgency" value="normal">
+                                <label for="urgency-normal">Normal</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="urgency-urgent" name="urgency" value="urgent">
+                                <label for="urgency-urgent">Eilig</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abschnitt 8: Sonstiges -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="section-number">08</span>
+                    Sonstiges
+                </h2>
+                
+                <div class="form-group">
+                    <label for="additional-notes">Weitere Wünsche oder Hinweise</label>
+                    <textarea id="additional-notes" name="additional-notes" class="textarea-large" placeholder="Alles, was wir sonst noch wissen sollten – kreative Ideen, spezielle Anforderungen, Bedenken oder Fragen"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-name">Ihr Name *</label>
+                        <input type="text" id="contact-name" name="contact-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">E-Mail *</label>
+                        <input type="email" id="contact-email" name="contact-email" required>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div class="submit-section">
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;">
+                <button type="button" onclick="submitForm()" class="submit-btn">Per E-Mail versenden</button>
+                <button type="button" onclick="copyToClipboard()" class="submit-btn" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%); box-shadow: 0 10px 30px rgba(108, 117, 125, 0.3);">In Zwischenablage kopieren</button>
+            </div>
+            <p class="submit-text">
+                <strong>E-Mail versenden:</strong> Öffnet Ihr E-Mail-Programm (Outlook, Thunderbird, etc.)<br>
+                <strong>Kopieren:</strong> Für Webmail (Gmail, Outlook.com, etc.) - Daten in Zwischenablage kopieren und in E-Mail einfügen<br><br>
+                <small>Wir melden uns in Kürze bei Ihnen.</small>
+            </p>
+        </div>
+        
+        <div class="anyever-footer">
+            <img 
+                src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" 
+                alt="ANY EVER Logo" 
+                class="logo-footer"
+            >
+            <div class="tagline">ENJOY.AUDIO</div>
+        </div>
+    </div>
+    
+    <script>
+        // Automatisches Speichern der Formulardaten
+        function saveFormData() {
+            const formData = new FormData(document.getElementById('briefingForm'));
+            const data = {};
+            
+            // Alle Textfelder und Selects speichern
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    // Für Checkboxen - mehrere Werte sammeln
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Checkbox-Zustände separat speichern
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                data[checkbox.name + '_checked'] = checkbox.checked;
+            });
+            
+            // Radio-Button-Zustände speichern
+            const radios = document.querySelectorAll('input[type="radio"]:checked');
+            radios.forEach(radio => {
+                data[radio.name + '_selected'] = radio.value;
+            });
+            
+            localStorage.setItem('audioBriefingForm', JSON.stringify(data));
+            
+            // Speicher-Indikator anzeigen
+            const indicator = document.getElementById('savedIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Formulardaten laden
+        function loadFormData() {
+            const savedData = localStorage.getItem('audioBriefingForm');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Textfelder und Selects wiederherstellen
+                for (let [key, value] of Object.entries(data)) {
+                    if (key.endsWith('_checked')) {
+                        // Checkbox-Zustände wiederherstellen
+                        const checkboxName = key.replace('_checked', '');
+                        const checkboxes = document.querySelectorAll(`input[name="${checkboxName}"]`);
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = value;
+                        });
+                    } else if (key.endsWith('_selected')) {
+                        // Radio-Button-Zustände wiederherstellen
+                        const radioName = key.replace('_selected', '');
+                        const radio = document.querySelector(`input[name="${radioName}"][value="${value}"]`);
+                        if (radio) radio.checked = true;
+                    } else {
+                        // Normale Felder wiederherstellen
+                        const field = document.querySelector(`[name="${key}"]`);
+                        if (field && field.type !== 'checkbox' && field.type !== 'radio') {
+                            field.value = Array.isArray(value) ? value[0] : value;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Daten in Zwischenablage kopieren
+        function copyToClipboard() {
+            const form = document.getElementById('briefingForm');
+            const formData = new FormData(form);
+            
+            let emailText = "SOUND BRANDING BRIEFING | ANY EVER\n";
+            emailText += "=".repeat(50) + "\n\n";
+            
+            // 1. Unternehmensdetails
+            emailText += "01 | UNTERNEHMENSDETAILS\n";
+            emailText += "-".repeat(25) + "\n";
+            emailText += `Unternehmensname: ${formData.get('company-name') || 'Nicht angegeben'}\n`;
+            emailText += `Branche: ${formData.get('industry') || 'Nicht angegeben'}\n`;
+            emailText += `Zielgruppe: ${formData.get('target-audience') || 'Nicht angegeben'}\n`;
+            emailText += `Markenwerte: ${formData.get('brand-values') || 'Nicht angegeben'}\n\n`;
+            
+            // 2. Projektziele
+            emailText += "02 | PROJEKTZIELE\n";
+            emailText += "-".repeat(17) + "\n";
+            emailText += `Ziele: ${formData.get('project-goals') || 'Nicht angegeben'}\n`;
+            
+            // Emotionen sammeln
+            const emotions = formData.getAll('emotions');
+            if (emotions.length > 0) {
+                emailText += `Gewünschte Emotionen: ${emotions.join(', ')}\n`;
+            }
+            emailText += `Weitere Emotionen: ${formData.get('additional-emotions') || 'Nicht angegeben'}\n\n`;
+            
+            // 3. Klangpräferenzen
+            emailText += "03 | KLANGPRÄFERENZEN\n";
+            emailText += "-".repeat(21) + "\n";
+            const musicStyles = formData.getAll('music-styles');
+            if (musicStyles.length > 0) {
+                emailText += `Musikstile: ${musicStyles.join(', ')}\n`;
+            }
+            emailText += `Instrumente: ${formData.get('preferred-instruments') || 'Nicht angegeben'}\n`;
+            emailText += `Inspirationen: ${formData.get('examples-inspiration') || 'Nicht angegeben'}\n\n`;
+            
+            // 4. Wettbewerb
+            emailText += "04 | WETTBEWERBSUMFELD\n";
+            emailText += "-".repeat(22) + "\n";
+            emailText += `Wettbewerber: ${formData.get('competitors-audio') || 'Nicht angegeben'}\n`;
+            emailText += `Abgrenzung: ${formData.get('differentiation') || 'Nicht angegeben'}\n\n`;
+            
+            // 5. Anwendungsbereiche
+            emailText += "05 | ANWENDUNGSBEREICHE\n";
+            emailText += "-".repeat(23) + "\n";
+            const usageAreas = formData.getAll('usage-areas');
+            if (usageAreas.length > 0) {
+                emailText += `Einsatzorte: ${usageAreas.join(', ')}\n`;
+            }
+            emailText += `Plattform-Anforderungen: ${formData.get('platform-requirements') || 'Nicht angegeben'}\n\n`;
+            
+            // 6. Technische Anforderungen
+            emailText += "06 | TECHNISCHE ANFORDERUNGEN\n";
+            emailText += "-".repeat(31) + "\n";
+            emailText += `Länge: ${formData.get('duration') || 'Nicht angegeben'}`;
+            if (formData.get('custom-duration')) {
+                emailText += ` (${formData.get('custom-duration')} Sekunden)`;
+            }
+            emailText += "\n";
+            
+            const formats = formData.getAll('formats');
+            if (formats.length > 0) {
+                emailText += `Dateiformate: ${formats.join(', ')}\n`;
+            }
+            emailText += `Weitere tech. Specs: ${formData.get('technical-specs') || 'Nicht angegeben'}\n\n`;
+            
+            // 7. Zeitplan
+            emailText += "07 | ZEITPLAN\n";
+            emailText += "-".repeat(12) + "\n";
+            emailText += `Deadline: ${formData.get('deadline') || 'Nicht angegeben'}\n`;
+            emailText += `Priorität: ${formData.get('urgency') || 'Normal'}\n\n`;
+            
+            // 8. Sonstiges
+            emailText += "08 | SONSTIGES\n";
+            emailText += "-".repeat(14) + "\n";
+            emailText += `Weitere Hinweise: ${formData.get('additional-notes') || 'Nicht angegeben'}\n\n`;
+            
+            // Kontaktdaten
+            emailText += "KONTAKTDATEN\n";
+            emailText += "-".repeat(12) + "\n";
+            emailText += `Name: ${formData.get('contact-name') || 'Nicht angegeben'}\n`;
+            emailText += `E-Mail: ${formData.get('contact-email') || 'Nicht angegeben'}\n\n`;
+            
+            emailText += "---\n";
+            emailText += "Gesendet über das ANY EVER Sound Branding Briefing\n";
+            emailText += "ENJOY.AUDIO\n\n";
+            emailText += "Bitte senden Sie dieses Briefing an: mail@anyever.de\n";
+            emailText += `Betreff: Sound Branding Briefing | ${formData.get('company-name') || 'Neuer Kunde'}`;
+            
+            // In Zwischenablage kopieren
+            navigator.clipboard.writeText(emailText).then(function() {
+                // Erfolgs-Feedback
+                const indicator = document.getElementById('savedIndicator');
+                indicator.textContent = 'In Zwischenablage kopiert ✓';
+                indicator.classList.add('show');
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                    setTimeout(() => {
+                        indicator.textContent = 'Automatisch gespeichert ✓';
+                    }, 300);
+                }, 3000);
+                
+                // Zusätzlicher Hinweis
+                alert('Briefing-Daten wurden in die Zwischenablage kopiert!\n\nSo geht\'s weiter:\n1. Öffnen Sie Ihr Webmail (Gmail, Outlook.com, etc.)\n2. Neue E-Mail erstellen\n3. An: mail@anyever.de\n4. Betreff wird automatisch eingefügt\n5. Strg+V (oder Cmd+V) zum Einfügen der Daten\n6. E-Mail senden');
+            }).catch(function(err) {
+                // Fallback für ältere Browser
+                alert('Copy-Funktion nicht verfügbar. Bitte verwenden Sie den "Per E-Mail versenden" Button oder kontaktieren Sie uns direkt unter mail@anyever.de');
+            });
+        }
+        
+        // Formular absenden per E-Mail
+        function submitForm() {
+            const form = document.getElementById('briefingForm');
+            const formData = new FormData(form);
+            
+            let emailBody = "SOUND BRANDING BRIEFING | ANY EVER\n";
+            emailBody += "=".repeat(50) + "\n\n";
+            
+            // 1. Unternehmensdetails
+            emailBody += "01 | UNTERNEHMENSDETAILS\n";
+            emailBody += "-".repeat(25) + "\n";
+            emailBody += `Unternehmensname: ${formData.get('company-name') || 'Nicht angegeben'}\n`;
+            emailBody += `Branche: ${formData.get('industry') || 'Nicht angegeben'}\n`;
+            emailBody += `Zielgruppe: ${formData.get('target-audience') || 'Nicht angegeben'}\n`;
+            emailBody += `Markenwerte: ${formData.get('brand-values') || 'Nicht angegeben'}\n\n`;
+            
+            // 2. Projektziele
+            emailBody += "02 | PROJEKTZIELE\n";
+            emailBody += "-".repeat(17) + "\n";
+            emailBody += `Ziele: ${formData.get('project-goals') || 'Nicht angegeben'}\n`;
+            
+            // Emotionen sammeln
+            const emotions = formData.getAll('emotions');
+            if (emotions.length > 0) {
+                emailBody += `Gewünschte Emotionen: ${emotions.join(', ')}\n`;
+            }
+            emailBody += `Weitere Emotionen: ${formData.get('additional-emotions') || 'Nicht angegeben'}\n\n`;
+            
+            // 3. Klangpräferenzen
+            emailBody += "03 | KLANGPRÄFERENZEN\n";
+            emailBody += "-".repeat(21) + "\n";
+            const musicStyles = formData.getAll('music-styles');
+            if (musicStyles.length > 0) {
+                emailBody += `Musikstile: ${musicStyles.join(', ')}\n`;
+            }
+            emailBody += `Instrumente: ${formData.get('preferred-instruments') || 'Nicht angegeben'}\n`;
+            emailBody += `Inspirationen: ${formData.get('examples-inspiration') || 'Nicht angegeben'}\n\n`;
+            
+            // 4. Wettbewerb
+            emailBody += "04 | WETTBEWERBSUMFELD\n";
+            emailBody += "-".repeat(22) + "\n";
+            emailBody += `Wettbewerber: ${formData.get('competitors-audio') || 'Nicht angegeben'}\n`;
+            emailBody += `Abgrenzung: ${formData.get('differentiation') || 'Nicht angegeben'}\n\n`;
+            
+            // 5. Anwendungsbereiche
+            emailBody += "05 | ANWENDUNGSBEREICHE\n";
+            emailBody += "-".repeat(23) + "\n";
+            const usageAreas = formData.getAll('usage-areas');
+            if (usageAreas.length > 0) {
+                emailBody += `Einsatzorte: ${usageAreas.join(', ')}\n`;
+            }
+            emailBody += `Plattform-Anforderungen: ${formData.get('platform-requirements') || 'Nicht angegeben'}\n\n`;
+            
+            // 6. Technische Anforderungen
+            emailBody += "06 | TECHNISCHE ANFORDERUNGEN\n";
+            emailBody += "-".repeat(31) + "\n";
+            emailBody += `Länge: ${formData.get('duration') || 'Nicht angegeben'}`;
+            if (formData.get('custom-duration')) {
+                emailBody += ` (${formData.get('custom-duration')} Sekunden)`;
+            }
+            emailBody += "\n";
+            
+            const formats = formData.getAll('formats');
+            if (formats.length > 0) {
+                emailBody += `Dateiformate: ${formats.join(', ')}\n`;
+            }
+            emailBody += `Weitere tech. Specs: ${formData.get('technical-specs') || 'Nicht angegeben'}\n\n`;
+            
+            // 7. Zeitplan
+            emailBody += "07 | ZEITPLAN\n";
+            emailBody += "-".repeat(12) + "\n";
+            emailBody += `Deadline: ${formData.get('deadline') || 'Nicht angegeben'}\n`;
+            emailBody += `Priorität: ${formData.get('urgency') || 'Normal'}\n\n`;
+            
+            // 8. Sonstiges
+            emailBody += "08 | SONSTIGES\n";
+            emailBody += "-".repeat(14) + "\n";
+            emailBody += `Weitere Hinweise: ${formData.get('additional-notes') || 'Nicht angegeben'}\n\n`;
+            
+            // Kontaktdaten
+            emailBody += "KONTAKTDATEN\n";
+            emailBody += "-".repeat(12) + "\n";
+            emailBody += `Name: ${formData.get('contact-name') || 'Nicht angegeben'}\n`;
+            emailBody += `E-Mail: ${formData.get('contact-email') || 'Nicht angegeben'}\n\n`;
+            
+            emailBody += "---\n";
+            emailBody += "Gesendet über das ANY EVER Sound Branding Briefing\n";
+            emailBody += "\n";
+            emailBody += "ENJOY.AUDIO\n";
+            
+            // E-Mail öffnen
+            const subject = encodeURIComponent(`Sound Branding Briefing | ${formData.get('company-name') || 'Neuer Kunde'}`);
+            const body = encodeURIComponent(emailBody);
+            const mailtoLink = `mailto:mail@anyever.de?subject=${subject}&body=${body}`;
+
+            // E-Mail-Programm öffnen
+            window.location.href = mailtoLink;
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gespeicherte Daten laden
+            loadFormData();
+            
+            // Auto-Save bei Eingaben
+            const form = document.getElementById('briefingForm');
+            let saveTimeout;
+            
+            form.addEventListener('input', function() {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(saveFormData, 1000); // Nach 1 Sekunde speichern
+            });
+            
+            form.addEventListener('change', function() {
+                clearTimeout(saveTimeout);
+                saveFormData(); // Sofort bei Checkbox/Radio-Änderungen speichern
+            });
+        });
+        
+        // Warnung beim Verlassen der Seite (falls nicht gespeichert)
+        window.addEventListener('beforeunload', function(e) {
+            const form = document.getElementById('briefingForm');
+            const formData = new FormData(form);
+            let hasData = false;
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() !== '') {
+                    hasData = true;
+                    break;
+                }
+            }
+            
+            if (hasData) {
+                saveFormData();
+            }
+        });
+    </script>
+</body>
+</html>
