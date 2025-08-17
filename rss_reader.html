@@ -120,6 +120,7 @@
                 this.refreshAllBtn = document.getElementById('refreshAllBtn');
                 this.feeds = [];
                 this.currentFeedId = null;
+                this.isAddingFeed = false; // <-- DIESE ZEILE HINZUFÜGEN
                 this.loadFeed = this.loadFeed.bind(this);
                 this.bindEvents();
                 this.loadSavedFeeds();
@@ -152,33 +153,50 @@
             }
 
             async addFeed() {
-                const name = this.feedNameInput.value.trim();
-                const url = this.feedUrlInput.value.trim();
-                if (!name || !url) {
-                    alert('Bitte Name und URL eingeben.');
-                    return;
-                }
-                const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
-                try {
-                    this.addFeedBtn.disabled = true;
-                    this.addFeedBtn.textContent = 'Speichert...';
-                    const response = await fetch(addWebhookUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name: name, url: url })
-                    });
-                    if (!response.ok) throw new Error('Fehler beim Senden der Daten.');
-                    this.feedNameInput.value = '';
-                    this.feedUrlInput.value = '';
-                    await this.loadSavedFeeds();
-                } catch (error) {
-                    console.error("Fehler beim Hinzufügen des Feeds:", error);
-                    alert("Der Feed konnte nicht hinzugefügt werden.");
-                } finally {
-                    this.addFeedBtn.disabled = false;
-                    this.addFeedBtn.textContent = 'Feed hinzufügen';
-                }
+            // NEU: Bricht ab, wenn bereits ein Hinzufügen-Vorgang läuft
+            if (this.isAddingFeed) {
+                return;
             }
+        
+            const name = this.feedNameInput.value.trim();
+            const url = this.feedUrlInput.value.trim();
+        
+            if (!name || !url) {
+                alert('Bitte Name und URL eingeben.');
+                return;
+            }
+        
+            const addWebhookUrl = 'IHRE_ADD_WEBHOOK_URL_HIER';
+        
+            try {
+                this.isAddingFeed = true; // NEU: Sperre aktivieren
+                this.addFeedBtn.disabled = true;
+                this.addFeedBtn.textContent = 'Speichert...';
+                
+                const response = await fetch(addWebhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, url: url })
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Fehler beim Senden der Daten.');
+                }
+        
+                this.feedNameInput.value = '';
+                this.feedUrlInput.value = '';
+                
+                await this.loadSavedFeeds();
+        
+            } catch (error) {
+                console.error("Fehler beim Hinzufügen des Feeds:", error);
+                alert("Der Feed konnte nicht hinzugefügt werden.");
+            } finally {
+                this.isAddingFeed = false; // NEU: Sperre wieder freigeben
+                this.addFeedBtn.disabled = false;
+                this.addFeedBtn.textContent = 'Feed hinzufügen';
+            }
+        }
 
             async deleteFeed(feedId) {
                 if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) return;
