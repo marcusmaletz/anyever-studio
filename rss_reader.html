@@ -427,19 +427,6 @@
 
     <script>
         class RSSReaderPro {
-            constructor() {
-                this.feedNameInput = document.getElementById('feedName');
-                this.feedUrlInput = document.getElementById('feedUrl');
-                this.addFeedBtn = document.getElementById('addFeedBtn');
-                this.savedFeedsList = document.getElementById('savedFeedsList');
-                this.contentArea = document.getElementById('contentArea');
-                this.feedCountSpan = document.getElementById('feedCount');
-                this.refreshAllBtn = document.getElementById('refreshAllBtn');
-                this.clearAllBtn = document.getElementById('clearAllBtn');
-                this.feeds = [];
-                this.currentFeedId = null;
-                this.loadFeed = this.loadFeed.bind(this); // <-- DIESE ZEILE HINZUFÜGEN
-                this.bindEvents();class RSSReaderPro {
     constructor() {
         this.feedNameInput = document.getElementById('feedName');
         this.feedUrlInput = document.getElementById('feedUrl');
@@ -470,7 +457,6 @@
         this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
     }
 
-    // --- NEUE DEBUG-VERSION VON loadSavedFeeds ---
     async loadSavedFeeds() {
         const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
 
@@ -501,7 +487,6 @@
         }
     }
 
-    // --- NEUE DEBUG-VERSION VON renderSavedFeeds ---
     renderSavedFeeds() {
         console.log(`🔄 Schritt 2/5: renderSavedFeeds wird aufgerufen. Anzahl Feeds: ${this.feeds.length}`);
         
@@ -536,7 +521,6 @@
         });
     }
 
-    // --- NEUE DEBUG-VERSION VON loadFeed ---
     async loadFeed(feedId) {
         const feed = this.feeds.find(f => f.id === feedId);
         if (!feed) return;
@@ -573,7 +557,6 @@
         }
     }
     
-    // Die restlichen Funktionen bleiben unverändert...
     selectFeed(feedId) {
         this.currentFeedId = feedId;
         this.displayFeed(feedId);
@@ -621,13 +604,17 @@
     showWelcome() {
         this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
     }
-    // Dummy-Funktionen für add/delete/refresh, damit sie keinen Fehler werfen, aber erstmal nichts tun
+
     addFeed() { alert('Hinzufügen muss noch mit Make verbunden werden.'); }
     clearAllFeeds() { alert('Löschen muss noch mit Make verbunden werden.'); }
     refreshAllFeeds() { this.loadSavedFeeds(); }
     deleteFeed() { alert('Einzeln löschen muss noch mit Make verbunden werden.'); }
-}
-        document.addEventListener('DOMContentLoaded', () => new RSSReaderPro());
+} // <-- Dies ist die wichtige schließende Klammer der Klasse
+
+// Die Anwendung starten, sobald das DOM geladen ist
+document.addEventListener('DOMContentLoaded', () => {
+    new RSSReaderPro();
+});
     </script>
 </body>
 </html>
