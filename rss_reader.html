@@ -4,384 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSS-Reader Pro | ANY EVER</title>
-    
     <link rel="stylesheet" href="any-ever-brand.css">
-    
     <style>
-        body {
-            padding: 24px;
-        }
-
-        .container {
-            max-width: 1280px; /* Finale Breite */
-            margin: 0 auto;
-            border-radius: 16px;
-            min-height: calc(100vh - 48px);
-            overflow: hidden;
-        }
-
-        .header {
-            background: var(--any-ever-white);
-            padding: 60px 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px 16px 0 0;
-            border-bottom: 2px solid var(--any-ever-gold);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat;
-            background-size: cover; /* <-- Das ist die korrekte Einstellung */
-            z-index: 1;
-        }
-        
-        /* Dies ist die entscheidende Regel, die den Inhalt nach vorne holt */
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .input-group, .feed-management-actions {
-            display: flex;
-            align-items: stretch;
-        }
-
-.input-group .btn, .feed-management-actions .action-btn {
-    height: auto;
-}
-        .back-button {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: var(--any-ever-bright-grey);
-            border: 1px solid var(--border-light);
-            color: var(--any-ever-black);
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: var(--font-weight-medium);
-            transition: all 0.3s ease;
-            z-index: 10; /* Extra hoher z-index zur Sicherheit */
-        }
-
-        .back-button:hover {
-            background: var(--any-ever-stone-grey);
-            border-color: var(--border-medium);
-            transform: translateY(-1px);
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-anyever {
-            width: 200px;
-            height: auto;
-            margin-bottom: 10px;
-            opacity: 0.95;
-        }
-
-        .enjoy-audio {
-            font-size: 14px;
-            font-weight: var(--font-weight-medium);
-            letter-spacing: var(--letter-spacing-medium);
-            color: var(--any-ever-black);
-            text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 100;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
-        }
-
-        .header p {
-            color: var(--any-ever-light-grey);
-            font-size: 1.1rem;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            min-height: calc(100vh - 200px);
-        }
-
-        .sidebar {
-            background: var(--any-ever-bright-grey);
-            border-right: 1px solid var(--border-light);
-            padding: 40px 30px;
-        }
-
-        .add-feed-section h3,
-        .saved-feeds h3 {
-            font-size: 1.1rem;
-            letter-spacing: var(--letter-spacing-medium);
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--any-ever-gold);
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .feed-input {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 16px;
-        }
-
-        .feed-management-actions {
-            margin-bottom: 25px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            padding: 10px 15px;
-            font-size: 12px;
-            background: var(--any-ever-stone-grey);
-            color: var(--any-ever-white);
-        }
-
-        .action-btn:hover {
-            background: var(--any-ever-dark-grey);
-        }
-
-        .action-btn.primary {
-            background: var(--gradient-gold);
-            box-shadow: var(--shadow-gold);
-        }
-        
-        .action-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px -3px rgba(192, 174, 102, 0.4);
-        }
-
-        .feed-item {
-            background: var(--background-content);
-            border: 2px solid var(--border-light);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .feed-item:hover {
-            border-color: var(--any-ever-gold);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(192, 174, 102, 0.1);
-        }
-
-        .feed-item.active {
-            border-color: var(--any-ever-gold);
-            box-shadow: var(--focus-gold);
-            background: linear-gradient(135deg, rgba(192, 174, 102, 0.05) 0%, rgba(212, 192, 120, 0.05) 100%);
-        }
-
-        .feed-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .feed-item-title {
-            font-weight: var(--font-weight-bold);
-            font-size: 14px;
-            letter-spacing: var(--letter-spacing-normal);
-            flex: 1;
-            margin-right: 15px;
-        }
-
-        .delete-btn {
-            background: transparent;
-            color: var(--any-ever-stone-grey);
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .delete-btn:hover {
-            color: #dc2626;
-        }
-
-        .feed-item-url {
-            color: var(--any-ever-light-grey);
-            font-size: 11px;
-            word-break: break-all;
-            margin-bottom: 8px;
-        }
-
-        .feed-item-count {
-            color: var(--any-ever-gold);
-            font-size: 12px;
-            font-weight: var(--font-weight-medium);
-            letter-spacing: var(--letter-spacing-normal);
-        }
-
-        .content-area {
-            padding: 40px 50px;
-            overflow-y: auto;
-            background: var(--background-main);
-        }
-
-        .loading .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 20px auto;
-        }
-        
-        .loading p {
-            font-size: 18px;
-            color: var(--any-ever-light-grey);
-            text-align: center;
-        }
-
-        .articles-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--any-ever-gold);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .articles-title {
-            font-size: 1.8rem;
-        }
-        
-        .articles-count {
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-
-        .article {
-            margin-bottom: 30px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-light);
-        }
-
-        .article:hover {
-            border-color: var(--any-ever-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px -8px rgba(192, 174, 102, 0.2);
-        }
-
-        .article-content {
-            padding: 35px;
-        }
-
-        .article h3 a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 1.4rem;
-            letter-spacing: var(--letter-spacing-normal);
-            text-transform: none;
-        }
-
-        .article h3 a:hover {
-            color: var(--any-ever-gold);
-        }
-        
-        .article-meta {
-            color: var(--any-ever-light-grey);
-            font-size: 14px;
-            margin: 15px 0;
-            letter-spacing: var(--letter-spacing-normal);
-        }
-
-        .article-description {
-            color: var(--any-ever-dark-grey);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .article-link {
-            display: inline-block;
-            color: var(--any-ever-gold);
-            text-decoration: none;
-            font-weight: var(--font-weight-medium);
-            letter-spacing: var(--letter-spacing-normal);
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        
-        .article-link:hover {
-            color: var(--any-ever-black);
-            transform: translateX(5px);
-        }
-        
-        .welcome {
-            text-align: center;
-            padding: 80px 40px;
-        }
-
-        .welcome h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-
-        .welcome p {
-            font-size: 1.1rem;
-            color: var(--any-ever-light-grey);
-            margin-bottom: 15px;
-        }
-
-        .no-feeds-message {
-            text-align: center;
-            color: var(--any-ever-light-grey);
-            font-style: italic;
-            padding: 30px 20px;
-        }
-
-        .last-updated {
-            color: var(--any-ever-stone-grey);
-            font-size: 14px;
-            margin-bottom: 30px;
-            letter-spacing: var(--letter-spacing-normal);
-        }
-
-        @media (max-width: 1024px) {
-            .main-content { grid-template-columns: 1fr; }
-            .sidebar { border-right: none; border-bottom: 1px solid var(--border-light); }
-            .header, .sidebar, .content-area { padding: 30px 25px; }
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 0; }
-            .container { border-radius: 0; min-height: 100vh; }
-            .header, .sidebar, .content-area { padding: 20px 15px; }
-            .feed-management-actions { flex-direction: column; }
-            .back-button {
-                position: static;
-                display: block;
-                margin: 0 auto 20px;
-                width: fit-content;
-            }
-        }
+        body { padding: 24px; }
+        .container { max-width: 1280px; margin: 0 auto; border-radius: 16px; min-height: calc(100vh - 48px); overflow: hidden; }
+        .header { background: var(--any-ever-white); padding: 60px 40px; text-align: center; position: relative; overflow: hidden; border-radius: 16px 16px 0 0; border-bottom: 2px solid var(--any-ever-gold); }
+        .header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,0 L0,0 Z" fill="rgba(250,250,250,1)"/></svg>') no-repeat; background-size: cover; z-index: 1; }
+        .header-content { position: relative; z-index: 2; }
+        .back-button { position: absolute; top: 20px; right: 30px; background: var(--any-ever-bright-grey); border: 1px solid var(--border-light); color: var(--any-ever-black); padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: var(--font-weight-medium); transition: all 0.3s ease; z-index: 10; }
+        .back-button:hover { background: var(--any-ever-stone-grey); border-color: var(--border-medium); transform: translateY(-1px); }
+        .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .logo-anyever { width: 200px; height: auto; margin-bottom: 10px; opacity: 0.95; }
+        .enjoy-audio { font-size: 14px; font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-medium); color: var(--any-ever-black); text-transform: uppercase; margin-top: 5px; }
+        .header h1 { font-size: 2.5rem; font-weight: 100; letter-spacing: 4px; margin-bottom: 15px; }
+        .header p { color: var(--any-ever-light-grey); font-size: 1.1rem; }
+        .main-content { display: grid; grid-template-columns: 400px 1fr; min-height: calc(100vh - 200px); }
+        .sidebar { background: var(--any-ever-bright-grey); border-right: 1px solid var(--border-light); padding: 40px 30px; }
+        .add-feed-section h3, .saved-feeds h3 { font-size: 1.1rem; letter-spacing: var(--letter-spacing-medium); margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--any-ever-gold); }
+        .input-group, .feed-management-actions { display: flex; align-items: stretch; }
+        .input-group { flex-direction: column; gap: 15px; margin-bottom: 25px; }
+        .feed-management-actions { gap: 10px; margin-bottom: 25px; }
+        .input-group .btn, .feed-management-actions .action-btn { height: auto; }
+        .feed-input { width: 100%; padding: 15px 20px; font-size: 16px; }
+        .action-btn { padding: 10px 15px; font-size: 12px; background: var(--any-ever-stone-grey); color: var(--any-ever-white); }
+        .action-btn:hover { background: var(--any-ever-dark-grey); }
+        .action-btn.primary { background: var(--gradient-gold); box-shadow: var(--shadow-gold); }
+        .action-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 15px -3px rgba(192, 174, 102, 0.4); }
+        .feed-item { background: var(--background-content); border: 2px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; padding: 20px; transition: all 0.3s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .feed-item:hover { border-color: var(--any-ever-gold); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192, 174, 102, 0.1); }
+        .feed-item.active { border-color: var(--any-ever-gold); box-shadow: var(--focus-gold); background: linear-gradient(135deg, rgba(192, 174, 102, 0.05) 0%, rgba(212, 192, 120, 0.05) 100%); }
+        .feed-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .feed-item-title { font-weight: var(--font-weight-bold); font-size: 14px; letter-spacing: var(--letter-spacing-normal); flex: 1; margin-right: 15px; }
+        .delete-btn { background: transparent; color: var(--any-ever-stone-grey); border: none; cursor: pointer; font-size: 16px; transition: color 0.3s ease; }
+        .delete-btn:hover { color: #dc2626; }
+        .feed-item-url { color: var(--any-ever-light-grey); font-size: 11px; word-break: break-all; margin-bottom: 8px; }
+        .feed-item-count { color: var(--any-ever-gold); font-size: 12px; font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-normal); }
+        .content-area { padding: 40px 50px; overflow-y: auto; background: var(--background-main); }
+        .loading .spinner { width: 40px; height: 40px; margin: 20px auto; }
+        .loading p { font-size: 18px; color: var(--any-ever-light-grey); text-align: center; }
+        .articles-header { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--any-ever-gold); display: flex; justify-content: space-between; align-items: center; }
+        .articles-title { font-size: 1.8rem; }
+        .articles-count { padding: 8px 16px; font-size: 14px; }
+        .article { margin-bottom: 30px; overflow: hidden; transition: all 0.3s ease; border: 1px solid var(--border-light); }
+        .article:hover { border-color: var(--any-ever-gold); transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(192, 174, 102, 0.2); }
+        .article-content { padding: 35px; }
+        .article h3 a { color: inherit; text-decoration: none; transition: color 0.3s ease; font-size: 1.4rem; letter-spacing: var(--letter-spacing-normal); text-transform: none; }
+        .article h3 a:hover { color: var(--any-ever-gold); }
+        .article-meta { color: var(--any-ever-light-grey); font-size: 14px; margin: 15px 0; letter-spacing: var(--letter-spacing-normal); }
+        .article-description { color: var(--any-ever-dark-grey); line-height: 1.7; margin-bottom: 20px; }
+        .article-link { display: inline-block; color: var(--any-ever-gold); text-decoration: none; font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-normal); transition: all 0.3s ease; font-size: 14px; }
+        .article-link:hover { color: var(--any-ever-black); transform: translateX(5px); }
+        .welcome { text-align: center; padding: 80px 40px; }
+        .welcome h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        .welcome p { font-size: 1.1rem; color: var(--any-ever-light-grey); margin-bottom: 15px; }
+        .no-feeds-message { text-align: center; color: var(--any-ever-light-grey); font-style: italic; padding: 30px 20px; }
+        .last-updated { color: var(--any-ever-stone-grey); font-size: 14px; margin-bottom: 30px; letter-spacing: var(--letter-spacing-normal); }
+        @media (max-width: 1024px) { .main-content { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 1px solid var(--border-light); } .header, .sidebar, .content-area { padding: 30px 25px; } }
+        @media (max-width: 768px) { body { padding: 0; } .container { border-radius: 0; min-height: 100vh; } .header, .sidebar, .content-area { padding: 20px 15px; } .feed-management-actions { flex-direction: column; } .back-button { position: static; display: block; margin: 0 auto 20px; width: fit-content; } }
     </style>
 </head>
 <body>
@@ -393,7 +72,7 @@
                     <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="Any Ever Logo" class="logo-anyever" />
                     <div class="enjoy-audio">ENJOY.AUDIO</div>
                 </div>
-                <h1>ANY NEWS</h1>
+                <h1>RSS-Reader Pro</h1>
                 <p>Ihre Feeds, Ihr Content, an einem Ort.</p>
             </div>
         </div>
@@ -414,9 +93,7 @@
                     <div class="feed-management-actions">
                         <button id="refreshAllBtn" class="action-btn primary">Alle aktualisieren</button>
                     </div>
-                    
-                    <div id="savedFeedsList">
-                    </div>
+                    <div id="savedFeedsList"></div>
                 </div>
             </div>
 
@@ -425,7 +102,6 @@
                     <div class="welcome">
                         <h3>Willkommen beim RSS-Reader Pro</h3>
                         <p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p>
-                        <p>Ihre Feeds werden automatisch in Ihrem Browser gespeichert.</p>
                     </div>
                 </div>
             </div>
@@ -434,239 +110,198 @@
 
     <script>
         class RSSReaderPro {
-    constructor() {
-        // DOM-Elemente abrufen
-        this.feedNameInput = document.getElementById('feedName');
-        this.feedUrlInput = document.getElementById('feedUrl');
-        this.addFeedBtn = document.getElementById('addFeedBtn');
-        this.savedFeedsList = document.getElementById('savedFeedsList');
-        this.contentArea = document.getElementById('contentArea');
-        this.feedCountSpan = document.getElementById('feedCount');
-        this.refreshAllBtn = document.getElementById('refreshAllBtn');
-        
-        // Initialisierung
-        this.feeds = [];
-        this.currentFeedId = null;
-
-        // Kontext für Methoden binden
-        this.loadFeed = this.loadFeed.bind(this);
-
-        // App starten
-        this.bindEvents();
-        this.loadSavedFeeds();
-    }
-
-    bindEvents() {
-        this.addFeedBtn.addEventListener('click', () => this.addFeed());
-        this.feedUrlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
-        this.feedNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
-        this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
-    }
-
-    // ### DATEN VOM SERVER LADEN ###
-    async loadSavedFeeds() {
-        const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
-
-        try {
-            const response = await fetch(makeWebhookUrl);
-            if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
-            
-            const feedsFromServer = await response.json();
-            this.feeds = feedsFromServer;
-            
-            this.renderSavedFeeds(); // Einmal initial rendern
-
-            const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
-            await Promise.all(articlePromises);
-
-            this.renderSavedFeeds(); // Erneut rendern mit Artikelanzahl
-
-        } catch (error) {
-            console.error("Kritischer Fehler in loadSavedFeeds:", error);
-            alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
-            this.feeds = [];
-            this.renderSavedFeeds();
-        }
-    }
-
-    // ### NEUEN FEED ZUR DATENBANK HINZUFÜGEN ###
-    async addFeed() {
-        const name = this.feedNameInput.value.trim();
-        const url = this.feedUrlInput.value.trim();
-
-        if (!name || !url) {
-            alert('Bitte Name und URL eingeben.');
-            return;
-        }
-
-        // ⬇️ BITTE IHRE "ADD"-WEBHOOK URL HIER EINFÜGEN ⬇️
-        const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
-
-        try {
-            this.addFeedBtn.disabled = true;
-            this.addFeedBtn.textContent = 'Speichert...';
-            
-            const response = await fetch(addWebhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name, url: url })
-            });
-
-            if (!response.ok) throw new Error('Fehler beim Senden der Daten.');
-
-            this.feedNameInput.value = '';
-            this.feedUrlInput.value = '';
-            
-            await this.loadSavedFeeds(); // Liste neu laden
-
-        } catch (error) {
-            console.error("Fehler beim Hinzufügen des Feeds:", error);
-            alert("Der Feed konnte nicht hinzugefügt werden.");
-        } finally {
-            this.addFeedBtn.disabled = false;
-            this.addFeedBtn.textContent = 'Feed hinzufügen';
-        }
-    }
-
-    // ### FEED AUS DER DATENBANK LÖSCHEN ###
-    async deleteFeed(feedId) {
-        if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) {
-            return;
-        }
-
-        // ⬇️ BITTE IHRE "DELETE"-WEBHOOK URL HIER EINFÜGEN ⬇️
-        const deleteWebhookUrl = `https://hook.eu2.make.com/fn21jitc94pdiayqxg6s8bcb4pb2sefo?id=${feedId}`;
-
-        try {
-            const response = await fetch(deleteWebhookUrl);
-            if (!response.ok) throw new Error('Fehler beim Löschen auf dem Server.');
-
-            this.feeds = this.feeds.filter(feed => feed.id !== feedId);
-            this.renderSavedFeeds();
-            
-            if (this.currentFeedId === feedId) {
-                this.showWelcome();
+            constructor() {
+                this.feedNameInput = document.getElementById('feedName');
+                this.feedUrlInput = document.getElementById('feedUrl');
+                this.addFeedBtn = document.getElementById('addFeedBtn');
+                this.savedFeedsList = document.getElementById('savedFeedsList');
+                this.contentArea = document.getElementById('contentArea');
+                this.feedCountSpan = document.getElementById('feedCount');
+                this.refreshAllBtn = document.getElementById('refreshAllBtn');
+                this.feeds = [];
+                this.currentFeedId = null;
+                this.loadFeed = this.loadFeed.bind(this);
+                this.bindEvents();
+                this.loadSavedFeeds();
             }
 
-        } catch (error) {
-            console.error("Fehler beim Löschen des Feeds:", error);
-            alert("Der Feed konnte nicht gelöscht werden.");
-        }
-    }
+            bindEvents() {
+                this.addFeedBtn.addEventListener('click', () => this.addFeed());
+                this.feedUrlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
+                this.feedNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
+                this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
+            }
 
-    // ### ARTIKEL FÜR EINEN FEED LADEN ###
-    async loadFeed(feedId) {
-        const feed = this.feeds.find(f => f.id === feedId);
-        if (!feed) return;
+            async loadSavedFeeds() {
+                const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh';
+                try {
+                    const response = await fetch(makeWebhookUrl);
+                    if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
+                    const feedsFromServer = await response.json();
+                    this.feeds = feedsFromServer;
+                    this.renderSavedFeeds();
+                    const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
+                    await Promise.all(articlePromises);
+                    this.renderSavedFeeds();
+                } catch (error) {
+                    console.error("Kritischer Fehler in loadSavedFeeds:", error);
+                    alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
+                    this.feeds = [];
+                    this.renderSavedFeeds();
+                }
+            }
 
-        feed.error = null;
-        feed.articles = [];
+            async addFeed() {
+                const name = this.feedNameInput.value.trim();
+                const url = this.feedUrlInput.value.trim();
+                if (!name || !url) {
+                    alert('Bitte Name und URL eingeben.');
+                    return;
+                }
+                const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+                try {
+                    this.addFeedBtn.disabled = true;
+                    this.addFeedBtn.textContent = 'Speichert...';
+                    const response = await fetch(addWebhookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: name, url: url })
+                    });
+                    if (!response.ok) throw new Error('Fehler beim Senden der Daten.');
+                    this.feedNameInput.value = '';
+                    this.feedUrlInput.value = '';
+                    await this.loadSavedFeeds();
+                } catch (error) {
+                    console.error("Fehler beim Hinzufügen des Feeds:", error);
+                    alert("Der Feed konnte nicht hinzugefügt werden.");
+                } finally {
+                    this.addFeedBtn.disabled = false;
+                    this.addFeedBtn.textContent = 'Feed hinzufügen';
+                }
+            }
 
-        try {
-            const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-            const response = await fetch(proxyUrl);
+            async deleteFeed(feedId) {
+                if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) return;
+                const deleteWebhookUrl = `https://hook.eu2.make.com/fn21jitc94pdiayqxg6s8bcb4pb2sefo?id=${feedId}`;
+                try {
+                    const response = await fetch(deleteWebhookUrl);
+                    if (!response.ok) throw new Error('Fehler beim Löschen auf dem Server.');
+                    this.feeds = this.feeds.filter(feed => feed.id !== feedId);
+                    this.renderSavedFeeds();
+                    if (this.currentFeedId === feedId) this.showWelcome();
+                } catch (error) {
+                    console.error("Fehler beim Löschen des Feeds:", error);
+                    alert("Der Feed konnte nicht gelöscht werden.");
+                }
+            }
 
-            if (!response.ok) {
-                feed.error = `Server-Fehler: ${response.status}`;
-                return;
+            async loadFeed(feedId) {
+                const feed = this.feeds.find(f => f.id === feedId);
+                if (!feed) return;
+                feed.error = null;
+                feed.articles = [];
+                try {
+                    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) {
+                        feed.error = `Server-Fehler: ${response.status}`;
+                        return;
+                    }
+                    const data = await response.json();
+                    if (data.status !== 'ok') {
+                        feed.error = `API-Fehler: ${data.message}`;
+                        return;
+                    }
+                    feed.articles = data.items || [];
+                    feed.lastUpdated = new Date().toISOString();
+                    feed.feedTitle = data.feed?.title || feed.name;
+                } catch (error) {
+                    feed.error = "Netzwerkfehler beim Abrufen";
+                }
+            }
+
+            refreshAllFeeds() {
+                this.contentArea.innerHTML = '';
+                this.loadSavedFeeds();
+            }
+
+            renderSavedFeeds() {
+                this.feedCountSpan.textContent = `(${this.feeds.length})`;
+                if (this.feeds.length === 0) {
+                    this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
+                    return;
+                }
+                this.savedFeedsList.innerHTML = '';
+                this.feeds.forEach(feed => {
+                    const item = document.createElement('div');
+                    item.className = `feed-item ${feed.id === this.currentFeedId ? 'active' : ''}`;
+                    item.innerHTML = `
+                        <div class="feed-item-header">
+                            <div class="feed-item-title">${feed.name}</div>
+                            <button class="delete-btn" title="Löschen">✕</button>
+                        </div>
+                        <div class="feed-item-url">${feed.url}</div>
+                        <div class="feed-item-count">${feed.articles ? feed.articles.length : 0} Artikel</div>
+                    `;
+                    item.addEventListener('click', (e) => {
+                        if (!e.target.classList.contains('delete-btn')) this.selectFeed(feed.id);
+                    });
+                    item.querySelector('.delete-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.deleteFeed(feed.id);
+                    });
+                    this.savedFeedsList.appendChild(item);
+                });
             }
             
-            const data = await response.json();
-
-            if (data.status !== 'ok') {
-                feed.error = `API-Fehler: ${data.message}`;
-                return;
+            selectFeed(feedId) {
+                this.currentFeedId = feedId;
+                this.displayFeed(feedId);
+                this.renderSavedFeeds();
             }
             
-            feed.articles = data.items || [];
-            feed.lastUpdated = new Date().toISOString();
-            feed.feedTitle = data.feed?.title || feed.name;
-
-        } catch (error) {
-            feed.error = "Netzwerkfehler beim Abrufen";
-        }
-    }
-
-    // ### ALLES NEU LADEN ###
-    refreshAllFeeds() {
-        this.contentArea.innerHTML = ''; // Leert den rechten Bereich
-        this.loadSavedFeeds();
-    }
-
-    // ### UI-FUNKTIONEN (unverändert) ###
-    renderSavedFeeds() {
-        this.feedCountSpan.textContent = `(${this.feeds.length})`;
-        if (this.feeds.length === 0) {
-            this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
-            return;
-        }
-        this.savedFeedsList.innerHTML = '';
-        this.feeds.forEach(feed => {
-            const item = document.createElement('div');
-            item.className = `feed-item ${feed.id === this.currentFeedId ? 'active' : ''}`;
-            item.innerHTML = `
-                <div class.feed-item-header">
-                    <div class="feed-item-title">${feed.name}</div>
-                    <button class="delete-btn" title="Löschen">✕</button>
-                </div>
-                <div class="feed-item-url">${feed.url}</div>
-                <div class="feed-item-count">${feed.articles ? feed.articles.length : 0} Artikel</div>
-            `;
-            item.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('delete-btn')) this.selectFeed(feed.id);
-            });
-            item.querySelector('.delete-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.deleteFeed(feed.id);
-            });
-            this.savedFeedsList.appendChild(item);
-        });
-    }
-    
-    selectFeed(feedId) {
-        this.currentFeedId = feedId;
-        this.displayFeed(feedId);
-        this.renderSavedFeeds();
-    }
-            
-    displayFeed(feedId) {
-        const feed = this.feeds.find(f => f.id === feedId);
-        if (!feed) return;
-        if (feed.error) {
-            this.contentArea.innerHTML = `<div class="status-message error"><strong>Fehler bei "${feed.name}":</strong> ${feed.error}</div>`;
-            return;
-        }
-        if (!feed.articles || feed.articles.length === 0) {
-            this.contentArea.innerHTML = `<div class="welcome"><h3>Keine Artikel gefunden</h3><p>Der Feed "${feed.name}" enthält aktuell keine Artikel.</p></div>`;
-            return;
-        }
-        const lastUpdated = feed.lastUpdated ? new Date(feed.lastUpdated).toLocaleString('de-DE') : 'Unbekannt';
-        const articlesHTML = feed.articles.map(item => {
-            const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE') : 'Unbekanntes Datum';
-            const description = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Keine Beschreibung verfügbar.';
-            return `
-                <article class="article card">
-                    <div class="article-content">
-                        <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title || 'Ohne Titel'}</a></h3>
-                        <div class="article-meta">${pubDate} | ${feed.feedTitle || feed.name}</div>
-                        <div class="article-description">${description}</div>
-                        <a href="${item.link}" class="article-link" target="_blank" rel="noopener noreferrer">Artikel lesen →</a>
+            displayFeed(feedId) {
+                const feed = this.feeds.find(f => f.id === feedId);
+                if (!feed) return;
+                if (feed.error) {
+                    this.contentArea.innerHTML = `<div class="status-message error"><strong>Fehler bei "${feed.name}":</strong> ${feed.error}</div>`;
+                    return;
+                }
+                if (!feed.articles || feed.articles.length === 0) {
+                    this.contentArea.innerHTML = `<div class="welcome"><h3>Keine Artikel gefunden</h3><p>Der Feed "${feed.name}" enthält aktuell keine Artikel.</p></div>`;
+                    return;
+                }
+                const lastUpdated = feed.lastUpdated ? new Date(feed.lastUpdated).toLocaleString('de-DE') : 'Unbekannt';
+                const articlesHTML = feed.articles.map(item => {
+                    const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE') : 'Unbekanntes Datum';
+                    const description = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Keine Beschreibung verfügbar.';
+                    return `
+                        <article class="article card">
+                            <div class="article-content">
+                                <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title || 'Ohne Titel'}</a></h3>
+                                <div class="article-meta">${pubDate} | ${feed.feedTitle || feed.name}</div>
+                                <div class="article-description">${description}</div>
+                                <a href="${item.link}" class="article-link" target="_blank" rel="noopener noreferrer">Artikel lesen →</a>
+                            </div>
+                        </article>`;
+                }).join('');
+                this.contentArea.innerHTML = `
+                    <div class="articles-header">
+                        <div class="articles-title">${feed.feedTitle || feed.name}</div>
+                        <div class="badge articles-count">${feed.articles.length} Artikel</div>
                     </div>
-                </article>`;
-        }).join('');
-        this.contentArea.innerHTML = `
-            <div class="articles-header">
-                <div class="articles-title">${feed.feedTitle || feed.name}</div>
-                <div class="badge articles-count">${feed.articles.length} Artikel</div>
-            </div>
-            <div class="last-updated uppercase">Zuletzt aktualisiert: ${lastUpdated}</div>
-            ${articlesHTML}`;
-    }
+                    <div class="last-updated uppercase">Zuletzt aktualisiert: ${lastUpdated}</div>
+                    ${articlesHTML}`;
+            }
 
-    showWelcome() {
-        this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
-    }
-}
+            showWelcome() {
+                this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new RSSReaderPro();
+        });
     </script>
 </body>
 </html>
