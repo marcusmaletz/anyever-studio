@@ -569,6 +569,43 @@
         this.displayFeed(feedId);
         this.renderSavedFeeds();
     }
+
+        async addFeed() {
+            const nameInput = this.feedNameInput;
+            const urlInput = this.feedUrlInput;
+            const name = nameInput.value.trim();
+            const url = urlInput.value.trim();
+        
+            if (!name || !url) {
+                alert('Bitte Name und URL eingeben.');
+                return;
+            }
+        
+            const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+        
+            try {
+                const response = await fetch(addWebhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, url: url })
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Fehler beim Senden der Daten.');
+                }
+        
+                nameInput.value = '';
+                urlInput.value = '';
+                
+                // Liste neu laden, um den neuen Feed anzuzeigen
+                await this.loadSavedFeeds();
+        
+            } catch (error) {
+                console.error("Fehler beim Hinzufügen des Feeds:", error);
+                alert("Der Feed konnte nicht hinzugefügt werden.");
+            }
+        }
+
             
     displayFeed(feedId) {
         const feed = this.feeds.find(f => f.id === feedId);
