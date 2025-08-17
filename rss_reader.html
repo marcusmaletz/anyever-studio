@@ -439,225 +439,194 @@
                 this.feeds = [];
                 this.currentFeedId = null;
                 this.loadFeed = this.loadFeed.bind(this); // <-- DIESE ZEILE HINZUFÜGEN
-                this.bindEvents();
-                this.loadSavedFeeds();
-            }
+                this.bindEvents();class RSSReaderPro {
+    constructor() {
+        this.feedNameInput = document.getElementById('feedName');
+        this.feedUrlInput = document.getElementById('feedUrl');
+        this.addFeedBtn = document.getElementById('addFeedBtn');
+        this.savedFeedsList = document.getElementById('savedFeedsList');
+        this.contentArea = document.getElementById('contentArea');
+        this.feedCountSpan = document.getElementById('feedCount');
+        this.refreshAllBtn = document.getElementById('refreshAllBtn');
+        this.clearAllBtn = document.getElementById('clearAllBtn');
+        this.feeds = [];
+        this.currentFeedId = null;
 
-            bindEvents() {
-                this.addFeedBtn.addEventListener('click', () => this.addFeed());
-                this.feedUrlInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.addFeed();
-                });
-                this.feedNameInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.addFeed();
-                });
-                this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
-                this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
-            }
+        this.loadFeed = this.loadFeed.bind(this);
 
-            generateId() {
-                return 'feed_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            }
+        this.bindEvents();
+        this.loadSavedFeeds();
+    }
 
-            async addFeed() {
-                const name = this.feedNameInput.value.trim();
-                const url = this.feedUrlInput.value.trim();
+    bindEvents() {
+        this.addFeedBtn.addEventListener('click', () => this.addFeed());
+        this.feedUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.addFeed();
+        });
+        this.feedNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.addFeed();
+        });
+        this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
+        this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
+    }
 
-                if (!name || !url) {
-                    alert('Bitte geben Sie sowohl einen Namen als auch eine URL ein.');
-                    return;
-                }
-                if (this.feeds.some(feed => feed.url === url)) {
-                    alert('Dieser Feed ist bereits gespeichert.');
-                    return;
-                }
+    // --- NEUE DEBUG-VERSION VON loadSavedFeeds ---
+    async loadSavedFeeds() {
+        const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
 
-                const newFeed = { id: this.generateId(), name, url, articles: [], lastUpdated: null, error: null };
-                this.feeds.push(newFeed);
-                this.saveFeeds();
-                this.renderSavedFeeds();
-                this.feedNameInput.value = '';
-                this.feedUrlInput.value = '';
-
-                this.showLoading();
-                await this.loadFeed(newFeed.id);
-                this.selectFeed(newFeed.id);
-            }
-
-            deleteFeed(feedId) {
-                if (confirm('Möchten Sie diesen Feed wirklich löschen?')) {
-                    this.feeds = this.feeds.filter(feed => feed.id !== feedId);
-                    this.saveFeeds();
-                    this.renderSavedFeeds();
-                    if (this.currentFeedId === feedId) {
-                        this.currentFeedId = null;
-                        this.showWelcome();
-                    }
-                }
-            }
-
-            clearAllFeeds() {
-                if (confirm('Möchten Sie wirklich alle Feeds löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-                    this.feeds = [];
-                    this.currentFeedId = null;
-                    this.saveFeeds();
-                    this.renderSavedFeeds();
-                    this.showWelcome();
-                }
+        try {
+            const response = await fetch(makeWebhookUrl);
+            if (!response.ok) {
+                throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
             }
             
-            saveFeeds() {
-                localStorage.setItem('rssFeeds', JSON.stringify(this.feeds));
-            }
+            const feedsFromServer = await response.json();
+            console.log('✅ Schritt 1: Feeds vom Server erfolgreich empfangen.', feedsFromServer);
+            
+            this.feeds = feedsFromServer;
+            
+            this.renderSavedFeeds();
 
-            loadSavedFeeds() {
-                const savedFeeds = localStorage.getItem('rssFeeds');
-                if (savedFeeds) {
-                    this.feeds = JSON.parse(savedFeeds);
-                }
-                this.renderSavedFeeds();
-            }
+            const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
+            await Promise.all(articlePromises);
 
-            async loadSavedFeeds() {
-            const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
-        
-            try {
-                const response = await fetch(makeWebhookUrl);
-                if (!response.ok) {
-                    throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
-                }
-                
-                const feedsFromServer = await response.json();
-                this.feeds = feedsFromServer;
-                
-                // ---- NEUER, ERWEITERTER TEIL START ----
-        
-                // 1. Zuerst die Feed-Liste anzeigen (noch ohne Artikelanzahl),
-                //    damit der Nutzer sofort eine Rückmeldung hat.
-                this.renderSavedFeeds();
-        
-                // 2. Jetzt die Artikel für alle Feeds im Hintergrund laden.
-                //    Promise.all() sorgt dafür, dass dies parallel und sehr effizient geschieht.
-                const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
-                await Promise.all(articlePromises);
-        
-                // 3. Nach dem Laden aller Artikel die Liste erneut rendern.
-                //    Dadurch wird jetzt die korrekte Artikelanzahl angezeigt.
-                this.renderSavedFeeds();
-        
-                // ---- NEUER, ERWEITERTER TEIL ENDE ----
-        
-            } catch (error) {
-                console.error("Fehler beim Laden der Feeds von Make.com:", error);
-                alert("Die Feeds konnten nicht vom Server geladen werden. Bitte prüfen Sie die Konsole auf Fehler.");
-                this.feeds = [];
-                this.renderSavedFeeds(); // Im Fehlerfall eine leere Liste anzeigen.
-            }
+            console.log('✅ Schritt 4: Alle Artikel geladen, starte finales Rendern.');
+            this.renderSavedFeeds();
+
+        } catch (error) {
+            console.error("❌ Kritischer Fehler in loadSavedFeeds:", error);
+            alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
+            this.feeds = [];
+            this.renderSavedFeeds();
         }
-            async refreshAllFeeds() {
-                this.refreshAllBtn.disabled = true;
-                this.refreshAllBtn.textContent = 'Lädt...';
-                const promises = this.feeds.map(feed => this.loadFeed(feed.id));
-                await Promise.all(promises);
-                this.refreshAllBtn.disabled = false;
-                this.refreshAllBtn.textContent = 'Alle aktualisieren';
-                this.renderSavedFeeds();
-                if (this.currentFeedId) {
-                    this.displayFeed(this.currentFeedId);
-                }
-            }
+    }
 
-            selectFeed(feedId) {
-                this.currentFeedId = feedId;
-                this.displayFeed(feedId);
-                this.renderSavedFeeds();
+    // --- NEUE DEBUG-VERSION VON renderSavedFeeds ---
+    renderSavedFeeds() {
+        console.log(`🔄 Schritt 2/5: renderSavedFeeds wird aufgerufen. Anzahl Feeds: ${this.feeds.length}`);
+        
+        this.feedCountSpan.textContent = `(${this.feeds.length})`;
+
+        if (this.feeds.length === 0) {
+            this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
+            return;
+        }
+
+        this.savedFeedsList.innerHTML = '';
+        this.feeds.forEach(feed => {
+            const isActive = feed.id === this.currentFeedId;
+            const item = document.createElement('div');
+            item.className = `feed-item ${isActive ? 'active' : ''}`;
+            item.innerHTML = `
+                <div class="feed-item-header">
+                    <div class="feed-item-title">${feed.name}</div>
+                    <button class="delete-btn" title="Löschen">✕</button>
+                </div>
+                <div class="feed-item-url">${feed.url}</div>
+                <div class="feed-item-count">${feed.articles ? feed.articles.length : 0} Artikel</div>
+            `;
+            item.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('delete-btn')) this.selectFeed(feed.id);
+            });
+            item.querySelector('.delete-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.deleteFeed(feed.id);
+            });
+            this.savedFeedsList.appendChild(item);
+        });
+    }
+
+    // --- NEUE DEBUG-VERSION VON loadFeed ---
+    async loadFeed(feedId) {
+        const feed = this.feeds.find(f => f.id === feedId);
+        if (!feed) return;
+
+        console.log(`⏳ Schritt 3: Lade Artikel für Feed "${feed.name}"`);
+        feed.error = null;
+        feed.articles = [];
+
+        try {
+            const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+            const response = await fetch(proxyUrl);
+
+            if (!response.ok) {
+                console.error(`Fehler bei Feed "${feed.name}": Server antwortete mit Status ${response.status}`);
+                feed.error = `Server-Fehler: ${response.status}`;
+                return;
             }
             
-            renderSavedFeeds() {
-                this.feedCountSpan.textContent = `(${this.feeds.length})`;
+            const data = await response.json();
 
-                if (this.feeds.length === 0) {
-                    this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
-                    return;
-                }
-
-                this.savedFeedsList.innerHTML = '';
-
-                this.feeds.forEach(feed => {
-                    const isActive = feed.id === this.currentFeedId;
-                    const item = document.createElement('div');
-                    item.className = `feed-item ${isActive ? 'active' : ''}`;
-                    item.innerHTML = `
-                        <div class="feed-item-header">
-                            <div class="feed-item-title">${feed.name}</div>
-                            <button class="delete-btn" title="Löschen">✕</button>
-                        </div>
-                        <div class="feed-item-url">${feed.url}</div>
-                        <div class="feed-item-count">${feed.articles ? feed.articles.length : 0} Artikel</div>
-                    `;
-                    item.addEventListener('click', (e) => {
-                        if (!e.target.classList.contains('delete-btn')) this.selectFeed(feed.id);
-                    });
-                    item.querySelector('.delete-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.deleteFeed(feed.id);
-                    });
-                    this.savedFeedsList.appendChild(item);
-                });
+            if (data.status !== 'ok') {
+                console.error(`Fehler bei Feed "${feed.name}": API meldet "${data.message}"`);
+                feed.error = `API-Fehler: ${data.message}`;
+                return;
             }
             
-            displayFeed(feedId) {
-                const feed = this.feeds.find(f => f.id === feedId);
-                if (!feed) return;
+            feed.articles = data.items || [];
+            feed.lastUpdated = new Date().toISOString();
+            feed.feedTitle = data.feed?.title || feed.name;
 
-                if (feed.error) {
-                    this.contentArea.innerHTML = `<div class="status-message error"><strong>Fehler bei "${feed.name}":</strong> ${feed.error}</div>`;
-                    return;
-                }
-
-                if (!feed.articles || feed.articles.length === 0) {
-                    this.contentArea.innerHTML = `<div class="welcome"><h3>Keine Artikel gefunden</h3><p>Der Feed "${feed.name}" enthält aktuell keine Artikel.</p></div>`;
-                    return;
-                }
-
-                const lastUpdated = new Date(feed.lastUpdated).toLocaleString('de-DE');
-                const articlesHTML = feed.articles.map(item => {
-                    const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE') : 'Unbekanntes Datum';
-                    const description = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Keine Beschreibung verfügbar.';
-                    return `
-                        <article class="article card">
-                            <div class="article-content">
-                                <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title || 'Ohne Titel'}</a></h3>
-                                <div class="article-meta">${pubDate} | ${feed.feedTitle || feed.name}</div>
-                                <div class="article-description">${description}</div>
-                                <a href="${item.link}" class="article-link" target="_blank" rel="noopener noreferrer">Artikel lesen →</a>
-                            </div>
-                        </article>`;
-                }).join('');
-
-                this.contentArea.innerHTML = `
-                    <div class="articles-header">
-                        <div class="articles-title">${feed.feedTitle || feed.name}</div>
-                        <div class="badge articles-count">${feed.articles.length} Artikel</div>
+        } catch (error) {
+            console.error(`Netzwerkfehler bei Feed "${feed.name}":`, error);
+            feed.error = "Netzwerkfehler beim Abrufen";
+        }
+    }
+    
+    // Die restlichen Funktionen bleiben unverändert...
+    selectFeed(feedId) {
+        this.currentFeedId = feedId;
+        this.displayFeed(feedId);
+        this.renderSavedFeeds();
+    }
+            
+    displayFeed(feedId) {
+        const feed = this.feeds.find(f => f.id === feedId);
+        if (!feed) return;
+        if (feed.error) {
+            this.contentArea.innerHTML = `<div class="status-message error"><strong>Fehler bei "${feed.name}":</strong> ${feed.error}</div>`;
+            return;
+        }
+        if (!feed.articles || feed.articles.length === 0) {
+            this.contentArea.innerHTML = `<div class="welcome"><h3>Keine Artikel gefunden</h3><p>Der Feed "${feed.name}" enthält aktuell keine Artikel.</p></div>`;
+            return;
+        }
+        const lastUpdated = new Date(feed.lastUpdated).toLocaleString('de-DE');
+        const articlesHTML = feed.articles.map(item => {
+            const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE') : 'Unbekanntes Datum';
+            const description = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Keine Beschreibung verfügbar.';
+            return `
+                <article class="article card">
+                    <div class="article-content">
+                        <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title || 'Ohne Titel'}</a></h3>
+                        <div class="article-meta">${pubDate} | ${feed.feedTitle || feed.name}</div>
+                        <div class="article-description">${description}</div>
+                        <a href="${item.link}" class="article-link" target="_blank" rel="noopener noreferrer">Artikel lesen →</a>
                     </div>
-                    <div class="last-updated uppercase">Zuletzt aktualisiert: ${lastUpdated}</div>
-                    ${articlesHTML}`;
-            }
+                </article>`;
+        }).join('');
+        this.contentArea.innerHTML = `
+            <div class="articles-header">
+                <div class="articles-title">${feed.feedTitle || feed.name}</div>
+                <div class="badge articles-count">${feed.articles.length} Artikel</div>
+            </div>
+            <div class="last-updated uppercase">Zuletzt aktualisiert: ${lastUpdated}</div>
+            ${articlesHTML}`;
+    }
 
-            showLoading() {
-                this.contentArea.innerHTML = `<div class="loading"><div class="loading-spinner spinner"></div><p>RSS-Feed wird geladen...</p></div>`;
-            }
-            
-            showWelcome() {
-                this.contentArea.innerHTML = `
-                    <div class="welcome">
-                        <h3>Willkommen beim RSS-Reader Pro</h3>
-                        <p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p>
-                        <p>Ihre Feeds werden automatisch in Ihrem Browser gespeichert.</p>
-                    </div>`;
-            }
-        }
-
+    showLoading() {
+        this.contentArea.innerHTML = `<div class="loading"><div class="loading-spinner spinner"></div><p>RSS-Feed wird geladen...</p></div>`;
+    }
+    
+    showWelcome() {
+        this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
+    }
+    // Dummy-Funktionen für add/delete/refresh, damit sie keinen Fehler werfen, aber erstmal nichts tun
+    addFeed() { alert('Hinzufügen muss noch mit Make verbunden werden.'); }
+    clearAllFeeds() { alert('Löschen muss noch mit Make verbunden werden.'); }
+    refreshAllFeeds() { this.loadSavedFeeds(); }
+    deleteFeed() { alert('Einzeln löschen muss noch mit Make verbunden werden.'); }
+}
         document.addEventListener('DOMContentLoaded', () => new RSSReaderPro());
     </script>
 </body>
