@@ -518,33 +518,41 @@
             }
 
             async loadSavedFeeds() {
-            // Ihre konkrete Webhook-URL ist hier eingetragen
             const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
         
             try {
-                // Ruft die Daten von Ihrem Make.com-Szenario ab
                 const response = await fetch(makeWebhookUrl);
-                
-                // Prüft, ob die Anfrage erfolgreich war
                 if (!response.ok) {
                     throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
                 }
                 
-                // Wandelt die Antwort in das JSON-Format um
                 const feedsFromServer = await response.json();
+                this.feeds = feedsFromServer;
                 
-                // Übergibt die geladenen Feeds an die Anwendung
-                this.feeds = feedsFromServer; 
+                // ---- NEUER, ERWEITERTER TEIL START ----
+        
+                // 1. Zuerst die Feed-Liste anzeigen (noch ohne Artikelanzahl),
+                //    damit der Nutzer sofort eine Rückmeldung hat.
+                this.renderSavedFeeds();
+        
+                // 2. Jetzt die Artikel für alle Feeds im Hintergrund laden.
+                //    Promise.all() sorgt dafür, dass dies parallel und sehr effizient geschieht.
+                const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
+                await Promise.all(articlePromises);
+        
+                // 3. Nach dem Laden aller Artikel die Liste erneut rendern.
+                //    Dadurch wird jetzt die korrekte Artikelanzahl angezeigt.
+                this.renderSavedFeeds();
+        
+                // ---- NEUER, ERWEITERTER TEIL ENDE ----
         
             } catch (error) {
                 console.error("Fehler beim Laden der Feeds von Make.com:", error);
                 alert("Die Feeds konnten nicht vom Server geladen werden. Bitte prüfen Sie die Konsole auf Fehler.");
-                this.feeds = []; // Setzt die Feeds auf eine leere Liste, falls ein Fehler auftritt
+                this.feeds = [];
+                this.renderSavedFeeds(); // Im Fehlerfall eine leere Liste anzeigen.
             }
-    
-    // Stellt die geladenen Feeds in der Seitenleiste dar
-    this.renderSavedFeeds();
-}
+        }
             async refreshAllFeeds() {
                 this.refreshAllBtn.disabled = true;
                 this.refreshAllBtn.textContent = 'Lädt...';
