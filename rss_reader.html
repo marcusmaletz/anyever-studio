@@ -517,29 +517,34 @@
                 this.renderSavedFeeds();
             }
 
-            async loadFeed(feedId) {
-                const feed = this.feeds.find(f => f.id === feedId);
-                if (!feed) return;
+            async loadSavedFeeds() {
+            // Ihre konkrete Webhook-URL ist hier eingetragen
+            const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
+        
+            try {
+                // Ruft die Daten von Ihrem Make.com-Szenario ab
+                const response = await fetch(makeWebhookUrl);
                 
-                feed.error = null;
-                try {
-                    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: Status ${response.status}`);
-                    const data = await response.json();
-                    if (data.status !== 'ok') throw new Error(data.message || 'Die RSS-Daten konnten nicht verarbeitet werden.');
-                    
-                    feed.articles = data.items || [];
-                    feed.lastUpdated = new Date().toISOString();
-                    feed.feedTitle = data.feed?.title || feed.name;
-                } catch (error) {
-                    console.error(`Fehler beim Laden des Feeds "${feed.name}":`, error);
-                    feed.error = error.message;
-                    feed.articles = [];
+                // Prüft, ob die Anfrage erfolgreich war
+                if (!response.ok) {
+                    throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
                 }
-                this.saveFeeds();
+                
+                // Wandelt die Antwort in das JSON-Format um
+                const feedsFromServer = await response.json();
+                
+                // Übergibt die geladenen Feeds an die Anwendung
+                this.feeds = feedsFromServer; 
+        
+            } catch (error) {
+                console.error("Fehler beim Laden der Feeds von Make.com:", error);
+                alert("Die Feeds konnten nicht vom Server geladen werden. Bitte prüfen Sie die Konsole auf Fehler.");
+                this.feeds = []; // Setzt die Feeds auf eine leere Liste, falls ein Fehler auftritt
             }
-
+    
+    // Stellt die geladenen Feeds in der Seitenleiste dar
+    this.renderSavedFeeds();
+}
             async refreshAllFeeds() {
                 this.refreshAllBtn.disabled = true;
                 this.refreshAllBtn.textContent = 'Lädt...';
