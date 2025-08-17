@@ -435,6 +435,7 @@
     <script>
         class RSSReaderPro {
     constructor() {
+        // DOM-Elemente abrufen
         this.feedNameInput = document.getElementById('feedName');
         this.feedUrlInput = document.getElementById('feedUrl');
         this.addFeedBtn = document.getElementById('addFeedBtn');
@@ -442,75 +443,169 @@
         this.contentArea = document.getElementById('contentArea');
         this.feedCountSpan = document.getElementById('feedCount');
         this.refreshAllBtn = document.getElementById('refreshAllBtn');
-        this.clearAllBtn = document.getElementById('clearAllBtn');
+        
+        // Initialisierung
         this.feeds = [];
         this.currentFeedId = null;
 
+        // Kontext für Methoden binden
         this.loadFeed = this.loadFeed.bind(this);
 
+        // App starten
         this.bindEvents();
         this.loadSavedFeeds();
     }
 
     bindEvents() {
         this.addFeedBtn.addEventListener('click', () => this.addFeed());
-        this.feedUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.addFeed();
-        });
-        this.feedNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.addFeed();
-        });
+        this.feedUrlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
+        this.feedNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
         this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
-        this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
     }
 
+    // ### DATEN VOM SERVER LADEN ###
     async loadSavedFeeds() {
         const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh'; 
 
         try {
             const response = await fetch(makeWebhookUrl);
-            if (!response.ok) {
-                throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
             
             const feedsFromServer = await response.json();
-            console.log('✅ Schritt 1: Feeds vom Server erfolgreich empfangen.', feedsFromServer);
-            
             this.feeds = feedsFromServer;
             
-            this.renderSavedFeeds();
+            this.renderSavedFeeds(); // Einmal initial rendern
 
             const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
             await Promise.all(articlePromises);
 
-            console.log('✅ Schritt 4: Alle Artikel geladen, starte finales Rendern.');
-            this.renderSavedFeeds();
+            this.renderSavedFeeds(); // Erneut rendern mit Artikelanzahl
 
         } catch (error) {
-            console.error("❌ Kritischer Fehler in loadSavedFeeds:", error);
+            console.error("Kritischer Fehler in loadSavedFeeds:", error);
             alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
             this.feeds = [];
             this.renderSavedFeeds();
         }
     }
 
-    renderSavedFeeds() {
-        console.log(`🔄 Schritt 2/5: renderSavedFeeds wird aufgerufen. Anzahl Feeds: ${this.feeds.length}`);
-        
-        this.feedCountSpan.textContent = `(${this.feeds.length})`;
+    // ### NEUEN FEED ZUR DATENBANK HINZUFÜGEN ###
+    async addFeed() {
+        const name = this.feedNameInput.value.trim();
+        const url = this.feedUrlInput.value.trim();
 
+        if (!name || !url) {
+            alert('Bitte Name und URL eingeben.');
+            return;
+        }
+
+        // ⬇️ BITTE IHRE "ADD"-WEBHOOK URL HIER EINFÜGEN ⬇️
+        const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+
+        try {
+            this.addFeedBtn.disabled = true;
+            this.addFeedBtn.textContent = 'Speichert...';
+            
+            const response = await fetch(addWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, url: url })
+            });
+
+            if (!response.ok) throw new Error('Fehler beim Senden der Daten.');
+
+            this.feedNameInput.value = '';
+            this.feedUrlInput.value = '';
+            
+            await this.loadSavedFeeds(); // Liste neu laden
+
+        } catch (error) {
+            console.error("Fehler beim Hinzufügen des Feeds:", error);
+            alert("Der Feed konnte nicht hinzugefügt werden.");
+        } finally {
+            this.addFeedBtn.disabled = false;
+            this.addFeedBtn.textContent = 'Feed hinzufügen';
+        }
+    }
+
+    // ### FEED AUS DER DATENBANK LÖSCHEN ###
+    async deleteFeed(feedId) {
+        if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) {
+            return;
+        }
+
+        // ⬇️ BITTE IHRE "DELETE"-WEBHOOK URL HIER EINFÜGEN ⬇️
+        const deleteWebhookUrl = `https://hook.eu2.make.com/fn21jitc94pdiayqxg6s8bcb4pb2sefo?id=${feedId}`;
+
+        try {
+            const response = await fetch(deleteWebhookUrl);
+            if (!response.ok) throw new Error('Fehler beim Löschen auf dem Server.');
+
+            this.feeds = this.feeds.filter(feed => feed.id !== feedId);
+            this.renderSavedFeeds();
+            
+            if (this.currentFeedId === feedId) {
+                this.showWelcome();
+            }
+
+        } catch (error) {
+            console.error("Fehler beim Löschen des Feeds:", error);
+            alert("Der Feed konnte nicht gelöscht werden.");
+        }
+    }
+
+    // ### ARTIKEL FÜR EINEN FEED LADEN ###
+    async loadFeed(feedId) {
+        const feed = this.feeds.find(f => f.id === feedId);
+        if (!feed) return;
+
+        feed.error = null;
+        feed.articles = [];
+
+        try {
+            const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+            const response = await fetch(proxyUrl);
+
+            if (!response.ok) {
+                feed.error = `Server-Fehler: ${response.status}`;
+                return;
+            }
+            
+            const data = await response.json();
+
+            if (data.status !== 'ok') {
+                feed.error = `API-Fehler: ${data.message}`;
+                return;
+            }
+            
+            feed.articles = data.items || [];
+            feed.lastUpdated = new Date().toISOString();
+            feed.feedTitle = data.feed?.title || feed.name;
+
+        } catch (error) {
+            feed.error = "Netzwerkfehler beim Abrufen";
+        }
+    }
+
+    // ### ALLES NEU LADEN ###
+    refreshAllFeeds() {
+        this.contentArea.innerHTML = ''; // Leert den rechten Bereich
+        this.loadSavedFeeds();
+    }
+
+    // ### UI-FUNKTIONEN (unverändert) ###
+    renderSavedFeeds() {
+        this.feedCountSpan.textContent = `(${this.feeds.length})`;
         if (this.feeds.length === 0) {
             this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
             return;
         }
-
         this.savedFeedsList.innerHTML = '';
         this.feeds.forEach(feed => {
-            const isActive = feed.id === this.currentFeedId;
             const item = document.createElement('div');
-            item.className = `feed-item ${isActive ? 'active' : ''}`;
+            item.className = `feed-item ${feed.id === this.currentFeedId ? 'active' : ''}`;
             item.innerHTML = `
-                <div class="feed-item-header">
+                <div class.feed-item-header">
                     <div class="feed-item-title">${feed.name}</div>
                     <button class="delete-btn" title="Löschen">✕</button>
                 </div>
@@ -527,113 +622,12 @@
             this.savedFeedsList.appendChild(item);
         });
     }
-
-    async loadFeed(feedId) {
-        const feed = this.feeds.find(f => f.id === feedId);
-        if (!feed) return;
-
-        console.log(`⏳ Schritt 3: Lade Artikel für Feed "${feed.name}"`);
-        feed.error = null;
-        feed.articles = [];
-
-        try {
-            const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
-            const response = await fetch(proxyUrl);
-
-            if (!response.ok) {
-                console.error(`Fehler bei Feed "${feed.name}": Server antwortete mit Status ${response.status}`);
-                feed.error = `Server-Fehler: ${response.status}`;
-                return;
-            }
-            
-            const data = await response.json();
-
-            if (data.status !== 'ok') {
-                console.error(`Fehler bei Feed "${feed.name}": API meldet "${data.message}"`);
-                feed.error = `API-Fehler: ${data.message}`;
-                return;
-            }
-            
-            feed.articles = data.items || [];
-            feed.lastUpdated = new Date().toISOString();
-            feed.feedTitle = data.feed?.title || feed.name;
-
-        } catch (error) {
-            console.error(`Netzwerkfehler bei Feed "${feed.name}":`, error);
-            feed.error = "Netzwerkfehler beim Abrufen";
-        }
-    }
     
     selectFeed(feedId) {
         this.currentFeedId = feedId;
         this.displayFeed(feedId);
         this.renderSavedFeeds();
     }
-
-    async addFeed() {
-        const nameInput = this.feedNameInput;
-        const urlInput = this.feedUrlInput;
-        const name = nameInput.value.trim();
-        const url = urlInput.value.trim();
-    
-        if (!name || !url) {
-            alert('Bitte Name und URL eingeben.');
-            return;
-        }
-    
-        const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
-    
-        try {
-            const response = await fetch(addWebhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name, url: url })
-            });
-    
-            if (!response.ok) {
-                throw new Error('Fehler beim Senden der Daten.');
-            }
-    
-            nameInput.value = '';
-            urlInput.value = '';
-            
-            // Liste neu laden, um den neuen Feed anzuzeigen
-            await this.loadSavedFeeds();
-    
-        } catch (error) {
-            console.error("Fehler beim Hinzufügen des Feeds:", error);
-            alert("Der Feed konnte nicht hinzugefügt werden.");
-        }
-    }
-
-        async deleteFeed(feedId) {
-            if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) {
-                return;
-            }
-        
-            // Ersetzen Sie dies mit Ihrer "deleteFeed"-Webhook URL
-            const deleteWebhookUrl = `https://hook.eu2.make.com/fn21jitc94pdiayqxg6s8bcb4pb2sefo?id=${feedId}`;
-        
-            try {
-                const response = await fetch(deleteWebhookUrl);
-                if (!response.ok) {
-                    throw new Error('Fehler beim Löschen auf dem Server.');
-                }
-        
-                // Optimierung: Anstatt alles neu zu laden, den Feed nur aus der Anzeige entfernen.
-                this.feeds = this.feeds.filter(feed => feed.id !== feedId);
-                this.renderSavedFeeds();
-                
-                // Falls der gelöschte Feed gerade angezeigt wurde, den Willkommensbildschirm zeigen.
-                if (this.currentFeedId === feedId) {
-                    this.showWelcome();
-                }
-        
-            } catch (error) {
-                console.error("Fehler beim Löschen des Feeds:", error);
-                alert("Der Feed konnte nicht gelöscht werden.");
-            }
-        }
             
     displayFeed(feedId) {
         const feed = this.feeds.find(f => f.id === feedId);
@@ -646,7 +640,7 @@
             this.contentArea.innerHTML = `<div class="welcome"><h3>Keine Artikel gefunden</h3><p>Der Feed "${feed.name}" enthält aktuell keine Artikel.</p></div>`;
             return;
         }
-        const lastUpdated = new Date(feed.lastUpdated).toLocaleString('de-DE');
+        const lastUpdated = feed.lastUpdated ? new Date(feed.lastUpdated).toLocaleString('de-DE') : 'Unbekannt';
         const articlesHTML = feed.articles.map(item => {
             const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE') : 'Unbekanntes Datum';
             const description = item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Keine Beschreibung verfügbar.';
@@ -669,24 +663,10 @@
             ${articlesHTML}`;
     }
 
-    showLoading() {
-        this.contentArea.innerHTML = `<div class="loading"><div class="loading-spinner spinner"></div><p>RSS-Feed wird geladen...</p></div>`;
-    }
-    
     showWelcome() {
         this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
     }
-
-    addFeed() { alert('Hinzufügen muss noch mit Make verbunden werden.'); }
-    clearAllFeeds() { alert('Löschen muss noch mit Make verbunden werden.'); }
-    refreshAllFeeds() { this.loadSavedFeeds(); }
-    deleteFeed() { alert('Einzeln löschen muss noch mit Make verbunden werden.'); }
-} // <-- Dies ist die wichtige schließende Klammer der Klasse
-
-// Die Anwendung starten, sobald das DOM geladen ist
-document.addEventListener('DOMContentLoaded', () => {
-    new RSSReaderPro();
-});
+}
     </script>
 </body>
 </html>
