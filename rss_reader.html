@@ -570,42 +570,70 @@
         this.renderSavedFeeds();
     }
 
-        async addFeed() {
-            const nameInput = this.feedNameInput;
-            const urlInput = this.feedUrlInput;
-            const name = nameInput.value.trim();
-            const url = urlInput.value.trim();
-        
-            if (!name || !url) {
-                alert('Bitte Name und URL eingeben.');
+    async addFeed() {
+        const nameInput = this.feedNameInput;
+        const urlInput = this.feedUrlInput;
+        const name = nameInput.value.trim();
+        const url = urlInput.value.trim();
+    
+        if (!name || !url) {
+            alert('Bitte Name und URL eingeben.');
+            return;
+        }
+    
+        const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+    
+        try {
+            const response = await fetch(addWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, url: url })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Fehler beim Senden der Daten.');
+            }
+    
+            nameInput.value = '';
+            urlInput.value = '';
+            
+            // Liste neu laden, um den neuen Feed anzuzeigen
+            await this.loadSavedFeeds();
+    
+        } catch (error) {
+            console.error("Fehler beim Hinzufügen des Feeds:", error);
+            alert("Der Feed konnte nicht hinzugefügt werden.");
+        }
+    }
+
+        async deleteFeed(feedId) {
+            if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) {
                 return;
             }
         
-            const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+            // Ersetzen Sie dies mit Ihrer "deleteFeed"-Webhook URL
+            const deleteWebhookUrl = `https://hook.eu2.make.com/fn21jitc94pdiayqxg6s8bcb4pb2sefo?id=${feedId}`;
         
             try {
-                const response = await fetch(addWebhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, url: url })
-                });
-        
+                const response = await fetch(deleteWebhookUrl);
                 if (!response.ok) {
-                    throw new Error('Fehler beim Senden der Daten.');
+                    throw new Error('Fehler beim Löschen auf dem Server.');
                 }
         
-                nameInput.value = '';
-                urlInput.value = '';
+                // Optimierung: Anstatt alles neu zu laden, den Feed nur aus der Anzeige entfernen.
+                this.feeds = this.feeds.filter(feed => feed.id !== feedId);
+                this.renderSavedFeeds();
                 
-                // Liste neu laden, um den neuen Feed anzuzeigen
-                await this.loadSavedFeeds();
+                // Falls der gelöschte Feed gerade angezeigt wurde, den Willkommensbildschirm zeigen.
+                if (this.currentFeedId === feedId) {
+                    this.showWelcome();
+                }
         
             } catch (error) {
-                console.error("Fehler beim Hinzufügen des Feeds:", error);
-                alert("Der Feed konnte nicht hinzugefügt werden.");
+                console.error("Fehler beim Löschen des Feeds:", error);
+                alert("Der Feed konnte nicht gelöscht werden.");
             }
         }
-
             
     displayFeed(feedId) {
         const feed = this.feeds.find(f => f.id === feedId);
