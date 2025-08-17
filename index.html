@@ -140,30 +140,30 @@
         
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Kleinere Mindestbreite für 3 Kacheln */
             gap: 40px;
             margin-bottom: 40px;
             align-items: start;
-            max-width: 900px;
+            max-width: 1200px; /* Breiter für 3 Kacheln */
             margin-left: auto;
             margin-right: auto;
         }
         
        .tool-card {
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 40px 30px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* <-- DIESE ZEILE IST NEU */
-}
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%; 
+        }
         
         .tool-card::before {
             content: '';
@@ -422,7 +422,6 @@
         <div class="main-content">
             <div class="tools-section">
                 <div class="tools-grid">
-                    <!-- Advertising -->
                     <a href="advertising.html" class="tool-card">
                         <div class="tool-icon">🎯</div>
                         <h3>Advertising</h3>
@@ -437,7 +436,6 @@
                         <div class="cta-button">Kampagne anfragen</div>
                     </a>
 
-                    <!-- Content Maker -->
                     <a href="content-marketing.html" class="tool-card">
                         <div class="tool-icon">📱</div>
                         <h3>Content Maker</h3>
@@ -450,6 +448,19 @@
                             <li>Content Review & Publishing</li>
                         </ul>
                         <div class="cta-button">Content erstellen</div>
+                    </a>
+                    
+                    <a href="rss_reader.html" class="tool-card">
+                        <div class="tool-icon">📰</div>
+                        <h3>ANY NEWS</h3>
+                        <p>Behalten Sie den Überblick über alle relevanten Nachrichten. Fassen Sie Ihre RSS-Feeds an einem Ort zusammen und verpassen Sie keine Updates mehr.</p>
+                        <ul class="tool-features">
+                            <li>Zentrale Feed-Verwaltung</li>
+                            <li>Artikel-Übersicht in Echtzeit</li>
+                            <li>Lokale Speicherung im Browser</li>
+                            <li>Modernes & klares Design</li>
+                        </ul>
+                        <div class="cta-button">Reader öffnen</div>
                     </a>
                 </div>
             </div>
