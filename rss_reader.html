@@ -626,6 +626,7 @@
                 this.feedCount = document.getElementById('feedCount');
                 this.refreshAllBtn = document.getElementById('refreshAllBtn');
                 this.clearAllBtn = document.getElementById('clearAllBtn');
+                // Only initialize backup elements if they exist (not hidden)
                 this.exportBtn = document.getElementById('exportBtn');
                 this.importInput = document.getElementById('importInput');
                 this.clearDataBtn = document.getElementById('clearDataBtn');
@@ -646,9 +647,17 @@
 
                 this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
                 this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
-                this.exportBtn.addEventListener('click', () => this.exportFeeds());
-                this.importInput.addEventListener('change', (e) => this.importFeeds(e));
-                this.clearDataBtn.addEventListener('click', () => this.clearAllData());
+                
+                // Only add event listeners for backup elements if they exist
+                if (this.exportBtn) {
+                    this.exportBtn.addEventListener('click', () => this.exportFeeds());
+                }
+                if (this.importInput) {
+                    this.importInput.addEventListener('change', (e) => this.importFeeds(e));
+                }
+                if (this.clearDataBtn) {
+                    this.clearDataBtn.addEventListener('click', () => this.clearAllData());
+                }
             }
 
             generateId() {
