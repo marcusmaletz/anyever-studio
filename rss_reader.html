@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS-Reader Pro - ANY EVER</title>
+    
+    <!-- Google Fonts Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ANY EVER Brand Variables */
+        :root {
+            --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-weight-normal: 200;
+            --font-weight-medium: 300;
+            --font-weight-bold: 400;
+            --letter-spacing-normal: 1px;
+            --letter-spacing-medium: 2px;
+            --letter-spacing-wide: 3px;
+            --any-ever-black: #000000;
+            --any-ever-white: #ffffff;
+            --any-ever-gold: #c0ae66;
+            --any-ever-light-grey: #6b7280;
+            --any-ever-dark-grey: #4b5563;
+            --any-ever-bright-grey: #f3f4f6;
+            --any-ever-stone-grey: #9ca3af;
+            --background-main: #f8fafc;
+            --background-content: #ffffff;
+            --border-light: #e5e7eb;
+            --border-medium: #d1d5db;
+            --gradient-gold: linear-gradient(135deg, #c0ae66 0%, #d4c078 100%);
+            --shadow-gold: 0 4px 14px 0 rgba(192, 174, 102, 0.15);
+            --focus-gold: 0 0 0 3px rgba(192, 174, 102, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--any-ever-black);
+            background: var(--background-main);
+            font-weight: var(--font-weight-normal);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--background-content);
+            min-height: 100vh;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .header {
+            background: var(--background-content);
+            color: var(--any-ever-black);
+            padding: 40px 50px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .logo {
+            height: 60px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .header h1 {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            color: var(--any-ever-black);
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            color: var(--any-ever-light-grey);
+            font-size: 1.1rem;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            min-height: calc(100vh - 140px);
+        }
+
+        .sidebar {
+            background: var(--any-ever-bright-grey);
+            border-right: 2px solid var(--border-light);
+            padding: 40px 30px;
+        }
+
+        .add-feed-section {
+            margin-bottom: 40px;
+        }
+
+        .add-feed-section h3 {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-black);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-medium);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--any-ever-gold);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .feed-input {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            padding: 15px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--background-content);
+            transition: all 0.3s ease;
+        }
+
+        .feed-input:focus {
+            outline: none;
+            border-color: var(--any-ever-gold);
+            box-shadow: var(--focus-gold);
+        }
+
+        .feed-input::placeholder {
+            color: var(--any-ever-stone-grey);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .add-btn {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+            padding: 15px 25px;
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px -5px rgba(192, 174, 102, 0.5);
+        }
+
+        .add-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .saved-feeds {
+            border-top: 2px solid var(--border-medium);
+            padding-top: 30px;
+        }
+
+        .saved-feeds h3 {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-black);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-medium);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feed-management-actions {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+            padding: 10px 15px;
+            background: var(--any-ever-stone-grey);
+            color: var(--any-ever-white);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--any-ever-dark-grey);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.primary {
+            background: var(--gradient-gold);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(192, 174, 102, 0.4);
+        }
+
+        .feed-item {
+            background: var(--background-content);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .feed-item:hover {
+            border-color: var(--any-ever-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -5px rgba(192, 174, 102, 0.3);
+        }
+
+        .feed-item.active {
+            border-color: var(--any-ever-gold);
+            background: linear-gradient(135deg, rgba(192, 174, 102, 0.05) 0%, rgba(212, 192, 120, 0.05) 100%);
+        }
+
+        .feed-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .feed-item-title {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-black);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+            line-height: 1.3;
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .feed-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .delete-btn, .refresh-btn {
+            background: var(--any-ever-stone-grey);
+            color: var(--any-ever-white);
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .refresh-btn:hover {
+            background: var(--any-ever-gold);
+        }
+
+        .feed-item-url {
+            color: var(--any-ever-light-grey);
+            font-size: 11px;
+            word-break: break-all;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            margin-bottom: 8px;
+        }
+
+        .feed-item-count {
+            color: var(--any-ever-gold);
+            font-size: 12px;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        .content-area {
+            padding: 40px 50px;
+            overflow-y: auto;
+            background: var(--background-content);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--any-ever-light-grey);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--any-ever-bright-grey);
+            border-top: 2px solid var(--any-ever-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            font-size: 18px;
+            color: var(--any-ever-light-grey);
+        }
+
+        .articles-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--any-ever-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .articles-title {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+            color: var(--any-ever-black);
+        }
+
+        .articles-count {
+            background: var(--any-ever-gold);
+            color: var(--any-ever-white);
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .article {
+            background: var(--background-content);
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .article:hover {
+            border-color: var(--any-ever-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px -8px rgba(192, 174, 102, 0.3);
+        }
+
+        .article-content {
+            padding: 35px;
+        }
+
+        .article h3 {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            color: var(--any-ever-black);
+            font-size: 1.4rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            text-transform: none;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        .article h3 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .article h3 a:hover {
+            color: var(--any-ever-gold);
+        }
+
+        .article-meta {
+            color: var(--any-ever-light-grey);
+            font-size: 14px;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        .article-description {
+            color: var(--any-ever-dark-grey);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .article-link {
+            display: inline-block;
+            color: var(--any-ever-gold);
+            text-decoration: none;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .article-link:hover {
+            color: var(--any-ever-black);
+            transform: translateX(5px);
+        }
+
+        .error {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+            color: #dc2626;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 2px solid rgba(220, 38, 38, 0.2);
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 80px 40px;
+            color: var(--any-ever-light-grey);
+        }
+
+        .welcome h3 {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-bold);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--any-ever-black);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-wide);
+        }
+
+        .welcome p {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--any-ever-light-grey);
+            margin-bottom: 15px;
+        }
+
+        .no-feeds-message {
+            text-align: center;
+            color: var(--any-ever-light-grey);
+            font-style: italic;
+            padding: 30px 20px;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+        }
+
+        .last-updated {
+            color: var(--any-ever-stone-grey);
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-normal);
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                border-right: none;
+                border-bottom: 2px solid var(--border-light);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header, .sidebar, .content-area {
+                padding: 30px 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .header, .sidebar, .content-area {
+                padding: 20px 15px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .feed-management-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://anyever.de/wp-content/themes/anyever/static/images/logo-anyever-gold.svg" alt="ANY EVER Logo" class="logo">
+            <h1>RSS-Reader Pro</h1>
+            <p>Verwalten Sie all Ihre RSS-Feeds an einem Ort</p>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="add-feed-section">
+                    <h3>Neuen Feed hinzufügen</h3>
+                    <div class="input-group">
+                        <input type="text" class="feed-input" placeholder="Feed-Name" id="feedName">
+                        <input type="url" class="feed-input" placeholder="RSS-Feed URL" id="feedUrl">
+                        <button class="add-btn" id="addFeedBtn">Feed hinzufügen</button>
+                    </div>
+                </div>
+
+                <div class="saved-feeds">
+                    <h3>Gespeicherte Feeds <span id="feedCount">(0)</span></h3>
+                    <div class="feed-management-actions">
+                        <button class="action-btn primary" id="refreshAllBtn">Alle aktualisieren</button>
+                        <button class="action-btn" id="clearAllBtn">Alle löschen</button>
+                    </div>
+                    
+                    <div class="import-export-section" style="margin-bottom: 25px; padding: 20px; background: var(--background-content); border-radius: 8px; border: 1px solid var(--border-light);">
+                        <h4 style="font-family: var(--font-primary); font-weight: var(--font-weight-bold); color: var(--any-ever-black); font-size: 0.9rem; text-transform: uppercase; letter-spacing: var(--letter-spacing-normal); margin-bottom: 15px;">Backup & Restore</h4>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="action-btn" id="exportBtn" style="font-size: 11px;">📤 Exportieren</button>
+                            <label class="action-btn" style="font-size: 11px; cursor: pointer; margin: 0;">
+                                📥 Importieren
+                                <input type="file" id="importInput" accept=".json" style="display: none;">
+                            </label>
+                            <button class="action-btn" id="clearDataBtn" style="font-size: 11px; background: #dc2626;">🗑️ Alles löschen</button>
+                        </div>
+                        <p style="font-size: 11px; color: var(--any-ever-light-grey); margin-top: 10px; font-family: var(--font-primary); font-weight: var(--font-weight-normal);">
+                            💾 Feeds werden automatisch gespeichert
+                        </p>
+                    </div>
+                    
+                    <div id="savedFeedsList">
+                        <div class="no-feeds-message">
+                            Noch keine Feeds gespeichert
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div id="contentArea">
+                    <div class="welcome">
+                        <h3>Willkommen beim RSS-Reader Pro</h3>
+                        <p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p>
+                        <p>Ihre Feeds werden automatisch in Ihrem Browser gespeichert.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class RSSReaderPro {
+            constructor() {
+                this.feeds = [];
+                this.currentFeedId = null;
+                
+                this.feedName = document.getElementById('feedName');
+                this.feedUrl = document.getElementById('feedUrl');
+                this.addFeedBtn = document.getElementById('addFeedBtn');
+                this.savedFeedsList = document.getElementById('savedFeedsList');
+                this.contentArea = document.getElementById('contentArea');
+                this.feedCount = document.getElementById('feedCount');
+                this.refreshAllBtn = document.getElementById('refreshAllBtn');
+                this.clearAllBtn = document.getElementById('clearAllBtn');
+                this.exportBtn = document.getElementById('exportBtn');
+                this.importInput = document.getElementById('importInput');
+                this.clearDataBtn = document.getElementById('clearDataBtn');
+                
+                this.loadSavedFeeds();
+                this.bindEvents();
+                this.renderSavedFeeds();
+            }
+
+            bindEvents() {
+                this.addFeedBtn.addEventListener('click', () => this.addFeed());
+                this.feedUrl.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addFeed();
+                });
+                this.feedName.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addFeed();
+                });
+
+                this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
+                this.clearAllBtn.addEventListener('click', () => this.clearAllFeeds());
+            }
+
+            generateId() {
+                return 'feed_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            async addFeed() {
+                const name = this.feedName.value.trim();
+                const url = this.feedUrl.value.trim();
+
+                if (!name || !url) {
+                    alert('Bitte geben Sie sowohl einen Namen als auch eine URL ein.');
+                    return;
+                }
+
+                // Check if feed already exists
+                if (this.feeds.some(feed => feed.url === url)) {
+                    alert('Dieser Feed ist bereits gespeichert.');
+                    return;
+                }
+
+                const feedId = this.generateId();
+                const newFeed = {
+                    id: feedId,
+                    name: name,
+                    url: url,
+                    articles: [],
+                    lastUpdated: null,
+                    error: null
+                };
+
+                this.feeds.push(newFeed);
+                this.saveFeeds();
+                this.renderSavedFeeds();
+
+                // Clear input fields
+                this.feedName.value = '';
+                this.feedUrl.value = '';
+
+                // Load the new feed
+                await this.loadFeed(feedId);
+                this.selectFeed(feedId);
+            }
+
+            deleteFeed(feedId) {
+                if (confirm('Möchten Sie diesen Feed wirklich löschen?')) {
+                    this.feeds = this.feeds.filter(feed => feed.id !== feedId);
+                    this.saveFeeds();
+                    this.renderSavedFeeds();
+
+                    if (this.currentFeedId === feedId) {
+                        this.currentFeedId = null;
+                        this.showWelcome();
+                    }
+                }
+            }
+
+            async refreshAllFeeds() {
+                this.refreshAllBtn.disabled = true;
+                this.refreshAllBtn.textContent = 'Lädt...';
+
+                const promises = this.feeds.map(feed => this.loadFeed(feed.id));
+                await Promise.all(promises);
+
+                this.refreshAllBtn.disabled = false;
+                this.refreshAllBtn.textContent = 'Alle aktualisieren';
+                this.renderSavedFeeds();
+
+                if (this.currentFeedId) {
+                    this.displayFeed(this.currentFeedId);
+                }
+            }
+
+            clearAllFeeds() {
+                if (confirm('Möchten Sie wirklich alle Feeds löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+                    this.feeds = [];
+                    this.currentFeedId = null;
+                    this.saveFeeds();
+                    this.renderSavedFeeds();
+                    this.showWelcome();
+                }
+            }
+
+            async loadFeed(feedId) {
+                const feed = this.feeds.find(f => f.id === feedId);
+                if (!feed) return;
+
+                try {
+                    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+                    const response = await fetch(proxyUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    if (data.status !== 'ok') {
+                        throw new Error(data.message || 'Unbekannter Fehler');
+                    }
+
+                    feed.articles = data.items || [];
+                    feed.lastUpdated = new Date();
+                    feed.error = null;
+                    feed.feedTitle = data.feed?.title || feed.name;
+
+                } catch (error) {
+                    console.error(`Error loading feed ${feed.name}:`, error);
+                    feed.error = error.message;
+                    feed.articles = [];
+                }
+
+                this.saveFeeds();
+            }
+
+            selectFeed(feedId) {
+                this.currentFeedId = feedId;
+                this.displayFeed(feedId);
+                this.renderSavedFeeds(); // Update active state
+            }
+
+            displayFeed(feedId) {
+                const feed = this.feeds.find(f => f.id === feedId);
+                if (!feed) return;
+
+                if (feed.error) {
+                    this.contentArea.innerHTML = `
+                        <div class="error">
+                            <strong>Fehler beim Laden von "${feed.name}":</strong><br>
+                            ${feed.error}
+                            <br><br>
+                            <button onclick="rssReader.loadFeed('${feedId}').then(() => rssReader.displayFeed('${feedId}'))" 
+                                    style="background: var(--gradient-gold); color: var(--any-ever-white); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: var(--font-primary); font-weight: var(--font-weight-medium); text-transform: uppercase; letter-spacing: var(--letter-spacing-normal);">
+                                Erneut versuchen
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (!feed.articles || feed.articles.length === 0) {
+                    this.contentArea.innerHTML = `
+                        <div class="welcome">
+                            <h3>Keine Artikel gefunden</h3>
+                            <p>Der Feed "${feed.name}" enthält aktuell keine Artikel oder wird noch geladen.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const lastUpdated = feed.lastUpdated ? 
+                    new Date(feed.lastUpdated).toLocaleDateString('de-DE', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : 'Nie';
+
+                const articlesHTML = feed.articles.map(item => {
+                    const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('de-DE', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : 'Unbekanntes Datum';
+
+                    const description = item.description ? 
+                        item.description.replace(/<[^>]*>/g, '').substring(0, 300) + '...' : 
+                        'Keine Beschreibung verfügbar.';
+
+                    return `
+                        <article class="article">
+                            <div class="article-content">
+                                <h3><a href="${item.link}" target="_blank">${item.title || 'Ohne Titel'}</a></h3>
+                                <div class="article-meta">
+                                    ${pubDate} | ${feed.feedTitle || feed.name}
+                                </div>
+                                <div class="article-description">${description}</div>
+                                <a href="${item.link}" class="article-link" target="_blank">Artikel lesen →</a>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                this.contentArea.innerHTML = `
+                    <div class="articles-header">
+                        <div class="articles-title">${feed.feedTitle || feed.name}</div>
+                        <div class="articles-count">${feed.articles.length} Artikel</div>
+                    </div>
+                    <div class="last-updated">
+                        Zuletzt aktualisiert: ${lastUpdated}
+                    </div>
+                    ${articlesHTML}
+                `;
+            }
+
+            showLoading() {
+                this.contentArea.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>RSS-Feed wird geladen...</p>
+                    </div>
+                `;
+            }
+
+            showWelcome() {
+                this.contentArea.innerHTML = `
+                    <div class="welcome">
+                        <h3>Willkommen beim RSS-Reader Pro</h3>
+                        <p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p>
+                        <p>Ihre Feeds werden automatisch in Ihrem Browser gespeichert.</p>
+                    </div>
+                `;
+            }
+
+            renderSavedFeeds() {
+                this.feedCount.textContent = `(${this.feeds.length})`;
+
+                if (this.feeds.length === 0) {
+                    this.savedFeedsList.innerHTML = `
+                        <div class="no-feeds-message">
+                            Noch keine Feeds gespeichert
+                        </div>
+                    
