@@ -219,7 +219,7 @@
                 feed.error = null;
                 feed.articles = [];
                 try {
-                    const proxyUrl = `https://https://hook.eu2.make.com/hk4wrkt42ejh14hocw5ksi819f24kjjq?url=${encodeURIComponent(feed.url)}`;
+                    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
                     const response = await fetch(proxyUrl);
                     if (!response.ok) {
                         feed.error = `Server-Fehler: ${response.status}`;
