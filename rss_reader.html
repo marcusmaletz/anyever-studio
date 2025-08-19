@@ -93,7 +93,7 @@
                 <h3>Gespeicherte Feeds <span id="feedCount">(0)</span></h3>
                 
                 <div class="feed-management-actions">
-                    <button class="action-btn filter-btn active" data-category="Media und Marketing">Media und Marketing</button>
+                    <button class="action-btn filter-btn active" data-category="Marketing und Media">Marketing und Media</button>
                     <button class="action-btn filter-btn" data-category="KI">Künstliche Intelligenz</button>
                     
                 </div>
@@ -111,7 +111,7 @@
                         <input type="url" id="feedUrl" class="feed-input" placeholder="RSS-Feed URL">
                         
                         <select id="feedCategory" class="feed-input">
-                            <option value="Media und Marketing">Media & Marketing</option>
+                            <option value="Marketing und Media">Marketing und Media</option>
                             <option value="KI">Künstliche Intelligenz</option>
                         </select>
                         
@@ -149,7 +149,7 @@
                 this.feeds = [];
                 this.currentFeedId = null;
                 this.isAddingFeed = false;
-                this.currentCategory = 'Media und Marketing'; // NEU: Start-Rubrik
+                this.currentCategory = 'Marketing und Media'; // NEU: Start-Rubrik
 
                 // Initialisierung
                 this.loadFeed = this.loadFeed.bind(this);
