@@ -91,10 +91,9 @@
                     <h3>Gespeicherte Feeds <span id="feedCount">(0)</span></h3>
                     
                     <div class="feed-management-actions">
-                        <button class="action-btn filter-btn active" data-category="Marketing">Marketing</button>
-                        <button class="action-btn filter-btn" data-category="Tech">Tech</button>
-                        <button class="action-btn filter-btn" data-category="Allgemein">Allgemein</button>
-                    </div>
+                        <button class="action-btn filter-btn active" data-category="Media und Marketing">Media und Marketing</button>
+                        <button class="action-btn filter-btn" data-category="Tech">Künstliche Intelligenz</button>
+                        </div>
                     
                     <div class="feed-management-actions">
                          <button id="refreshAllBtn" class="action-btn primary">Alle aktualisieren</button>
@@ -109,9 +108,8 @@
                         <input type="url" id="feedUrl" class="feed-input" placeholder="RSS-Feed URL">
                         
                         <select id="feedCategory" class="feed-input">
-                            <option value="Marketing">Marketing</option>
-                            <option value="Tech">Tech</option>
-                            <option value="Allgemein">Allgemein</option>
+                            <option value="Media und Marketing">Media & Marketing</option>
+                            <option value="KI">Künstliche Intelligenz</option>
                         </select>
                         
                         <button id="addFeedBtn" class="btn btn-primary">Feed hinzufügen</button>
@@ -147,7 +145,7 @@
                 this.feeds = [];
                 this.currentFeedId = null;
                 this.isAddingFeed = false;
-                this.currentCategory = 'Marketing'; // NEU: Start-Rubrik
+                this.currentCategory = 'Media und Marketing'; // NEU: Start-Rubrik
 
                 // Initialisierung
                 this.loadFeed = this.loadFeed.bind(this);
