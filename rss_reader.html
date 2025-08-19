@@ -30,6 +30,14 @@
         .action-btn:hover { background: var(--any-ever-dark-grey); }
         .action-btn.primary { background: var(--gradient-gold); box-shadow: var(--shadow-gold); }
         .action-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 15px -3px rgba(192, 174, 102, 0.4); }
+        
+        /* ### NEUE CSS-REGEL FÜR AKTIVEN FILTER ### */
+        .filter-btn.active {
+            background: var(--gradient-gold);
+            color: var(--any-ever-white);
+            box-shadow: var(--shadow-gold);
+        }
+
         .feed-item { background: var(--background-content); border: 2px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; padding: 20px; transition: all 0.3s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .feed-item:hover { border-color: var(--any-ever-gold); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192, 174, 102, 0.1); }
         .feed-item.active { border-color: var(--any-ever-gold); box-shadow: var(--focus-gold); background: linear-gradient(135deg, rgba(192, 174, 102, 0.05) 0%, rgba(212, 192, 120, 0.05) 100%); }
@@ -78,39 +86,54 @@
         </div>
 
         <div class="main-content">
-    <div class="sidebar">
+            <div class="sidebar">
+                <div class="saved-feeds">
+                    <h3>Gespeicherte Feeds <span id="feedCount">(0)</span></h3>
+                    
+                    <div class="feed-management-actions">
+                        <button class="action-btn filter-btn active" data-category="Marketing">Marketing</button>
+                        <button class="action-btn filter-btn" data-category="Tech">Tech</button>
+                        <button class="action-btn filter-btn" data-category="Allgemein">Allgemein</button>
+                    </div>
+                    
+                    <div class="feed-management-actions">
+                         <button id="refreshAllBtn" class="action-btn primary">Alle aktualisieren</button>
+                    </div>
+                    <div id="savedFeedsList"></div>
+                </div>
 
-        <div class="saved-feeds">
-            <h3>Gespeicherte Feeds <span id="feedCount">(0)</span></h3>
-            <div class="feed-management-actions">
-                <button id="refreshAllBtn" class="action-btn primary">Alle aktualisieren</button>
+                <div class="add-feed-section">
+                    <h3>Neuen Feed hinzufügen</h3>
+                    <div class="input-group">
+                        <input type="text" id="feedName" class="feed-input" placeholder="Feed-Name">
+                        <input type="url" id="feedUrl" class="feed-input" placeholder="RSS-Feed URL">
+                        
+                        <select id="feedCategory" class="feed-input">
+                            <option value="Marketing">Marketing</option>
+                            <option value="Tech">Tech</option>
+                            <option value="Allgemein">Allgemein</option>
+                        </select>
+                        
+                        <button id="addFeedBtn" class="btn btn-primary">Feed hinzufügen</button>
+                    </div>
+                </div>
             </div>
-            <div id="savedFeedsList"></div>
-        </div>
 
-        <div class="add-feed-section">
-            <h3>Neuen Feed hinzufügen</h3>
-            <div class="input-group">
-                <input type="text" id="feedName" class="feed-input" placeholder="Feed-Name">
-                <input type="url" id="feedUrl" class="feed-input" placeholder="RSS-Feed URL">
-                <button id="addFeedBtn" class="btn btn-primary">Feed hinzufügen</button>
-            </div>
-        </div>
-
-    </div> <div class="content-area">
-        <div id="contentArea">
-            <div class="welcome">
-                <h3>Willkommen bei den SZENE NEWS</h3>
-                <p>Hier gibt's die News relevanter Anbieter auf einem Blick.</p>
+            <div class="content-area">
+                <div id="contentArea">
+                    <div class="welcome">
+                        <h3>Willkommen bei den SZENE NEWS</h3>
+                        <p>Hier gibt's die News relevanter Anbieter auf einem Blick.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-</div>
 
     <script>
         class RSSReaderPro {
             constructor() {
+                // DOM-Elemente
                 this.feedNameInput = document.getElementById('feedName');
                 this.feedUrlInput = document.getElementById('feedUrl');
                 this.addFeedBtn = document.getElementById('addFeedBtn');
@@ -118,9 +141,15 @@
                 this.contentArea = document.getElementById('contentArea');
                 this.feedCountSpan = document.getElementById('feedCount');
                 this.refreshAllBtn = document.getElementById('refreshAllBtn');
+                this.feedCategoryInput = document.getElementById('feedCategory'); // NEU
+                
+                // Status-Variablen
                 this.feeds = [];
                 this.currentFeedId = null;
-                this.isAddingFeed = false; // <-- DIESE ZEILE HINZUFÜGEN
+                this.isAddingFeed = false;
+                this.currentCategory = 'Marketing'; // NEU: Start-Rubrik
+
+                // Initialisierung
                 this.loadFeed = this.loadFeed.bind(this);
                 this.bindEvents();
                 this.loadSavedFeeds();
@@ -131,19 +160,32 @@
                 this.feedUrlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
                 this.feedNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
                 this.refreshAllBtn.addEventListener('click', () => this.refreshAllFeeds());
+
+                // NEU: Event-Listener für die Filter-Buttons
+                document.querySelectorAll('.filter-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        this.currentCategory = button.dataset.category;
+                        this.loadSavedFeeds();
+                    });
+                });
             }
 
             async loadSavedFeeds() {
-                const makeWebhookUrl = 'https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh';
+                // NEU: URL wird dynamisch mit der aktuellen Rubrik ergänzt
+                const makeWebhookUrl = `https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh?rubrik=${this.currentCategory}`;
+                
+                this.contentArea.innerHTML = ''; // Leert den rechten Bereich bei jedem Neuladen
                 try {
                     const response = await fetch(makeWebhookUrl);
                     if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
                     const feedsFromServer = await response.json();
                     this.feeds = feedsFromServer;
-                    this.renderSavedFeeds();
+                    this.renderSavedFeeds(); // Initiales Rendern
                     const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
                     await Promise.all(articlePromises);
-                    this.renderSavedFeeds();
+                    this.renderSavedFeeds(); // Rendern mit Artikelanzahl
                 } catch (error) {
                     console.error("Kritischer Fehler in loadSavedFeeds:", error);
                     alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
@@ -153,50 +195,46 @@
             }
 
             async addFeed() {
-            // NEU: Bricht ab, wenn bereits ein Hinzufügen-Vorgang läuft
-            if (this.isAddingFeed) {
-                return;
-            }
-        
-            const name = this.feedNameInput.value.trim();
-            const url = this.feedUrlInput.value.trim();
-        
-            if (!name || !url) {
-                alert('Bitte Name und URL eingeben.');
-                return;
-            }
-        
-            const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
-        
-            try {
-                this.isAddingFeed = true; // NEU: Sperre aktivieren
-                this.addFeedBtn.disabled = true;
-                this.addFeedBtn.textContent = 'Speichert...';
-                
-                const response = await fetch(addWebhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, url: url })
-                });
-        
-                if (!response.ok) {
-                    throw new Error('Fehler beim Senden der Daten.');
+                if (this.isAddingFeed) return;
+
+                const name = this.feedNameInput.value.trim();
+                const url = this.feedUrlInput.value.trim();
+                const category = this.feedCategoryInput.value; // NEU
+
+                if (!name || !url) {
+                    alert('Bitte Name und URL eingeben.');
+                    return;
                 }
-        
-                this.feedNameInput.value = '';
-                this.feedUrlInput.value = '';
-                
-                await this.loadSavedFeeds();
-        
-            } catch (error) {
-                console.error("Fehler beim Hinzufügen des Feeds:", error);
-                alert("Der Feed konnte nicht hinzugefügt werden.");
-            } finally {
-                this.isAddingFeed = false; // NEU: Sperre wieder freigeben
-                this.addFeedBtn.disabled = false;
-                this.addFeedBtn.textContent = 'Feed hinzufügen';
+
+                const addWebhookUrl = 'https://hook.eu2.make.com/0kr1gcj28b6ozrulg3k4b1wy3ramtljq';
+
+                try {
+                    this.isAddingFeed = true;
+                    this.addFeedBtn.disabled = true;
+                    this.addFeedBtn.textContent = 'Speichert...';
+                    
+                    const response = await fetch(addWebhookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: name, url: url, rubrik: category }) // NEU
+                    });
+
+                    if (!response.ok) throw new Error('Fehler beim Senden der Daten.');
+
+                    this.feedNameInput.value = '';
+                    this.feedUrlInput.value = '';
+                    
+                    await this.loadSavedFeeds();
+
+                } catch (error) {
+                    console.error("Fehler beim Hinzufügen des Feeds:", error);
+                    alert("Der Feed konnte nicht hinzugefügt werden.");
+                } finally {
+                    this.isAddingFeed = false;
+                    this.addFeedBtn.disabled = false;
+                    this.addFeedBtn.textContent = 'Feed hinzufügen';
+                }
             }
-        }
 
             async deleteFeed(feedId) {
                 if (!confirm('Möchten Sie diesen Feed wirklich löschen?')) return;
@@ -239,14 +277,13 @@
             }
 
             refreshAllFeeds() {
-                this.contentArea.innerHTML = '';
                 this.loadSavedFeeds();
             }
 
             renderSavedFeeds() {
                 this.feedCountSpan.textContent = `(${this.feeds.length})`;
                 if (this.feeds.length === 0) {
-                    this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Noch keine Feeds gespeichert</div>`;
+                    this.savedFeedsList.innerHTML = `<div class="no-feeds-message">Keine Feeds in dieser Rubrik</div>`;
                     return;
                 }
                 this.savedFeedsList.innerHTML = '';
@@ -313,7 +350,7 @@
             }
 
             showWelcome() {
-                this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen beim RSS-Reader Pro</h3><p>Fügen Sie Ihre ersten RSS-Feeds über die Seitenleiste hinzu, um zu beginnen.</p></div>`;
+                this.contentArea.innerHTML = `<div class="welcome"><h3>Willkommen bei den SZENE NEWS</h3><p>Hier gibt's die News relevanter Anbieter auf einem Blick.</p></div>`;
             }
         }
 
