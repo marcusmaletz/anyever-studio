@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANY EVER | Szene News</title>
     <link rel="stylesheet" href="any-ever-brand.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         body { padding: 24px; }
         .container { max-width: 1280px; margin: 0 auto; border-radius: 16px; min-height: calc(100vh - 48px); overflow: hidden; }
@@ -67,6 +68,7 @@
         .welcome p { font-size: 1.1rem; color: var(--any-ever-light-grey); margin-bottom: 15px; }
         .no-feeds-message { text-align: center; color: var(--any-ever-light-grey); font-style: italic; padding: 30px 20px; }
         .last-updated { color: var(--any-ever-stone-grey); font-size: 14px; margin-bottom: 30px; letter-spacing: var(--letter-spacing-normal); }
+        .drag-handle { font-size: 20px; cursor: grab; color: var(--any-ever-stone-grey); padding-right: 15px; align-self: center; /* Zentriert den Griff vertikal */ }
         @media (max-width: 1024px) { .main-content { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 1px solid var(--border-light); } .header, .sidebar, .content-area { padding: 30px 25px; } }
         @media (max-width: 768px) { body { padding: 0; } .container { border-radius: 0; min-height: 100vh; } .header, .sidebar, .content-area { padding: 20px 15px; } .feed-management-actions { flex-direction: column; } .back-button { position: static; display: block; margin: 0 auto 20px; width: fit-content; } }
     </style>
@@ -141,6 +143,7 @@
                 this.feedCountSpan = document.getElementById('feedCount');
                 this.refreshAllBtn = document.getElementById('refreshAllBtn');
                 this.feedCategoryInput = document.getElementById('feedCategory'); // NEU
+                this.initDragAndDrop(); // <-- NEU
                 
                 // Status-Variablen
                 this.feeds = [];
@@ -154,6 +157,25 @@
                 this.loadSavedFeeds();
             }
 
+            initDragAndDrop() {
+    new Sortable(this.savedFeedsList, {
+        handle: '.drag-handle', // Sagt, dass nur der Griff das Ziehen auslöst
+        animation: 150, // Sorgt für eine sanfte Animation
+        onEnd: (event) => {
+            // Diese Funktion wird aufgerufen, nachdem ein Element losgelassen wurde.
+            // Wir passen die Reihenfolge unserer internen `this.feeds`-Liste an.
+            const itemEl = event.item;  // Das gezogene Element
+            const newIndex = event.newIndex;
+            const oldIndex = event.oldIndex;
+
+            // Element im Array verschieben
+            const [reorderedItem] = this.feeds.splice(oldIndex, 1);
+            this.feeds.splice(newIndex, 0, reorderedItem);
+        }
+    });
+}
+
+            
             bindEvents() {
                 this.addFeedBtn.addEventListener('click', () => this.addFeed());
                 this.feedUrlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') this.addFeed(); });
@@ -290,13 +312,19 @@
                     const item = document.createElement('div');
                     item.className = `feed-item ${feed.id === this.currentFeedId ? 'active' : ''}`;
                     item.innerHTML = `
+                    <span class="drag-handle">⠿</span>
+                    <div style="flex-grow: 1;">
                         <div class="feed-item-header">
                             <div class="feed-item-title">${feed.name}</div>
                             <button class="delete-btn" title="Löschen">✕</button>
                         </div>
                         <div class="feed-item-url">${feed.url}</div>
                         <div class="feed-item-count">${feed.articles ? feed.articles.length : 0} Artikel</div>
-                    `;
+                    </div>
+                `;
+// Diese CSS-Anpassung ist nötig, damit der Griff und der Inhalt nebeneinander liegen
+                    item.style.display = 'flex';
+                    item.style.alignItems = 'flex-start';
                     item.addEventListener('click', (e) => {
                         if (!e.target.classList.contains('delete-btn')) this.selectFeed(feed.id);
                     });
