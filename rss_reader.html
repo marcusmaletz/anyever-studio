@@ -159,23 +159,32 @@
                 this.loadSavedFeeds();
             }
 
-            initDragAndDrop() {
-    new Sortable(this.savedFeedsList, {
-        handle: '.drag-handle', // Sagt, dass nur der Griff das Ziehen auslöst
-        animation: 150, // Sorgt für eine sanfte Animation
-        onEnd: (event) => {
-            // Diese Funktion wird aufgerufen, nachdem ein Element losgelassen wurde.
-            // Wir passen die Reihenfolge unserer internen `this.feeds`-Liste an.
-            const itemEl = event.item;  // Das gezogene Element
-            const newIndex = event.newIndex;
-            const oldIndex = event.oldIndex;
+          // ERSETZEN SIE DIESE FUNKTION
+                initDragAndDrop() {
+                    new Sortable(this.savedFeedsList, {
+                        handle: '.drag-handle',
+                        animation: 150,
+                        onEnd: (event) => {
+                            const oldIndex = event.oldIndex;
+                            const newIndex = event.newIndex;
+                
+                            // Element im lokalen Array verschieben
+                            const [reorderedItem] = this.feeds.splice(oldIndex, 1);
+                            this.feeds.splice(newIndex, 0, reorderedItem);
+                            
+                            // NEU: Ruft die Funktion zum LOKALEN Speichern auf
+                            this.saveOrderLocally();
+                        }
+                    });
+                }, // Wichtig: Fügen Sie hier ein Komma hinzu
 
-            // Element im Array verschieben
-            const [reorderedItem] = this.feeds.splice(oldIndex, 1);
-            this.feeds.splice(newIndex, 0, reorderedItem);
-        }
-    });
-}
+                // FÜGEN SIE DIESE NEUE FUNKTION HINZU
+                saveOrderLocally() {
+                    // Erstellt eine Liste nur mit den IDs in der neuen Reihenfolge
+                    const orderedIds = this.feeds.map(feed => feed.id);
+                    // Speichert diese Liste als Text im lokalen Speicher des Browsers
+                    localStorage.setItem('feedOrder', JSON.stringify(orderedIds));
+                }
 
             
             bindEvents() {
