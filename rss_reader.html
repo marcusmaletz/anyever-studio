@@ -159,32 +159,23 @@
                 this.loadSavedFeeds();
             }
 
-          // ERSETZEN SIE DIESE FUNKTION
-                initDragAndDrop() {
-                    new Sortable(this.savedFeedsList, {
-                        handle: '.drag-handle',
-                        animation: 150,
-                        onEnd: (event) => {
-                            const oldIndex = event.oldIndex;
-                            const newIndex = event.newIndex;
-                
-                            // Element im lokalen Array verschieben
-                            const [reorderedItem] = this.feeds.splice(oldIndex, 1);
-                            this.feeds.splice(newIndex, 0, reorderedItem);
-                            
-                            // NEU: Ruft die Funktion zum LOKALEN Speichern auf
-                            this.saveOrderLocally();
-                        }
-                    });
-                }, // Wichtig: Fügen Sie hier ein Komma hinzu
+            initDragAndDrop() {
+    new Sortable(this.savedFeedsList, {
+        handle: '.drag-handle', // Sagt, dass nur der Griff das Ziehen auslöst
+        animation: 150, // Sorgt für eine sanfte Animation
+        onEnd: (event) => {
+            // Diese Funktion wird aufgerufen, nachdem ein Element losgelassen wurde.
+            // Wir passen die Reihenfolge unserer internen `this.feeds`-Liste an.
+            const itemEl = event.item;  // Das gezogene Element
+            const newIndex = event.newIndex;
+            const oldIndex = event.oldIndex;
 
-                // FÜGEN SIE DIESE NEUE FUNKTION HINZU
-                saveOrderLocally() {
-                    // Erstellt eine Liste nur mit den IDs in der neuen Reihenfolge
-                    const orderedIds = this.feeds.map(feed => feed.id);
-                    // Speichert diese Liste als Text im lokalen Speicher des Browsers
-                    localStorage.setItem('feedOrder', JSON.stringify(orderedIds));
-                }
+            // Element im Array verschieben
+            const [reorderedItem] = this.feeds.splice(oldIndex, 1);
+            this.feeds.splice(newIndex, 0, reorderedItem);
+        }
+    });
+}
 
             
             bindEvents() {
@@ -205,33 +196,19 @@
             }
 
             async loadSavedFeeds() {
+                // NEU: URL wird dynamisch mit der aktuellen Rubrik ergänzt
                 const makeWebhookUrl = `https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh?rubrik=${this.currentCategory}`;
-                this.contentArea.innerHTML = '';
                 
+                this.contentArea.innerHTML = ''; // Leert den rechten Bereich bei jedem Neuladen
                 try {
                     const response = await fetch(makeWebhookUrl);
                     if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
-                    
-                    let feedsFromServer = await response.json();
-            
-                    // --- NEUER TEIL START ---
-                    // Prüfen, ob eine gespeicherte Reihenfolge existiert
-                    const savedOrder = JSON.parse(localStorage.getItem('feedOrder'));
-                    if (savedOrder && savedOrder.length > 0) {
-                        // Sortiert die vom Server kommenden Feeds entsprechend der gespeicherten ID-Liste
-                        feedsFromServer.sort((a, b) => {
-                            return savedOrder.indexOf(a.id) - savedOrder.indexOf(b.id);
-                        });
-                    }
-                    // --- NEUER TEIL ENDE ---
-            
+                    const feedsFromServer = await response.json();
                     this.feeds = feedsFromServer;
-                    
-                    this.renderSavedFeeds();
+                    this.renderSavedFeeds(); // Initiales Rendern
                     const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
                     await Promise.all(articlePromises);
-                    this.renderSavedFeeds();
-                    
+                    this.renderSavedFeeds(); // Rendern mit Artikelanzahl
                 } catch (error) {
                     console.error("Kritischer Fehler in loadSavedFeeds:", error);
                     alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
@@ -239,6 +216,7 @@
                     this.renderSavedFeeds();
                 }
             }
+
             async addFeed() {
                 if (this.isAddingFeed) return;
 
