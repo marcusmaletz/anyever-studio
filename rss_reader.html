@@ -205,19 +205,33 @@
             }
 
             async loadSavedFeeds() {
-                // NEU: URL wird dynamisch mit der aktuellen Rubrik ergänzt
                 const makeWebhookUrl = `https://hook.eu2.make.com/aouz3xcm5i10kluevx6mnj2j46581wmh?rubrik=${this.currentCategory}`;
+                this.contentArea.innerHTML = '';
                 
-                this.contentArea.innerHTML = ''; // Leert den rechten Bereich bei jedem Neuladen
                 try {
                     const response = await fetch(makeWebhookUrl);
                     if (!response.ok) throw new Error(`Netzwerk-Antwort war nicht ok: ${response.status}`);
-                    const feedsFromServer = await response.json();
+                    
+                    let feedsFromServer = await response.json();
+            
+                    // --- NEUER TEIL START ---
+                    // Prüfen, ob eine gespeicherte Reihenfolge existiert
+                    const savedOrder = JSON.parse(localStorage.getItem('feedOrder'));
+                    if (savedOrder && savedOrder.length > 0) {
+                        // Sortiert die vom Server kommenden Feeds entsprechend der gespeicherten ID-Liste
+                        feedsFromServer.sort((a, b) => {
+                            return savedOrder.indexOf(a.id) - savedOrder.indexOf(b.id);
+                        });
+                    }
+                    // --- NEUER TEIL ENDE ---
+            
                     this.feeds = feedsFromServer;
-                    this.renderSavedFeeds(); // Initiales Rendern
+                    
+                    this.renderSavedFeeds();
                     const articlePromises = this.feeds.map(feed => this.loadFeed(feed.id));
                     await Promise.all(articlePromises);
-                    this.renderSavedFeeds(); // Rendern mit Artikelanzahl
+                    this.renderSavedFeeds();
+                    
                 } catch (error) {
                     console.error("Kritischer Fehler in loadSavedFeeds:", error);
                     alert("Ein unerwarteter Fehler ist aufgetreten. Bitte prüfen Sie die Konsole.");
@@ -225,7 +239,6 @@
                     this.renderSavedFeeds();
                 }
             }
-
             async addFeed() {
                 if (this.isAddingFeed) return;
 
