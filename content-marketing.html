@@ -1150,48 +1150,49 @@
      async function startIntelligentPolling() {
   let attempts = 0;
   const maxAttempts = 20;
-  let pollingInterval = 7000;
+  let pollingInterval = 7000; // 7 Sekunden
 
   const poll = async () => {
     attempts++;
 
+    // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll
     const reviewContainer = document.getElementById('review-container');
     if (reviewContainer.classList.contains('show')) {
         showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
     }
 
     try {
-      const success = await loadReview(true);
+      // Ruft loadReview auf, um die UI zu aktualisieren, ignoriert aber die Rückmeldung
+      const isFinished = await loadReview(true); 
 
-      if (success) {
-        clearPersistentMessage();
-        showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
-        document.getElementById("manual-load-btn").style.display = "none";
-        return;
+      if (isFinished) {
+          clearPersistentMessage();
+          showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+          document.getElementById("manual-load-btn").style.display = "none";
+          return; // Polling erfolgreich beenden
       }
 
-       if (attempts >= maxAttempts) {
-        // Maximale Versuche erreicht - Button anzeigen
+      if (attempts < maxAttempts) {
+        setTimeout(poll, pollingInterval);
+      } else {
+        // Zeigt den Button an, wenn nach 20 Versuchen immer noch kein Erfolg gemeldet wurde
         clearPersistentMessage();
         showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
         document.getElementById("manual-load-btn").style.display = "inline-block";
-      } else {
-        // Noch Versuche übrig - weiter machen
-        setTimeout(poll, pollingInterval);
       }
     } catch (error) {
-        console.error("Polling-Fehler:", error);
-        if (attempts >= maxAttempts) {
-          clearPersistentMessage();
-          showErrorMessage("❌ Fehler beim automatischen Laden.");
-          document.getElementById("manual-load-btn").style.display = "inline-block";
-        } else {
-          // Hier NICHT den Button anzeigen, nur bei maxAttempts
-          setTimeout(poll, pollingInterval);
-        }
+      console.error("Polling-Fehler:", error);
+      if (attempts >= maxAttempts) {
+        clearPersistentMessage();
+        showErrorMessage("❌ Fehler beim automatischen Laden.");
+        document.getElementById("manual-load-btn").style.display = "inline-block";
+      } else {
+        setTimeout(poll, pollingInterval);
       }
+    }
   };
 
+  // Startet den ersten Poll nach der initialen Wartezeit
   setTimeout(poll, 30000);
 }
 
