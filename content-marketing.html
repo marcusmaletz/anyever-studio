@@ -831,63 +831,16 @@
           title.textContent = groupName;
           groupContainer.appendChild(title);
 
-          const parentGrid = document.createElement('div');
-          groupContainer.appendChild(parentGrid);
+          const grid = document.createElement('div');
+          grid.className = 'content-type-grid';
 
-          if (groupName === 'Social Media') {
-             const mainGrid = document.createElement('div');
-             mainGrid.className = 'content-type-grid';
-             mainGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-             groups[groupName].filter(c => !c.id.startsWith('instagram')).forEach(config => buildCard(config, mainGrid));
-             parentGrid.appendChild(mainGrid);
+          // VEREINFACHTE LOGIK: Behandelt alle Gruppen gleich
+          groups[groupName].forEach(config => buildCard(config, grid));
 
-             const instaGrid = document.createElement('div');
-             instaGrid.className = 'content-type-grid';
-             instaGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-             instaGrid.style.marginTop = '15px';
-             groups[groupName].filter(c => c.id.startsWith('instagram')).forEach(config => buildCard(config, instaGrid));
-             parentGrid.appendChild(instaGrid);
-          } else {
-              parentGrid.className = 'content-type-grid';
-              groups[groupName].forEach(config => buildCard(config, parentGrid));
-          }
+          groupContainer.appendChild(grid);
           container.appendChild(groupContainer);
       }
-  }); // <-- DIESE KLAMMER HAT GEFEHLT
-
-  function buildCard(config, parent) {
-    const card = document.createElement('div');
-    card.className = 'content-type-card';
-    card.id = `card-${config.id}`;
-
-    let formatText = config.imageFormat.replace('_', ':');
-      // ZUERST DIE ALLGEMEINE REGEL
-      if (config.imageFormat === 'none') formatText = 'Text'; 
-
-      // DANACH DIE SPEZIFISCHEN ÜBERSCHREIBUNGEN
-      if (config.id === 'instagram_reel') formatText = '9:16 Video';
-      if (config.id === 'podcast') formatText = 'Text-to-Speech';
-      if (config.id === 'avatar') formatText = 'Video Avatar';
-      if (config.id === 'newsletter') formatText = 'E-Mail';
-
-
-    card.innerHTML = `
-        <label>
-          <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
-          <div>
-            <div style="font-weight: 600;">${config.label}</div>
-          </div>
-          <span class="format-badge">${formatText}</span>
-        </label>
-    `;
-    if (!config.enabled) {
-        card.style.opacity = '0.5';
-        card.style.pointerEvents = 'none';
-        card.title = 'Dieser Kanal ist derzeit deaktiviert.';
-    }
-    parent.appendChild(card);
-  }
-}
+  });
 
   function buildCard(config, parent) {
     const card = document.createElement('div');
