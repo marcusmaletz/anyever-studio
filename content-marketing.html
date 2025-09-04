@@ -977,24 +977,28 @@
 
       async function submitForm() {
         if (!checkRateLimit()) return;
-        
+      
         const thema = document.getElementById("thema").value.trim();
         if (!thema) {
           showErrorMessage("Bitte füllen Sie das Thema-Feld aus.");
           return;
         }
-
+      
         const selectedChannels = getSelectedChannels();
         if (selectedChannels.length === 0) {
           showErrorMessage("Bitte wählen Sie mindestens einen Content-Kanal aus.");
           return;
         }
-
+      
+        // HIER IST DIE EINZIGE NEUE ZEILE:
+        // Speichert die Kanalauswahl im Browser-Speicher, damit die Lade-Funktion darauf zugreifen kann.
+        sessionStorage.setItem(inputId, JSON.stringify(selectedChannels));
+      
         const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
         if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
-
+      
         const payload = {
-          kunden_id: document.getElementById("kunden_id_select").value, // NEU
+          kunden_id: document.getElementById("kunden_id_select").value,
           input_id: inputId,
           thema: thema,
           subline: document.getElementById("subline").value,
