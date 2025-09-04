@@ -1170,13 +1170,14 @@
         return;
       }
 
-      if (attempts < maxAttempts) {
-        setTimeout(poll, pollingInterval);
-      } else {
-        // WICHTIG: Button erst hier anzeigen, wenn wirklich alle Versuche durch sind
+       if (attempts >= maxAttempts) {
+        // Maximale Versuche erreicht - Button anzeigen
         clearPersistentMessage();
         showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
         document.getElementById("manual-load-btn").style.display = "inline-block";
+      } else {
+        // Noch Versuche übrig - weiter machen
+        setTimeout(poll, pollingInterval);
       }
     } catch (error) {
         console.error("Polling-Fehler:", error);
