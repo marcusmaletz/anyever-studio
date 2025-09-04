@@ -560,6 +560,16 @@
       </div>
 
       <div class="form-content">
+        
+        <div class="form-group">
+          <label for="kunden_id_select">Kunde auswählen (Entwicklungs-Tool)</label>
+          <select id="kunden_id_select" style="width: 100%; padding: 15px 20px; border: 2px solid var(--any-ever-gold); border-radius: 8px; font-size: 16px;">
+            <option value="k-001">Any Ever (Test)</option>
+            <option value="k-002">Kunde B (Test)</option>
+            <option value="k-003">Kunde C (Test)</option>
+          </select>
+        </div>
+        
         <div class="form-group">
           <label for="thema">Thema (Pflichtfeld)</label>
           <textarea id="thema" class="auto-resize" placeholder="Beschreiben Sie Ihr Thema" required rows="2" oninput="autoResize(this)"></textarea>
@@ -984,6 +994,7 @@
         if (!confirm(`Content wird generiert für: ${channelNames}. Fortfahren?`)) return;
 
         const payload = {
+          kunden_id: document.getElementById("kunden_id_select").value, // NEU
           input_id: inputId,
           thema: thema,
           subline: document.getElementById("subline").value,
@@ -1400,6 +1411,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              kunden_id: document.getElementById("kunden_id_select").value, // NEU
               input_id: inputIdValue,
               channel: channel
             }),
@@ -1470,6 +1482,7 @@
       
       async function submitReview() {
         const payload = {
+          kunden_id: document.getElementById("kunden_id_select").value, // NEU
           input_id: document.getElementById("input_id").value,
           mode: "save",
           sel_img_11_url: document.getElementById("sel_img_11_url").value,
