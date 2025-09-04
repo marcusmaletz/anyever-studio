@@ -990,8 +990,7 @@
           return;
         }
       
-        // HIER IST DIE EINZIGE NEUE ZEILE:
-        // Speichert die Kanalauswahl im Browser-Speicher, damit die Lade-Funktion darauf zugreifen kann.
+        // NEU: Kanalauswahl im Browser-Speicher für später merken
         sessionStorage.setItem(inputId, JSON.stringify(selectedChannels));
       
         const channelNames = selectedChannels.map(ch => CONTENT_TYPES[ch].label).join(', ');
@@ -1007,7 +1006,6 @@
         };
         await executeSubmission(payload);
       }
-
       function getSelectedChannels() {
         return Object.keys(CONTENT_TYPES).filter(type => 
           document.getElementById(CONTENT_TYPES[type].enableField).checked
@@ -1150,165 +1148,135 @@
       }
 
      async function startIntelligentPolling() {
-  let attempts = 0;
-  const maxAttempts = 20; // Sie können dies bei Bedarf anpassen
-  let pollingInterval = 7000; // 7 Sekunden
-
-  const poll = async () => {
-    attempts++;
-
-    // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll (nicht im silentMode)
-    const reviewContainer = document.getElementById('review-container');
-    if (reviewContainer.classList.contains('show')) {
-        showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
-    }
-
-    try {
-      const success = await loadReview(true); // Ruft loadReview immer im silentMode auf
-
-      if (success) {
-        clearPersistentMessage();
-        showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
-        document.getElementById("manual-load-btn").style.display = "none"; // Button ausblenden bei Erfolg
-        return; // Polling beenden
+        let attempts = 0;
+        const maxAttempts = 20;
+      
+        const poll = async () => {
+          attempts++;
+          showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
+      
+          try {
+            const success = await loadReview(true); // Fängt die true/false Rückmeldung auf
+      
+            if (success) {
+              clearPersistentMessage();
+              showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+              loadReview(false); // Finale, sichtbare Aktualisierung
+              return; // Stoppt das Polling
+            }
+      
+            if (attempts < maxAttempts) {
+              setTimeout(poll, 7000);
+            } else {
+              clearPersistentMessage();
+              showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            }
+          } catch (error) {
+            console.error("Polling-Fehler:", error);
+            if (attempts >= maxAttempts) {
+              clearPersistentMessage();
+              showErrorMessage("❌ Fehler beim automatischen Laden.");
+              document.getElementById("manual-load-btn").style.display = "inline-block";
+            } else {
+              setTimeout(poll, 7000);
+            }
+          }
+        };
+      
+        setTimeout(poll, 30000);
       }
-
-      if (attempts < maxAttempts) {
-        setTimeout(poll, pollingInterval);
-      } else {
-        // NEUE LOGIK: Button wird nach max. Versuchen immer angezeigt
-        clearPersistentMessage();
-        showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
-        document.getElementById("manual-load-btn").style.display = "inline-block";
-      }
-    } catch (error) {
-      console.error("Polling-Fehler:", error);
-      if (attempts >= maxAttempts) {
-        clearPersistentMessage();
-        showErrorMessage("❌ Fehler beim automatischen Laden.");
-        document.getElementById("manual-load-btn").style.display = "inline-block";
-      } else {
-        setTimeout(poll, pollingInterval);
-      }
-    }
-  };
-
-  // Startet den ersten Poll nach einer kurzen Verzögerung
-  setTimeout(poll, 30000);
-}
 
       async function loadReview(silentMode = false) {
-  const inputIdValue = document.getElementById("input_id").value;
-  if (!inputIdValue) {
-    if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
-    return false;
-  }
-
-  const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
-
-  try {
-    if (!silentMode) showProgressMessage("Lade Content...");
-    const response = await fetch(webhookUrl);
-    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-
-    const responseText = await response.text();
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (parseError) {
-      console.error("JSON Parse Error:", parseError, responseText);
-      if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
-      return false;
-    }
-
-    const formats = ['1_1', '16_9', '9_16'];
-    formats.forEach(format => {
-      const formatId = format.replace('_', '');
-      const imageUrls = [
-        data[`img_${formatId}_1_url`],
-        data[`img_${formatId}_2_url`],
-        data[`img_${formatId}_3_url`],
-        data[`img_${formatId}_4_url`]
-      ];
-      const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
-      if (validUrls.length > 0) {
-        populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
-      } else {
-        const container = document.getElementById(`image-selection-container_${format}`);
-        if (container) container.style.display = "none";
-      }
-    });
-
-    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || getSelectedChannels();
-    let sectionsWithContent = 0;
-
-    Object.keys(CONTENT_TYPES).forEach(type => {
-      const config = CONTENT_TYPES[type];
-      const sectionElement = document.getElementById(`${type}-section`);
-      if (sectionElement) {
-
-        // --- HIER IST DIE KORRIGIERTE LOGIK ---
-        const reviewTextKey = `${config.id}_review`; // z.B. linkedin_review
-        const originalTextKey = config.backendTextKey; // z.B. linkedin_text
-
-        // Priorisiere den Review-Text, wenn er existiert, ansonsten nimm den Original-Text
-        let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') 
-                            ? data[reviewTextKey] 
-                            : data[originalTextKey];
-
-        const backendStatus = data[config.backendStatusKey];
-
-        if(backendText){
-    const textField = document.getElementById(config.textField);
-    const statusField = document.getElementById(config.statusField);
-
-    // NEUE PRÜFUNG: Nur befüllen, wenn das Textfeld noch leer ist.
-    if (textField && textField.value.trim() === '') {
-      textField.value = backendText.replace(/\\n/g, '\n') || "";
-      autoResize(textField);
-    }
-
-    if (statusField) {
-      statusField.value = backendStatus || "pending";
-    }
-    updateSectionStatus(sectionElement, backendStatus);
-    updatePostingButtons(type);
-}
-      }
-    });
-
-    const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
-    let allImagesPresent = true;
-    const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
-    for (const format of expectedFormats) {
-        const formatId = format.replace('_', '');
-        const firstImageUrl = data[`img_${formatId}_1_url`];
-        if (!firstImageUrl || !firstImageUrl.startsWith('http')) {
-            allImagesPresent = false;
-            break;
+        const inputIdValue = document.getElementById("input_id").value;
+        if (!inputIdValue) {
+          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+          return false;
         }
-    }
-    const isSuccess = allTextsPresent && allImagesPresent;
-
-    document.getElementById("review-submit-btn").style.display = (sectionsWithContent > 0) ? "block" : "none";
-    updateGlobalPostAllButton();
-
-    if (isSuccess) {
-      clearPersistentMessage();
-      if (!silentMode) showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
-      return true;
-    } else {
-      if (!silentMode) {
-        showWarningMessage(`⚠️ Inhalte werden noch generiert...`);
+      
+        // Holt die ursprünglich ausgewählten Kanäle aus dem Speicher
+        const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || [];
+      
+        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+      
+        try {
+          if (!silentMode) showProgressMessage("Lade Content...");
+          const response = await fetch(webhookUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          const responseText = await response.text();
+          let data;
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+            return false;
+          }
+      
+          // UI mit den geladenen Daten aktualisieren (Texte, Bilder etc.)
+          // Dieser Teil befüllt die Felder und zeigt die Bilder an
+          const formats = ['1_1', '16_9', '9_16'];
+          formats.forEach(format => {
+              const formatId = format.replace('_', '');
+              const imageUrls = [ data[`img_${formatId}_1_url`], data[`img_${formatId}_2_url`], data[`img_${formatId}_3_url`], data[`img_${formatId}_4_url`] ];
+              const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
+              if (validUrls.length > 0) {
+                  populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
+              } else {
+                  const container = document.getElementById(`image-selection-container_${format}`);
+                  if (container) container.style.display = "none";
+              }
+          });
+          Object.keys(CONTENT_TYPES).forEach(type => {
+              const config = CONTENT_TYPES[type];
+              const sectionElement = document.getElementById(`${type}-section`);
+              if(sectionElement){
+                  const reviewTextKey = `${config.id}_review`;
+                  const originalTextKey = config.backendTextKey;
+                  let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') ? data[reviewTextKey] : data[originalTextKey];
+                  if(backendText){
+                      const textField = document.getElementById(config.textField);
+                      if (textField && textField.value.trim() === '') {
+                          textField.value = backendText.replace(/\\n/g, '\n') || "";
+                          autoResize(textField);
+                      }
+                      const statusField = document.getElementById(config.statusField);
+                      if (statusField) statusField.value = data[config.backendStatusKey] || "pending";
+                      updateSectionStatus(sectionElement, data[config.backendStatusKey]);
+                      updatePostingButtons(type);
+                  }
+              }
+          });
+          document.getElementById("review-submit-btn").style.display = document.getElementById("content-sections-container").innerHTML.trim() !== '' ? "block" : "none";
+          updateGlobalPostAllButton();
+      
+          // NEUE ERFOLGSPRÜFUNG:
+          let sectionsWithContent = 0;
+          expectedChannels.forEach(channelId => {
+              const config = CONTENT_TYPES[channelId];
+              if (data[config.backendTextKey] && data[config.backendTextKey].trim() !== '') {
+                  sectionsWithContent++;
+              }
+          });
+          const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
+      
+          let allImagesPresent = true;
+          const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
+          for (const format of expectedFormats) {
+              const formatId = format.replace('_', '');
+              const firstImageUrl = data[`img_${formatId}_1_url`];
+              if (!firstImageUrl || !firstImageUrl.startsWith('http')) {
+                  allImagesPresent = false;
+                  break;
+              }
+          }
+      
+          return allTextsPresent && allImagesPresent; // Gibt true zurück, wenn alles da ist
+      
+        } catch (error) {
+          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+          return false;
+        }
       }
-      return false;
-    }
-  } catch (error) {
-    console.error("❌ Fehler beim Laden der Review-Daten", error);
-    if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
-    return false;
-  }
-}
       function updateSectionStatus(sectionDiv, status) {
         const statusBadge = sectionDiv.querySelector('.status-badge');
         if (statusBadge) {
