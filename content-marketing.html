@@ -1149,32 +1149,33 @@
 
      async function startIntelligentPolling() {
   let attempts = 0;
-  const maxAttempts = 20; // Sie können dies bei Bedarf anpassen
-  let pollingInterval = 7000; // 7 Sekunden
+  const maxAttempts = 20;
+  let pollingInterval = 7000;
+
+  // Button initial anzeigen für den Fall, dass manuelles Laden nötig wird
+  document.getElementById("manual-load-btn").style.display = "inline-block";
 
   const poll = async () => {
     attempts++;
 
-    // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll (nicht im silentMode)
     const reviewContainer = document.getElementById('review-container');
     if (reviewContainer.classList.contains('show')) {
         showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
     }
 
     try {
-      const success = await loadReview(true); // Ruft loadReview immer im silentMode auf
+      const success = await loadReview(true);
 
       if (success) {
         clearPersistentMessage();
         showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
-        document.getElementById("manual-load-btn").style.display = "none"; // Button ausblenden bei Erfolg
-        return; // Polling beenden
+        document.getElementById("manual-load-btn").style.display = "none";
+        return;
       }
 
       if (attempts < maxAttempts) {
         setTimeout(poll, pollingInterval);
       } else {
-        // NEUE LOGIK: Button wird nach max. Versuchen immer angezeigt
         clearPersistentMessage();
         showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
         document.getElementById("manual-load-btn").style.display = "inline-block";
@@ -1191,7 +1192,6 @@
     }
   };
 
-  // Startet den ersten Poll nach einer kurzen Verzögerung
   setTimeout(poll, 30000);
 }
 
