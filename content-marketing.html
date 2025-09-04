@@ -831,59 +831,16 @@
           title.textContent = groupName;
           groupContainer.appendChild(title);
 
-          const parentGrid = document.createElement('div');
-          groupContainer.appendChild(parentGrid);
+          const grid = document.createElement('div');
+          grid.className = 'content-type-grid';
 
-          if (groupName === 'Social Media') {
-             const mainGrid = document.createElement('div');
-             mainGrid.className = 'content-type-grid';
-             mainGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-             groups[groupName].filter(c => !c.id.startsWith('instagram')).forEach(config => buildCard(config, mainGrid));
-             parentGrid.appendChild(mainGrid);
+          // VEREINFACHTE LOGIK: Behandelt alle Gruppen gleich
+          groups[groupName].forEach(config => buildCard(config, grid));
 
-             const instaGrid = document.createElement('div');
-             instaGrid.className = 'content-type-grid';
-             instaGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-             instaGrid.style.marginTop = '15px';
-             groups[groupName].filter(c => c.id.startsWith('instagram')).forEach(config => buildCard(config, instaGrid));
-             parentGrid.appendChild(instaGrid);
-          } else {
-              parentGrid.className = 'content-type-grid';
-              groups[groupName].forEach(config => buildCard(config, parentGrid));
-          }
+          groupContainer.appendChild(grid);
           container.appendChild(groupContainer);
       }
-  }); // <-- DIESE SCHLIESSENDE KLAMMER HAT GEFEHLT
-
-  function buildCard(config, parent) {
-    const card = document.createElement('div');
-    card.className = 'content-type-card';
-    card.id = `card-${config.id}`;
-
-    let formatText = config.imageFormat.replace('_', ':');
-    if (config.imageFormat === 'none') formatText = 'Text';
-    if (config.id === 'instagram_reel') formatText = '9:16 Video';
-    if (config.id === 'podcast') formatText = 'Text-to-Speech';
-    if (config.id === 'avatar') formatText = 'Video Avatar';
-    if (config.id === 'newsletter') formatText = 'E-Mail';
-
-    card.innerHTML = `
-        <label>
-          <input type="checkbox" id="${config.enableField}" class="content-checkbox" />
-          <div>
-            <div style="font-weight: 600;">${config.label}</div>
-          </div>
-          <span class="format-badge">${formatText}</span>
-        </label>
-    `;
-    if (!config.enabled) {
-        card.style.opacity = '0.5';
-        card.style.pointerEvents = 'none';
-        card.title = 'Dieser Kanal ist derzeit deaktiviert.';
-    }
-    parent.appendChild(card);
-  }
-}
+  });
 
   function buildCard(config, parent) {
     const card = document.createElement('div');
@@ -1191,52 +1148,48 @@
       }
 
      async function startIntelligentPolling() {
-        let attempts = 0;
-        const maxAttempts = 20; // Sie können dies bei Bedarf anpassen
-        let pollingInterval = 7000; // 7 Sekunden
-      
-        const poll = async () => {
-          attempts++;
-      
-          // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll (nicht im silentMode)
-          const reviewContainer = document.getElementById('review-container');
-          if (reviewContainer.classList.contains('show')) {
-              showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
-          }
-      
-          try {
-            const success = await loadReview(true); // Ruft loadReview immer im silentMode auf
-      
-            if (success) {
-              clearPersistentMessage();
-              showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
-              document.getElementById("manual-load-btn").style.display = "none"; // Button ausblenden bei Erfolg
-              return; // Polling beenden
-            }
-      
-            if (attempts < maxAttempts) {
-              setTimeout(poll, pollingInterval);
-            } else {
-              // NEUE LOGIK: Button wird nach max. Versuchen immer angezeigt
-              clearPersistentMessage();
-              showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
-              document.getElementById("manual-load-btn").style.display = "inline-block";
-            }
-          } catch (error) {
-            console.error("Polling-Fehler:", error);
-            if (attempts >= maxAttempts) {
-              clearPersistentMessage();
-              showErrorMessage("❌ Fehler beim automatischen Laden.");
-              document.getElementById("manual-load-btn").style.display = "inline-block";
-            } else {
-              setTimeout(poll, pollingInterval);
-            }
-          }
-        };
+  let attempts = 0;
+  const maxAttempts = 20; // Sie können dies bei Bedarf anpassen
+  let pollingInterval = 7000; // 7 Sekunden
 
-  // Startet den ersten Poll nach einer kurzen Verzögerung
-  setTimeout(poll, 30000);
-}
+  const poll = async () => {
+    attempts++;
+
+    // Zeigt die Info-Nachricht nur an, wenn der User sie sehen soll (nicht im silentMode)
+    const reviewContainer = document.getElementById('review-container');
+    if (reviewContainer.classList.contains('show')) {
+        showInfoMessage(`🔄 Prüfe Content... (${attempts}/${maxAttempts})`, true);
+    }
+
+    try {
+      const success = await loadReview(true); // Ruft loadReview immer im silentMode auf
+
+      if (success) {
+        clearPersistentMessage();
+        showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+        document.getElementById("manual-load-btn").style.display = "none"; // Button ausblenden bei Erfolg
+        return; // Polling beenden
+      }
+
+      if (attempts < maxAttempts) {
+        setTimeout(poll, pollingInterval);
+      } else {
+        // NEUE LOGIK: Button wird nach max. Versuchen immer angezeigt
+        clearPersistentMessage();
+        showWarningMessage("⏱️ Automatische Suche beendet. Ggf. den 'Content aktualisieren' Button nutzen.");
+        document.getElementById("manual-load-btn").style.display = "inline-block";
+      }
+    } catch (error) {
+      console.error("Polling-Fehler:", error);
+      if (attempts >= maxAttempts) {
+        clearPersistentMessage();
+        showErrorMessage("❌ Fehler beim automatischen Laden.");
+        document.getElementById("manual-load-btn").style.display = "inline-block";
+      } else {
+        setTimeout(poll, pollingInterval);
+      }
+    }
+  };
 
   // Startet den ersten Poll nach einer kurzen Verzögerung
   setTimeout(poll, 30000);
