@@ -1197,95 +1197,117 @@
 }
 
       async function loadReview(silentMode = false) {
-        const inputIdValue = document.getElementById("input_id").value;
-        if (!inputIdValue) {
-          if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
-          return false;
-        }
-      
-        // Holt die ursprünglich ausgewählten Kanäle aus dem Speicher
-        const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || [];
-      
-        const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
-      
-        try {
-          if (!silentMode) showProgressMessage("Lade Content...");
-          const response = await fetch(webhookUrl);
-          if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          const responseText = await response.text();
-          let data;
-          try {
-            data = JSON.parse(responseText);
-          } catch (parseError) {
-            if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
-            return false;
-          }
-      
-          // UI mit den geladenen Daten aktualisieren (Texte, Bilder etc.)
-          // Dieser Teil befüllt die Felder und zeigt die Bilder an
-          const formats = ['1_1', '16_9', '9_16'];
-          formats.forEach(format => {
-              const formatId = format.replace('_', '');
-              const imageUrls = [ data[`img_${formatId}_1_url`], data[`img_${formatId}_2_url`], data[`img_${formatId}_3_url`], data[`img_${formatId}_4_url`] ];
-              const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
-              if (validUrls.length > 0) {
-                  populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
-              } else {
-                  const container = document.getElementById(`image-selection-container_${format}`);
-                  if (container) container.style.display = "none";
-              }
-          });
-          Object.keys(CONTENT_TYPES).forEach(type => {
-              const config = CONTENT_TYPES[type];
-              const sectionElement = document.getElementById(`${type}-section`);
-              if(sectionElement){
-                  const reviewTextKey = `${config.id}_review`;
-                  const originalTextKey = config.backendTextKey;
-                  let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') ? data[reviewTextKey] : data[originalTextKey];
-                  if(backendText){
-                      const textField = document.getElementById(config.textField);
-                      if (textField && textField.value.trim() === '') {
-                          textField.value = backendText.replace(/\\n/g, '\n') || "";
-                          autoResize(textField);
-                      }
-                      const statusField = document.getElementById(config.statusField);
-                      if (statusField) statusField.value = data[config.backendStatusKey] || "pending";
-                      updateSectionStatus(sectionElement, data[config.backendStatusKey]);
-                      updatePostingButtons(type);
-                  }
-              }
-          });
-          document.getElementById("review-submit-btn").style.display = document.getElementById("content-sections-container").innerHTML.trim() !== '' ? "block" : "none";
-          updateGlobalPostAllButton();
-      
-          // NEUE ERFOLGSPRÜFUNG:
-          let sectionsWithContent = 0;
-          expectedChannels.forEach(channelId => {
-              const config = CONTENT_TYPES[channelId];
-              if (data[config.backendTextKey] && data[config.backendTextKey].trim() !== '') {
-                  sectionsWithContent++;
-              }
-          });
-          const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
-      
-          let allImagesPresent = true;
-          const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
-          for (const format of expectedFormats) {
-              const formatId = format.replace('_', '');
-              const firstImageUrl = data[`img_${formatId}_1_url`];
-              if (!firstImageUrl || !firstImageUrl.startsWith('http')) {
-                  allImagesPresent = false;
-                  break;
-              }
-          }
-      
-          return allTextsPresent && allImagesPresent; // Gibt true zurück, wenn alles da ist
-      
-        } catch (error) {
-          if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
-          return false;
-        }
+  const inputIdValue = document.getElementById("input_id").value;
+  if (!inputIdValue) {
+    if (!silentMode) showErrorMessage("Keine Input-ID vorhanden.");
+    return false;
+  }
+
+  const webhookUrl = `https://hook.eu2.make.com/hw1siz7ad14nfv7tr4y0cte3l2rtkwxm?mode=load&input_id=${inputIdValue}`;
+
+  try {
+    if (!silentMode) showProgressMessage("Lade Content...");
+    const response = await fetch(webhookUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError, responseText);
+      if (!silentMode) showErrorMessage(`JSON-Fehler beim Laden des Contents.`);
+      return false;
+    }
+
+    const formats = ['1_1', '16_9', '9_16'];
+    formats.forEach(format => {
+      const formatId = format.replace('_', '');
+      const imageUrls = [
+        data[`img_${formatId}_1_url`],
+        data[`img_${formatId}_2_url`],
+        data[`img_${formatId}_3_url`],
+        data[`img_${formatId}_4_url`]
+      ];
+      const validUrls = imageUrls.filter(url => url && url.startsWith('http'));
+      if (validUrls.length > 0) {
+        populateImageGrid(format, validUrls, data[`sel_img_${formatId}_url`]);
+      } else {
+        const container = document.getElementById(`image-selection-container_${format}`);
+        if (container) container.style.display = "none";
       }
+    });
+
+    const expectedChannels = JSON.parse(sessionStorage.getItem(inputIdValue)) || [];
+    let sectionsWithContent = 0;
+    expectedChannels.forEach(channelId => {
+        const config = CONTENT_TYPES[channelId];
+        if (data[config.backendTextKey] && data[config.backendTextKey].trim() !== '') {
+            sectionsWithContent++;
+        }
+    });
+    const allTextsPresent = expectedChannels.length > 0 && sectionsWithContent === expectedChannels.length;
+
+    // --- HIER IST DIE KORRIGIERTE LOGIK ---
+    let allImagesPresent = true;
+    const expectedFormats = new Set(expectedChannels.map(ch => CONTENT_TYPES[ch].imageFormat).filter(f => f !== 'none'));
+    for (const format of expectedFormats) {
+        const formatId = format.replace('_', '');
+        // Prüft jetzt alle 4 Bilder pro Format
+        for (let i = 1; i <= 4; i++) {
+            const imageUrl = data[`img_${formatId}_${i}_url`];
+            if (!imageUrl || !imageUrl.startsWith('http')) {
+                allImagesPresent = false;
+                break; 
+            }
+        }
+        if (!allImagesPresent) {
+            break;
+        }
+    }
+    const isSuccess = allTextsPresent && allImagesPresent;
+
+    Object.keys(CONTENT_TYPES).forEach(type => {
+        const config = CONTENT_TYPES[type];
+        const sectionElement = document.getElementById(`${type}-section`);
+        if(sectionElement){
+            const reviewTextKey = `${config.id}_review`;
+            const originalTextKey = config.backendTextKey;
+            let backendText = (data[reviewTextKey] && data[reviewTextKey].trim() !== '') ? data[reviewTextKey] : data[originalTextKey];
+            const backendStatus = data[config.backendStatusKey];
+            if(backendText){
+                const textField = document.getElementById(config.textField);
+                const statusField = document.getElementById(config.statusField);
+                if (textField && textField.value.trim() === '') {
+                    textField.value = backendText.replace(/\\n/g, '\n') || "";
+                    autoResize(textField);
+                }
+                if (statusField) statusField.value = backendStatus || "pending";
+                updateSectionStatus(sectionElement, backendStatus);
+                updatePostingButtons(type);
+            }
+        }
+    });
+
+    document.getElementById("review-submit-btn").style.display = (sectionsWithContent > 0) ? "block" : "none";
+    updateGlobalPostAllButton();
+
+    if (isSuccess) {
+      clearPersistentMessage();
+      if (!silentMode) showSuccessMessage("✅ Alle Inhalte erfolgreich geladen!");
+      return true;
+    } else {
+      if (!silentMode) {
+        showWarningMessage(`⚠️ Inhalte werden noch generiert...`);
+      }
+      return false;
+    }
+  } catch (error) {
+    console.error("❌ Fehler beim Laden der Review-Daten", error);
+    if (!silentMode) showErrorMessage(`Fehler beim Laden des Contents: ${error.message}`);
+    return false;
+  }
+}
       function updateSectionStatus(sectionDiv, status) {
         const statusBadge = sectionDiv.querySelector('.status-badge');
         if (statusBadge) {
