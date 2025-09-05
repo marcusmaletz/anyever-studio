@@ -126,7 +126,6 @@
             margin-right: auto;
         }
         
-        /* === NEUE, ROBUSTERE STRUKTUR MIT CSS GRID === */
        .tool-card {
             background: #f9fafb;
             border: 2px solid #e5e7eb;
@@ -136,11 +135,12 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
+            position: relative;
             
-            /* Von Flexbox zu Grid wechseln */
+            /* === ÄNDERUNG 1: Präzises Grid-Layout für perfekte Ausrichtung === */
             display: grid;
             /* Definiert 5 Zeilen: icon, h3, p, ul (flexibel), button */
-            grid-template-rows: auto auto auto 1fr auto;
+            grid-template-rows: 105px 80px auto 1fr 50px;
         }
         
         .tool-card::before {
@@ -154,7 +154,7 @@
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease;
-            z-index: 1; /* Stellt sicher, dass die Linie über dem Inhalt ist */
+            z-index: 1;
         }
         
         .tool-card:hover {
@@ -171,7 +171,6 @@
         .tool-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -180,20 +179,23 @@
             background: var(--gradient-gold);
             color: var(--any-ever-white);
             font-weight: var(--font-weight-normal);
+            /* === ÄNDERUNG 2: Margin wird vom Grid gesteuert === */
+            margin: 0 auto;
         }
         
         .tool-card h3 {
             font-size: 32px;
             color: var(--any-ever-black);
-            margin-bottom: 15px;
             font-weight: 100;
             text-align: center;
             font-family: var(--font-primary);
-            min-height: 80px; 
+            line-height: 1.2;
+            /* min-height wird durch grid-template-rows ersetzt */
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.2;
+            /* Margin wird vom Grid gesteuert */
+            margin: 0;
         }
         
         .tool-card p {
@@ -201,15 +203,14 @@
             font-size: 16px;
             text-align: center;
             line-height: 1.6;
-            margin-bottom: 20px;
+            /* Margin wird vom Grid gesteuert */
+            margin: 0;
         }
         
         .tool-features {
             list-style: none;
             padding: 0;
-            margin-top: auto; /* Sorgt für korrekte Ausrichtung im Grid */
-            margin-bottom: auto; /* Sorgt für korrekte Ausrichtung im Grid */
-            /* flex-grow wird nicht mehr benötigt */
+            margin: auto 0;
         }
         
         .tool-features li {
@@ -228,6 +229,7 @@
             left: 0;
         }
         
+        /* === ÄNDERUNG 3: Button-Logik aus Ihrer Datei übernommen === */
         .cta-button {
             background: var(--gradient-gold);
             color: var(--any-ever-white);
@@ -240,15 +242,16 @@
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
             width: 100%;
             text-decoration: none;
             text-align: center;
             font-family: var(--font-primary);
-            min-height: 50px;
+            /* Feste Höhe und Flex-Zentrierung für einheitliche Größe */
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
         }
         
         .cta-button:hover {
@@ -256,7 +259,6 @@
             box-shadow: var(--shadow-gold);
         }
         
-        /* ... restlicher CSS-Code bleibt unverändert ... */
         .info-section { background: #f8fafc; padding: 20px 40px 30px 40px; border-radius: 16px; margin-bottom: 40px; text-align: center; }
         .info-section h2 { font-size: 28px; color: var(--any-ever-black); margin-bottom: 20px; font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-primary); }
         .info-section p { color: var(--any-ever-light-grey); font-size: 16px; line-height: 1.7; max-width: 800px; margin: 0 auto; }
@@ -294,7 +296,7 @@
                     <a href="advertising.html" class="tool-card">
                         <div class="tool-icon">🎯</div>
                         <h3>Advertising</h3>
-                        <p>Audio-Spots und Sound Branding, die Ihre Marke unverwechselbar machen – von der Idee bis zur Kampagne.</p>
+                        <p>Audio-Spots und Sound Branding, die Ihre Marke unverwechselbar machen — von der Idee bis zur Kampagne.</p>
                         <ul class="tool-features">
                             <li>Spots für Radio, Online & InGame Audio</li>
                             <li>Sound Branding</li>
@@ -343,9 +345,9 @@
 
             <div class="info-section">
                 <h2>Warum ANY EVER?</h2>
-                <p>Sie möchten, dass Ihre Marke gehört wird? Bei uns sind Sie genau richtig. Wir sind eine Audio-Agentur, die Sie vom ersten "Hallo" bis zum "Wir sind happy" begleitet – und das immer mit einer ordentlichen Portion Freude am Projekt.</p>
+                <p>Sie möchten, dass Ihre Marke gehört wird? Bei uns sind Sie genau richtig. Wir sind eine Audio-Agentur, die Sie vom ersten "Hallo" bis zum "Wir sind happy" begleitet — und das immer mit einer ordentlichen Portion Freude am Projekt.</p>
                 
-                <p style="margin-top: 20px;">Von knackigen Radiospots über Podcast-Werbung bis hin zum perfekten Soundlogo – wir brennen für alles, was mit Audio zu tun hat. Dabei gilt unser Motto: erst mal alles für möglich halten. Das Ergebnis? Kampagnen, die nicht nur gut klingen, sondern auch richtig was bewegen.</p>
+                <p style="margin-top: 20px;">Von knackigen Radiospots über Podcast-Werbung bis hin zum perfekten Soundlogo — wir brennen für alles, was mit Audio zu tun hat. Dabei gilt unser Motto: erst mal alles für möglich halten. Das Ergebnis? Kampagnen, die nicht nur gut klingen, sondern auch richtig was bewegen.</p>
                 
                 <div class="contact-info" style="max-width: 400px; margin: 30px auto 0; display: block;">
                     <div class="contact-card">
