@@ -1467,10 +1467,10 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              kunden_id: document.getElementById("kunden_id_select").value, // Diese Zeile hinzufügen
               input_id: inputIdValue,
               channel: "all_approved"
-          }),
+            }),
+          });
 
           if (postResponse.ok) {
             showSuccessMessage("✅ Post-Auftrag für alle Kanäle erfolgreich gesendet!");
