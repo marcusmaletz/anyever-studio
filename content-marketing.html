@@ -1466,7 +1466,9 @@
           const postResponse = await fetch(postWebhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            // HIER IST DIE KORREKTUR INTEGRIERT
             body: JSON.stringify({
+              kunden_id: document.getElementById("kunden_id_select").value,
               input_id: inputIdValue,
               channel: "all_approved"
             }),
