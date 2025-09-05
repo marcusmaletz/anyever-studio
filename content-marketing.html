@@ -1709,11 +1709,15 @@ function displayPlan(data) {
         data.redaktionsplan.forEach(item => {
             const bildideenText = item.bildideen.join('\\n'); // Zeilenumbrüche für das Textfeld vorbereiten
             
+            // Der zu ersetzende Code-Block
             const itemHTML = `
                 <div class="content-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <h4 style="margin: 0;">${item.thema}</h4>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+                        <h4 style="margin: 0; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escape(item.thema)}">
+                            ${item.thema}
+                        </h4>
                         <button class="action-btn btn-post" 
+                                style="flex-shrink: 0;"
                                 onclick="useTopic(this)"
                                 data-thema="${escape(item.thema)}"
                                 data-subline="${escape(item.subline)}"
