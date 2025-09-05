@@ -140,7 +140,8 @@
         
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* <-- DIESE ZEILE ÄNDERN */
+            /* HIER IST DIE ÄNDERUNG: Von 3 auf 4 Spalten geändert */
+            grid-template-columns: repeat(4, 1fr); 
             gap: 20px;
             margin-bottom: 40px;
             align-items: start;
@@ -356,6 +357,12 @@
             margin-top: 15px;
         }
         
+        @media (max-width: 1024px) { /* Anpassung für Tablets und kleinere Desktops */
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 Spalten für Tablets */
+            }
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 12px;
@@ -460,7 +467,20 @@
                         </ul>
                         <div class="cta-button">News anzeigen</div>
                     </a>
-                </div>
+
+                    <a href="https://chatgpt.com/g/g-67efddeade80819184d77fd18a68a1eb-any-ever-prompt-optimizer?model=gpt-5" target="_blank" class="tool-card">
+                        <div class="tool-icon">✨</div>
+                        <h3>Prompt Optimizer</h3>
+                        <p>Verwandeln Sie gute Ideen in brillante Prompts. Unser GPT hilft Ihnen dabei, Ihre Anweisungen für KI-Modelle zu perfektionieren.</p>
+                        <ul class="tool-features">
+                            <li>Ideen schärfen & strukturieren</li>
+                            <li>Klarheit und Präzision steigern</li>
+                            <li>Für alle gängigen KI-Modelle</li>
+                            <li>Kreativität freisetzen</li>
+                        </ul>
+                        <div class="cta-button">Optimizer starten</div>
+                    </a>
+                    </div>
             </div>
 
             <div class="info-section">
