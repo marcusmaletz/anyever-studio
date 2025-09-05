@@ -1709,24 +1709,23 @@ function displayPlan(data) {
         data.redaktionsplan.forEach(item => {
             const bildideenText = item.bildideen.join('\\n'); // Zeilenumbrüche für das Textfeld vorbereiten
             
-            // Der zu ersetzende Code-Block
+           // Der zu ersetzende Code-Block
             const itemHTML = `
-                <div class="content-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
-                        <h4 style="margin: 0; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escape(item.thema)}">
-                            ${item.thema}
-                        </h4>
+                <div class="content-section" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h4 style="margin-top: 0; margin-bottom: 5px;">${item.thema}</h4>
+                        <p style="font-size: 14px; color: #666; margin-top: 0; margin-bottom: 15px;"><em>${item.subline}</em></p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                        <small style="color: #888; font-size: 12px;">${item.datum} | ${item.plattform} | ${item.persona}</small>
                         <button class="action-btn btn-post" 
-                                style="flex-shrink: 0;"
                                 onclick="useTopic(this)"
                                 data-thema="${escape(item.thema)}"
                                 data-subline="${escape(item.subline)}"
                                 data-bildideen="${escape(bildideenText)}">
-                            Dieses Thema verwenden
+                            Übernehmen
                         </button>
                     </div>
-                    <p style="font-size: 14px; color: #666; margin-top: 5px; margin-bottom: 8px;"><em>${item.subline}</em></p>
-                    <small style="color: #888; font-size: 12px;">${item.datum} | ${item.plattform} | ${item.persona}</small>
                 </div>
             `;
             container.innerHTML += itemHTML;
