@@ -570,16 +570,38 @@
         </div>
       </div>
 
-      <div class="form-content">
-        
-        <div class="form-group">
-          <label for="kunden_id_select">Kunde auswählen (Entwicklungs-Tool)</label>
-          <select id="kunden_id_select" style="width: 100%; padding: 15px 20px; border: 2px solid var(--any-ever-gold); border-radius: 8px; font-size: 16px;">
+<div class="container" style="border-radius: 16px; margin-bottom: 30px; padding: 30px 40px; background: #fdfdfd;">
+
+    <div class="form-group" style="margin-bottom: 30px;">
+        <label for="kunden_id_select" style="font-size: 16px;">Für welchen Kunden möchten Sie arbeiten?</label>
+        <select id="kunden_id_select" style="width: 100%; padding: 15px 20px; border: 2px solid var(--any-ever-gold); border-radius: 8px; font-size: 16px;">
             <option value="ANY EVER">ANY EVER</option>
             <option value="eventac Veranstaltungstechnik">eventac Veranstaltungstechnik</option>
             <option value="ISOTEC">ISOTEC</option>
-          </select>
+        </select>
+    </div>
+
+    <div>
+        <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 15px;">Ideenfindung: Redaktionsplan erstellen</h2>
+        <p style="font-size: 15px; color: #666; margin-bottom: 20px;">Lassen Sie sich basierend auf den Stammdaten des Kunden einen kompletten Redaktionsplan für einen der nächsten Monate vorschlagen.</p>
+        <div class="form-group">
+            <label for="zeitraum-select">Monat und Jahr auswählen</label>
+            <select id="zeitraum-select" style="width: 100%; padding: 15px 20px; border: 2px solid var(--border-light); border-radius: 8px; font-size: 16px; background: white; -webkit-appearance: none; appearance: none;"></select>
         </div>
+        <div style="text-align: right;">
+            <button id="generate-plan-btn" class="submit-btn" style="padding: 12px 30px; font-size: 15px;">Plan generieren</button>
+        </div>
+        <div id="plan-results" style="margin-top: 25px;"></div>
+    </div>
+</div>
+<div style="padding: 0 40px;">
+    <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 5px;">Einzelbeitrag erstellen</h2>
+    <p style="font-size: 15px; color: #666; margin-bottom: 25px;">Wenn Sie bereits eine konkrete Idee haben, können Sie diese hier direkt umsetzen.</p>
+</div>
+      
+      <div class="form-content">
+        
+    
         
         <div class="form-group">
           <label for="thema">Thema (Pflichtfeld)</label>
