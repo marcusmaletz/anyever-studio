@@ -1603,6 +1603,150 @@
           }
         }
       }
+        // --- START: Code für Redaktionsplan ---
+
+// Event Listener für den "Plan generieren"-Button
+document.getElementById('generate-plan-btn').addEventListener('click', generateEditorialPlan);
+
+// Funktion zum Befüllen des Monats-Dropdowns
+function populateMonthDropdown() {
+    const select = document.getElementById('zeitraum-select');
+    if (!select) return; // Stellt sicher, dass das Skript nicht abbricht, falls das Element nicht da ist
+    const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    const now = new Date();
+
+    for (let i = 0; i < 4; i++) {
+        const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const optionText = `${month} ${year}`;
+        
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent = optionText;
+        select.appendChild(option);
+    }
+}
+
+// Funktion zum Aufrufen des Redaktionsplan-Szenarios
+async function generateEditorialPlan() {
+    const zeitraum = document.getElementById('zeitraum-select').value;
+    const kunden_id = document.getElementById('kunden_id_select').value;
+
+    if (!zeitraum || !kunden_id) {
+        showErrorMessage("Bitte stellen Sie sicher, dass ein Kunde und ein Zeitraum ausgewählt sind.");
+        return;
+    }
+
+    const button = document.getElementById('generate-plan-btn');
+    const originalButtonText = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<div class="loading-spinner"></div> Plan wird erstellt...';
+
+    // !! HIER IHRE NEUE WEBHOOK-URL AUS SCHRITT 1.1 EINFÜGEN !!
+    const webhookUrl = "IHRE_NEUE_WEBHOOK_URL_HIER_EINFUEGEN";
+
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                kunden_id: kunden_id,
+                zeitraum: zeitraum 
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server-Fehler: ${response.status}`);
+        }
+
+        const data = await response.json();
+        displayPlan(data);
+        showSuccessMessage("Redaktionsplan erfolgreich geladen!");
+
+    } catch (error) {
+        console.error("Fehler beim Erstellen des Redaktionsplans:", error);
+        showErrorMessage(`Fehler: ${error.message}`);
+    } finally {
+        button.disabled = false;
+        button.innerHTML = originalButtonText;
+    }
+}
+
+// Funktion zur Anzeige des Redaktionsplans im Frontend
+function displayPlan(data) {
+    const container = document.getElementById('plan-results');
+    container.innerHTML = ''; // Alte Ergebnisse löschen
+
+    // Teil 1: Hintergründe anzeigen (optional)
+    if (data.hintergruende) {
+        let hintergruendeHTML = `<div class="content-section" style="background: #f9f9f9;"><h4>Hintergründe & Anlässe für den Zeitraum</h4><ul>`;
+        if(data.hintergruende.feiertage && data.hintergruende.feiertage.length > 0) {
+            hintergruendeHTML += data.hintergruende.feiertage.map(item => `<li><strong>Feiertag:</strong> ${item}</li>`).join('');
+        }
+        if(data.hintergruende.regionale_anlaesse && data.hintergruende.regionale_anlaesse.length > 0) {
+            hintergruendeHTML += data.hintergruende.regionale_anlaesse.map(item => `<li><strong>Regionales Event:</strong> ${item}</li>`).join('');
+        }
+        hintergruendeHTML += `</ul></div>`;
+        container.innerHTML += hintergruendeHTML;
+    }
+
+    // Teil 2: Redaktionsplan anzeigen
+    if (data.redaktionsplan && data.redaktionsplan.length > 0) {
+        data.redaktionsplan.forEach(item => {
+            const bildideenText = item.bildideen.join('\\n'); // Zeilenumbrüche für das Textfeld vorbereiten
+            
+            const itemHTML = `
+                <div class="content-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <h4 style="margin: 0;">${item.thema}</h4>
+                        <button class="action-btn btn-post" 
+                                onclick="useTopic(this)"
+                                data-thema="${escape(item.thema)}"
+                                data-subline="${escape(item.subline)}"
+                                data-bildideen="${escape(bildideenText)}">
+                            Dieses Thema verwenden
+                        </button>
+                    </div>
+                    <p style="font-size: 14px; color: #666; margin-top: 5px; margin-bottom: 8px;"><em>${item.subline}</em></p>
+                    <small style="color: #888; font-size: 12px;">${item.datum} | ${item.plattform} | ${item.persona}</small>
+                </div>
+            `;
+            container.innerHTML += itemHTML;
+        });
+    }
+}
+
+// Funktion, die ein Thema in die Hauptmaske überträgt
+function useTopic(buttonElement) {
+    const thema = unescape(buttonElement.getAttribute('data-thema'));
+    const subline = unescape(buttonElement.getAttribute('data-subline'));
+    const bildideen = unescape(buttonElement.getAttribute('data-bildideen'));
+
+    const themaTextarea = document.getElementById('thema');
+    const sublineTextarea = document.getElementById('subline');
+    const bildideeTextarea = document.getElementById('input_image_idea');
+
+    themaTextarea.value = thema;
+    sublineTextarea.value = subline;
+    bildideeTextarea.value = bildideen.replace(/\\n/g, '\n');
+
+    // Textareas an die neue Größe anpassen
+    [themaTextarea, sublineTextarea, bildideeTextarea].forEach(autoResize);
+
+    // Zum Hauptformular scrollen
+    document.querySelector('.form-content').scrollIntoView({ behavior: 'smooth' });
+
+    showSuccessMessage(`"${thema}" wurde in das Formular übernommen!`);
+}
+
+// Hilfsfunktion zum Escapen von Anführungszeichen für data-Attribute
+function escape(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// --- ENDE: Code für Redaktionsplan ---
     </script>
   </body>
 </html>
