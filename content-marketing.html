@@ -886,6 +886,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         updateTimestamp();
         buildChannelSelector();
+        populateMonthDropdown(); // <-- DIESE EINE ZEILE HIER HINZUFÜGEN
         document.getElementById("input_id").value = inputId;
         updateRequestCounter();
         
