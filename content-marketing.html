@@ -1691,17 +1691,18 @@ function displayPlan(data) {
     const container = document.getElementById('plan-results');
     container.innerHTML = ''; // Alte Ergebnisse löschen
 
-    // Teil 1: Hintergründe anzeigen (optional)
+    // Teil 1: Hintergründe anzeigen
     if (data.hintergruende) {
         let hintergruendeHTML = `<div class="content-section" style="background: #f9f9f9;"><h4>Hintergründe & Anlässe für den Zeitraum</h4><ul>`;
-        if(data.hintergruende.feiertage && data.hintergruende.feiertage.length > 0) {
+        if (data.hintergruende.feiertage && data.hintergruende.feiertage.length > 0) {
             hintergruendeHTML += data.hintergruende.feiertage.map(item => `<li><strong>Feiertag:</strong> ${item}</li>`).join('');
         }
-        if(data.hintergruende.regionale_anlaesse && data.hintergruende.regionale_anlaesse.length > 0) {
-            hintergruendeHTML += data.hintergruende.regionale_anlaesse.map(item => `<li><strong>Regionales Event:</strong> ${item}</li>`).join('');
+        // NEU: Reagiert auf "events" und nutzt die Bezeichnung "Event"
+        if (data.hintergruende.events && data.hintergruende.events.length > 0) {
+            hintergruendeHTML += data.hintergruende.events.map(item => `<li><strong>Event:</strong> ${item}</li>`).join('');
         }
         hintergruendeHTML += `</ul></div>`;
-        container.innerHTML += hintergruendeHTML;
+        container.innerHTML += hintergrundeHTML;
     }
 
     // Teil 2: Redaktionsplan anzeigen
