@@ -1697,20 +1697,18 @@ function displayPlan(data) {
         if (data.hintergruende.feiertage && data.hintergruende.feiertage.length > 0) {
             hintergruendeHTML += data.hintergruende.feiertage.map(item => `<li><strong>Feiertag:</strong> ${item}</li>`).join('');
         }
-        // NEU: Reagiert auf "events" und nutzt die Bezeichnung "Event"
         if (data.hintergruende.events && data.hintergruende.events.length > 0) {
             hintergruendeHTML += data.hintergruende.events.map(item => `<li><strong>Event:</strong> ${item}</li>`).join('');
         }
         hintergruendeHTML += `</ul></div>`;
-        container.innerHTML += hintergrundeHTML;
+        // HIER WAR DER FEHLER, JETZT KORRIGIERT:
+        container.innerHTML += hintergruendeHTML; 
     }
 
     // Teil 2: Redaktionsplan anzeigen
     if (data.redaktionsplan && data.redaktionsplan.length > 0) {
         data.redaktionsplan.forEach(item => {
-            const bildideenText = item.bildideen.join('\\n'); // Zeilenumbrüche für das Textfeld vorbereiten
-            
-           // Der zu ersetzende Code-Block
+            const bildideenText = item.bildideen.join('\\n');
             const itemHTML = `
                 <div class="content-section" style="display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
@@ -1727,8 +1725,7 @@ function displayPlan(data) {
                             Übernehmen
                         </button>
                     </div>
-                </div>
-            `;
+                </div>`;
             container.innerHTML += itemHTML;
         });
     }
